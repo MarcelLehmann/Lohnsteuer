@@ -4,7 +4,7 @@ Lohnsteuer
 Java Rechner für Lohnsteuer + Generator aus Programmablaufplan vom BMF (Stand 2015)
 (Eclipse Projekt)
 
-Code wird aus dem Programmablaufplan vim BMF erzeugt.<br>
+Code wird aus dem Programmablaufplan vom BMF erzeugt.<br>
 Quelle: <a href="https://www.bmf-steuerrechner.de/interface/">https://www.bmf-steuerrechner.de/interface/</a>
 
 Benutzung als Lohnrechner: 
