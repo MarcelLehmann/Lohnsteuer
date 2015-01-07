@@ -3,6 +3,7 @@ package de.powerproject.lohnpap.generator;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -11,18 +12,39 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * 
+ * @author Marcel Lehmann
+ * @date 2010-01-01
+ *
+ */
+
 public class Generator {
 
 	public static void main(String[] args) throws Exception {
 
-		File xml = new File(
-				"/Users/marcel/Entwickler/eclipse.workspace/"
-						+ "LohnPapGenerator/src/de/powerproject/lohnpap/Lohnsteuer2015.xml");
-		File path = new File("/Users/marcel/Entwickler/eclipse.workspace/"
-				+ "LohnPapGenerator/src/de/powerproject/lohnpap/");
+		String projectDir = new File(".").getCanonicalPath();
+		String srcDir = getFilePath(projectDir, "src", "de", "powerproject",
+				"lohnpap");
+
+		File xml = new File(srcDir + "Lohnsteuer2015.xml");
+		File path = new File(srcDir);
+
+		System.out.println(srcDir);
+		System.out.println(xml);
 
 		Generator g = new Generator(xml, path);
 		g.parse();
+	}
+
+	private static String getFilePath(String... elems) {
+
+		StringBuilder sb = new StringBuilder();
+		for (String e : elems) {
+			sb.append(e);
+			sb.append(File.separatorChar);
+		}
+		return sb.toString();
 	}
 
 	protected File xml, path;
@@ -101,9 +123,15 @@ public class Generator {
 					writeln("");
 					writeln("import java.math.BigDecimal;");
 					writeln("");
+					writeln("/**");
+					writeln(" * ");
+					writeln(" * @author Lohnsteuer Generator by Marcel Lehmann (power-project.de) ");
+					writeln(" * @date " + new Date());
+					writeln(" * ");
+					writeln(" */");
+					writeln("");
 					writeln("public class " + attributes.getValue("name")
 							+ " {");
-					writeln("");
 					indent++;
 				} else if ("VARIABLES".equals(qName)) {
 					variable = true;
@@ -142,7 +170,7 @@ public class Generator {
 				} else if ("MAIN".equals(qName)) {
 					if (methods) {
 						appendln("");
-						write("public void main() {");
+						writeln("public void main() {");
 						indent++;
 					}
 				} else if ("EXECUTE".equals(qName)) {
@@ -152,7 +180,7 @@ public class Generator {
 				} else if ("METHOD".equals(qName)) {
 					String method = attributes.getValue("name");
 					appendln("");
-					write("private void " + method + "() {");
+					writeln("private void " + method + "() {");
 					indent++;
 				} else if ("EVAL".equals(qName)) {
 					String exec = attributes.getValue("exec");

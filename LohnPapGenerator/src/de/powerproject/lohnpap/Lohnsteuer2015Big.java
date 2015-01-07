@@ -2,8 +2,14 @@ package de.powerproject.lohnpap;
 
 import java.math.BigDecimal;
 
-public class Lohnsteuer2015Big {
+/**
+ * 
+ * @author Lohnsteuer Generator by Marcel Lehmann (power-project.de) 
+ * @date Wed Jan 07 21:30:17 CET 2015
+ * 
+ */
 
+public class Lohnsteuer2015Big {
 
 	public int af = 1;
 	public int AJAHR = 0;
@@ -153,6 +159,7 @@ public class Lohnsteuer2015Big {
 	private static final BigDecimal ZAHL1000 = new BigDecimal(1000);
 
 	public void main() {
+
 		MPARA();
 		MRE4JL();
 		VBEZBSO= BigDecimal.ZERO;
@@ -179,6 +186,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MPARA() {
+
 		if(KRV < 2) {
 			if(KRV == 0) {
 				BBGRV = new BigDecimal(72600);
@@ -205,6 +213,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MRE4JL() {
+
 		if(LZZ == 1) {
 			ZRE4J= RE4.divide (ZAHL100, 2, BigDecimal.ROUND_DOWN);
 			ZVBEZJ= VBEZ.divide (ZAHL100, 2, BigDecimal.ROUND_DOWN);
@@ -236,6 +245,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MRE4() {
+
 		if(ZVBEZJ.compareTo (BigDecimal.ZERO) == 0) {
 			FVBZ= BigDecimal.ZERO;
 			FVB= BigDecimal.ZERO;
@@ -285,6 +295,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MRE4ALTE() {
+
 		if(ALTER1 == 0) {
 			ALTE= BigDecimal.ZERO;
 		} else {
@@ -307,6 +318,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MRE4ABZ() {
+
 		ZRE4= (ZRE4J.subtract (FVB).subtract   (ALTE).subtract (JLFREIB).add (JLHINZU)).setScale (2, BigDecimal.ROUND_DOWN);
 		if(ZRE4.compareTo (BigDecimal.ZERO) == -1) {
 			ZRE4= BigDecimal.ZERO;
@@ -322,6 +334,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MZTABFB() {
+
 		ANP= BigDecimal.ZERO;
 		if(ZVBEZ.compareTo (BigDecimal.ZERO) >= 0 && ZVBEZ.compareTo(FVBZ) == -1) {
 			FVBZ = BigDecimal.valueOf(ZVBEZ.longValue());
@@ -380,6 +393,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MLSTJAHR() {
+
 		UPEVP();
 		if(KENNVMT != 1) {
 			ZVE= (ZRE4.subtract (ZTABFB).subtract (VSP)).setScale (2, BigDecimal.ROUND_DOWN);
@@ -401,6 +415,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void UPVKVLZZ() {
+
 		UPVKV();
 		JW = VKV;
 		UPANTEIL();
@@ -408,6 +423,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void UPVKV() {
+
 		if(PKV > 0) {
 			if(VSP2.compareTo(VSP3) == 1) {
 				VKV = VSP2.multiply(ZAHL100);
@@ -420,12 +436,14 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void UPLSTLZZ() {
+
 		JW = LSTJAHR.multiply(ZAHL100);
 		UPANTEIL();
 		LSTLZZ = ANTEIL1;
 	}
 
 	private void UPMLST() {
+
 		if(ZVE.compareTo (ZAHL1) == -1) {
 			ZVE= BigDecimal.ZERO;
 			X= BigDecimal.ZERO;
@@ -440,6 +458,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void UPEVP() {
+
 		if(KRV > 1) {
 			VSP1= BigDecimal.ZERO;
 		} else {
@@ -466,6 +485,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MVSP() {
+
 		if(ZRE4VP.compareTo(BBGKVPV) == 1) {
 			ZRE4VP = BBGKVPV;
 		}
@@ -485,6 +505,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void UMVSP() {
+
 		VSPVOR = (VSPVOR.subtract(ZRE4VP.multiply(BigDecimal.valueOf(0.16)))).setScale(2, BigDecimal.ROUND_DOWN);
 		if(VSPVOR.compareTo(BigDecimal.ZERO) == -1) {
 			VSPVOR = BigDecimal.ZERO;
@@ -509,6 +530,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MST5_6() {
+
 		ZZX= X;
 		if(ZZX.compareTo (BigDecimal.valueOf (26441)) == 1) {
 			ZX= BigDecimal.valueOf (26441);
@@ -537,6 +559,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void UP5_6() {
+
 		X= (ZX.multiply (BigDecimal.valueOf (1.25))).setScale (2, BigDecimal.ROUND_DOWN);
 		UPTAB14();
 		ST1= ST;
@@ -553,6 +576,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MSOLZ() {
+
 		SOLZFREI= BigDecimal.valueOf (972 * KZTAB);
 		if(JBMG.compareTo (SOLZFREI) == 1) {
 			SOLZJ= (JBMG.multiply (BigDecimal.valueOf (5.5))).divide(ZAHL100).setScale(2, BigDecimal.ROUND_DOWN);
@@ -576,6 +600,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void UPANTEIL() {
+
 		if(LZZ == 1) {
 			ANTEIL1= JW;
 		} else {
@@ -592,6 +617,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MSONST() {
+
 		LZZ= 1;
 		if(ZMVB == 0) {
 			ZMVB= 12;
@@ -628,6 +654,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MVMT() {
+
 		if(VKAPA.compareTo (BigDecimal.ZERO) == -1) {
 			VKAPA= BigDecimal.ZERO;
 		}
@@ -674,6 +701,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MOSONST() {
+
 		ZRE4J= (JRE4.divide (ZAHL100)).setScale (2, BigDecimal.ROUND_DOWN);
 		ZVBEZJ= (JVBEZ.divide (ZAHL100)).setScale (2, BigDecimal.ROUND_DOWN);
 		JLFREIB= JFREIB.divide (ZAHL100, 2, BigDecimal.ROUND_DOWN);
@@ -687,6 +715,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void MRE4SONST() {
+
 		MRE4();
 		FVB= FVBSO;
 		MRE4ABZ();
@@ -696,6 +725,7 @@ public class Lohnsteuer2015Big {
 	}
 
 	private void UPTAB14() {
+
 		if(X.compareTo (BigDecimal.valueOf (8355)) == -1) {
 			ST= BigDecimal.ZERO;
 		} else {
