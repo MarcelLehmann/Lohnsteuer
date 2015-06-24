@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * 
  */
 
-public class Lohnsteuer2015Big {
+public class Lohnsteuer2014Big {
 
 	public int af = 1;
 	public int AJAHR = 0;
@@ -21,7 +21,6 @@ public class Lohnsteuer2015Big {
 	public BigDecimal JRE4 = new BigDecimal(0);
 	public BigDecimal JVBEZ = new BigDecimal(0);
 	public int KRV = 0;
-	public BigDecimal KVZ = new BigDecimal(0);
 	public int LZZ = 0;
 	public BigDecimal LZZFREIB = new BigDecimal(0);
 	public BigDecimal LZZHINZU = new BigDecimal(0);
@@ -62,8 +61,6 @@ public class Lohnsteuer2015Big {
 	public BigDecimal ANP = new BigDecimal(0);
 	public BigDecimal ANTEIL1 = new BigDecimal(0);
 	public BigDecimal BMG = new BigDecimal(0);
-	public BigDecimal BBGKVPV = new BigDecimal(0);
-	public BigDecimal BBGRV = new BigDecimal(0);
 	public BigDecimal DIFF = new BigDecimal(0);
 	public BigDecimal EFA = new BigDecimal(0);
 	public BigDecimal FVB = new BigDecimal(0);
@@ -94,7 +91,6 @@ public class Lohnsteuer2015Big {
 	public BigDecimal MIST = new BigDecimal(0);
 	public BigDecimal PVSATZAG = new BigDecimal(0);
 	public BigDecimal PVSATZAN = new BigDecimal(0);
-	public BigDecimal RVSATZAN = new BigDecimal(0);
 	public BigDecimal RW = new BigDecimal(0);
 	public BigDecimal SAP = new BigDecimal(0);
 	public BigDecimal SOLZFREI = new BigDecimal(0);
@@ -104,7 +100,6 @@ public class Lohnsteuer2015Big {
 	public BigDecimal ST1 = new BigDecimal(0);
 	public BigDecimal ST2 = new BigDecimal(0);
 	public BigDecimal STOVMT = new BigDecimal(0);
-	public BigDecimal TBSVORV = new BigDecimal(0);
 	public BigDecimal VBEZB = new BigDecimal(0);
 	public BigDecimal VBEZBSO = new BigDecimal(0);
 	public BigDecimal VHB = new BigDecimal(0);
@@ -157,10 +152,11 @@ public class Lohnsteuer2015Big {
 	private static final BigDecimal ZAHL500 = new BigDecimal(500);
 	private static final BigDecimal ZAHL700 = new BigDecimal(700);
 	private static final BigDecimal ZAHL1000 = new BigDecimal(1000);
+	private static final BigDecimal RENTBEMESSUNGSGR_OST = new BigDecimal(60000);
+	private static final BigDecimal RENTBEMESSUNGSGR_WEST = new BigDecimal(71400);
 
 	public void main() {
 
-		MPARA();
 		MRE4JL();
 		VBEZBSO= BigDecimal.ZERO;
 		KENNVMT= 0;
@@ -183,33 +179,6 @@ public class Lohnsteuer2015Big {
 		MSOLZ();
 		MSONST();
 		MVMT();
-	}
-
-	private void MPARA() {
-
-		if(KRV < 2) {
-			if(KRV == 0) {
-				BBGRV = new BigDecimal(72600);
-			} else {
-				BBGRV = new BigDecimal(62400);
-			}
-			RVSATZAN = BigDecimal.valueOf(0.0935);
-			TBSVORV = BigDecimal.valueOf(0.60);
-		} else {
-		}
-		BBGKVPV = new BigDecimal(49500);
-		KVSATZAN = (KVZ.divide(ZAHL100)).add(BigDecimal.valueOf(0.07));
-		KVSATZAG = BigDecimal.valueOf(0.07);
-		if(PVS == 1) {
-			PVSATZAN = BigDecimal.valueOf(0.01675);
-			PVSATZAG = BigDecimal.valueOf(0.00675);
-		} else {
-			PVSATZAN =  BigDecimal.valueOf(0.01175);
-			PVSATZAG =  BigDecimal.valueOf(0.01175);
-		}
-		if(PVZ == 1) {
-			PVSATZAN = PVSATZAN.add(BigDecimal.valueOf(0.0025));
-		}
 	}
 
 	private void MRE4JL() {
@@ -462,11 +431,17 @@ public class Lohnsteuer2015Big {
 		if(KRV > 1) {
 			VSP1= BigDecimal.ZERO;
 		} else {
-			if(ZRE4VP.compareTo(BBGRV) == 1) {
-				ZRE4VP = BBGRV;
+			if(KRV == 0) {
+				if(ZRE4VP.compareTo(RENTBEMESSUNGSGR_WEST) == 1) {
+					ZRE4VP = RENTBEMESSUNGSGR_WEST;
+				}
+			} else {
+				if(ZRE4VP.compareTo(RENTBEMESSUNGSGR_OST) == 1) {
+					ZRE4VP = RENTBEMESSUNGSGR_OST;
+				}
 			}
-			VSP1 = (TBSVORV.multiply(ZRE4VP)).setScale(2,BigDecimal.ROUND_DOWN);
-			VSP1 = (VSP1.multiply(RVSATZAN)).setScale(2,BigDecimal.ROUND_DOWN);
+			VSP1 = (ZRE4VP.multiply(BigDecimal.valueOf(0.56))).setScale(2,BigDecimal.ROUND_DOWN);
+			VSP1 = (VSP1.multiply(BigDecimal.valueOf(0.0945))).setScale(2,BigDecimal.ROUND_DOWN);
 		}
 		VSP2 = (ZRE4VP.multiply(BigDecimal.valueOf(0.12))).setScale(2,BigDecimal.ROUND_DOWN);
 		if(STKL == 3) {
@@ -486,8 +461,8 @@ public class Lohnsteuer2015Big {
 
 	private void MVSP() {
 
-		if(ZRE4VP.compareTo(BBGKVPV) == 1) {
-			ZRE4VP = BBGKVPV;
+		if(ZRE4VP.compareTo( BigDecimal.valueOf(48600) ) == 1) {
+			ZRE4VP = BigDecimal.valueOf(48600);
 		}
 		if(PKV > 0) {
 			if(STKL == 6) {
@@ -495,10 +470,25 @@ public class Lohnsteuer2015Big {
 			} else {
 				VSP3 = PKPV.multiply(ZAHL12).divide(ZAHL100);
 				if(PKV == 2) {
-					VSP3 = VSP3.subtract( ZRE4VP.multiply( KVSATZAG.add(PVSATZAG))).setScale(2,BigDecimal.ROUND_DOWN);
+					KVSATZAG = BigDecimal.valueOf(0.07).setScale(5);
+					if(PVS == 1) {
+						PVSATZAG = BigDecimal.valueOf(0.00525).setScale(5);
+					} else {
+						PVSATZAG = BigDecimal.valueOf(0.01025).setScale(5);
+					}
+					VSP3 = VSP3.subtract(ZRE4VP.multiply(KVSATZAG.add(PVSATZAG))).setScale(2, BigDecimal.ROUND_DOWN);
 				}
 			}
 		} else {
+			KVSATZAN = BigDecimal.valueOf(0.079).setScale(5);
+			if(PVS == 1) {
+				PVSATZAN = BigDecimal.valueOf(0.01525).setScale(5);
+			} else {
+				PVSATZAN = BigDecimal.valueOf(0.01025).setScale(5);
+			}
+			if(PVZ == 1) {
+				PVSATZAN = PVSATZAN.add(BigDecimal.valueOf(0.0025));
+			}
 			VSP3 = ZRE4VP.multiply(KVSATZAN.add(PVSATZAN)).setScale(2, BigDecimal.ROUND_DOWN);
 		}
 		VSP = VSP3.add(VSP1).setScale(0, BigDecimal.ROUND_UP);

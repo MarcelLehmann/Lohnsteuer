@@ -2,6 +2,7 @@ package de.powerproject.lohnpap.generator;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Date;
 
@@ -24,17 +25,21 @@ public class Generator {
 	public static void main(String[] args) throws Exception {
 
 		String projectDir = new File(".").getCanonicalPath();
-		String srcDir = getFilePath(projectDir, "src", "de", "powerproject",
-				"lohnpap");
 
-		File xml = new File(srcDir + "Lohnsteuer2015.xml");
-		File path = new File(srcDir);
+		File xmlDir = new File(getFilePath(projectDir, "src", "de", "powerproject", "lohnpap", "xml"));
+		File targetDir = new File(getFilePath(projectDir, "src", "de", "powerproject", "lohnpap"));
 
-		System.out.println(srcDir);
-		System.out.println(xml);
+		File[] files = xmlDir.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name != null && name.endsWith(".xml");
+			}
+		});
 
-		Generator g = new Generator(xml, path);
-		g.parse();
+		for (File xml : files) {
+			Generator g = new Generator(xml, targetDir);
+			g.parse();
+		}
 	}
 
 	private static String getFilePath(String... elems) {
@@ -112,8 +117,8 @@ public class Generator {
 		}
 
 		@Override
-		public void startElement(String uri, String localName, String qName,
-				Attributes attributes) throws SAXException {
+		public void startElement(String uri, String localName, String qName, Attributes attributes)
+				throws SAXException {
 
 			try {
 				if ("PAP".equals(qName)) {
@@ -130,8 +135,7 @@ public class Generator {
 					writeln(" * ");
 					writeln(" */");
 					writeln("");
-					writeln("public class " + attributes.getValue("name")
-							+ " {");
+					writeln("public class " + attributes.getValue("name") + " {");
 					indent++;
 				} else if ("VARIABLES".equals(qName)) {
 					variable = true;
@@ -139,8 +143,7 @@ public class Generator {
 					constants = true;
 				} else if ("METHODS".equals(qName)) {
 					methods = true;
-				} else if ("INPUT".equals(qName) || "OUTPUT".equals(qName)
-						|| "INTERNAL".equals(qName)) {
+				} else if ("INPUT".equals(qName) || "OUTPUT".equals(qName) || "INTERNAL".equals(qName)) {
 					if (variable) {
 						String type = attributes.getValue("type");
 						String name = attributes.getValue("name");
@@ -164,8 +167,7 @@ public class Generator {
 						String name = attributes.getValue("name");
 						String value = attributes.getValue("value");
 						appendln("");
-						write("private static final " + type + " " + name
-								+ " = " + value + ";");
+						write("private static final " + type + " " + name + " = " + value + ";");
 					}
 				} else if ("MAIN".equals(qName)) {
 					if (methods) {
@@ -205,8 +207,7 @@ public class Generator {
 		}
 
 		@Override
-		public void endElement(String uri, String localName, String qName)
-				throws SAXException {
+		public void endElement(String uri, String localName, String qName) throws SAXException {
 
 			try {
 				if ("PAP".equals(qName)) {
