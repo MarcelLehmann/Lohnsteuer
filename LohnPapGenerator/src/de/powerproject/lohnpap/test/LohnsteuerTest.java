@@ -29,6 +29,7 @@ import org.w3c.dom.NodeList;
 import de.powerproject.lohnpap.Lohnsteuer2013Big;
 import de.powerproject.lohnpap.Lohnsteuer2014Big;
 import de.powerproject.lohnpap.Lohnsteuer2015Big;
+import de.powerproject.lohnpap.Lohnsteuer2015DezemberBig;
 
 /**
  * 
@@ -47,12 +48,12 @@ public class LohnsteuerTest {
 
 	@BeforeClass
 	public static void start() {
-		System.out.println(".........................................");
+		System.out.println(".........................................................");
 	}
 
 	@AfterClass
 	public static void stop() {
-		System.out.println(".........................................");
+		System.out.println(".........................................................");
 	}
 
 	@Before
@@ -65,25 +66,37 @@ public class LohnsteuerTest {
 		tmp.delete();
 		System.out.println();
 	}
-	
+
 	@Test
 	public void check2013() throws Exception {
-		checkLohnsteuer(Lohnsteuer2013Big.class, 2013);
+		checkLohnsteuer(Lohnsteuer2013Big.class, "2013");
 	}
 
 	@Test
 	public void check2014() throws Exception {
-		checkLohnsteuer(Lohnsteuer2014Big.class, 2014);
+		checkLohnsteuer(Lohnsteuer2014Big.class, "2014");
 	}
 
 	@Test
 	public void check2015() throws Exception {
-		checkLohnsteuer(Lohnsteuer2015Big.class, 2015);
+		checkLohnsteuer(Lohnsteuer2015Big.class, "2015bisNov");
 	}
 
-	private void checkLohnsteuer(Class<?> c, int year) throws Exception {
+	@Test
+	public void check2015Dezember() throws Exception {
+		checkLohnsteuer(Lohnsteuer2015DezemberBig.class, "2015Dez");
+	}
 
-		System.out.print("Jahr " + year + " ");
+	private void printBlank(String jsp) {
+		for (int i = 0; i < (15 - jsp.length()); i++) {
+			System.out.print(" ");
+		}
+	}
+
+	private void checkLohnsteuer(Class<?> c, String jsp) throws Exception {
+
+		System.out.print("Lohnsteuer " + jsp);
+		printBlank(jsp);
 
 		for (int lohn = 5000; lohn <= 80000; lohn += 2500) {
 
@@ -92,10 +105,9 @@ public class LohnsteuerTest {
 			BigDecimal re4 = new BigDecimal(lohn * 100); // Angabe in Cent
 
 			for (int stkl = 1; stkl <= 6; stkl++) {
-				check(c, year, 1, re4, stkl);
+				check(c, jsp, 1, re4, stkl);
 			}
 		}
-
 	}
 
 	/**
@@ -110,9 +122,9 @@ public class LohnsteuerTest {
 	 * @throws Exception
 	 */
 
-	private void check(Class<?> c, int year, int lzz, BigDecimal re4, int stkl) throws Exception {
+	private void check(Class<?> c, String jsp, int lzz, BigDecimal re4, int stkl) throws Exception {
 
-		URL url = new URL("https://www.bmf-steuerrechner.de/interface/" + year + ".jsp?LZZ=" + lzz + "&RE4="
+		URL url = new URL("https://www.bmf-steuerrechner.de/interface/" + jsp + ".jsp?LZZ=" + lzz + "&RE4="
 				+ re4.intValue() + "&STKL=" + stkl);
 
 		URLConnection con = url.openConnection();

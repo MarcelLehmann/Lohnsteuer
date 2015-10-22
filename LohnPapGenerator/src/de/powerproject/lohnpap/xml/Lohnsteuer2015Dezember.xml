@@ -1,6 +1,6 @@
-<PAP name="Lohnsteuer2015Big">   
+<PAP name="Lohnsteuer2015DezemberBig">   
     <VARIABLES> 
-		<!-- Stand: 2014-12-15 -->
+		<!-- Stand: 2015-09-11 -->
 		<!-- ZIVIT Düsseldorf--> 
 
     <!--  EINGABEPARAMETER  -->
@@ -49,7 +49,6 @@
 				Beitragsbemessungsgrenze WEST. -->
         <INPUT name="KRV" type="int"/>
 
-		<!-- Neu 2015 -->
 		<!-- Einkommensbezogener Zusatzbeitragssatz eines gesetzlich krankenversicherten Arbeitnehmers, 
 		 auf dessen Basis der an die Kran-kenkasse zu zahlende Zusatzbeitrag berechnet wird,
 		 in Prozent (bspw. 0,90 für 0,90 %) mit 2 Dezimalstellen. 
@@ -201,17 +200,18 @@
 			 steuerbescheinigung sind die einzelnen Ausgabewerte außerhalb des eigentlichen Lohn-
 			 steuerbescheinigungsprogramms zu addieren; hinzuzurechnen sind auch die Ausgabewerte
 			 VKVSONST -->
-		<OUTPUT name="VKVLZZ" type="BigDecimal" default="new BigDecimal(0)"/> <!-- Neu 2014 Ursprünglich INTERNAL definiert -->
+		<OUTPUT name="VKVLZZ" type="BigDecimal" default="new BigDecimal(0)"/> 
 		
 		<!-- Für den Lohnzahlungszeitraum berücksichtigte Beiträge des Arbeitnehmers 
 			 zur privaten Basis-Krankenversicherung und privaten Pflege-Pflichtversicherung (ggf. 
 			 auch die Mindestvorsorgepauschale) in Cent bei sonstigen Bezügen. Der Ausgabewert kann
 			 auch negativ sein. Für tarifermäßigt zu besteuernde Vergütungen für mehrjährige 
 			 Tätigkeiten enthält der PAP keinen entsprechenden Ausgabewert. -->
-		<OUTPUT name="VKVSONST" type="BigDecimal" default="new BigDecimal(0)"/> <!--Neu 2014 Ursprünglich INTERNAL definiert -->
+		<OUTPUT name="VKVSONST" type="BigDecimal" default="new BigDecimal(0)"/> 
 
 
     <!--  INTERNE FELDER  -->
+    
     	<!-- spezielles ZVE f. Einkommensteuer-Berechnung, dieses darf negativ werden. -->
     	<INTERNAL name="zveEkSt" type="BigDecimal" default="new BigDecimal(0)"/>
     	
@@ -232,12 +232,10 @@
              (2 Dezimalstellen) -->
         <INTERNAL name="BMG" type="BigDecimal" default="new BigDecimal(0)"/>
         
-        <!-- Neu 2015 -->
         <!-- Beitragsbemessungsgrenze in der gesetzlichen Krankenversicherung 
         	und der sozialen Pflegeversicherung in Euro -->
         <INTERNAL name="BBGKVPV" type="BigDecimal" default="new BigDecimal(0)"/>
         
-        <!-- Neu 2015 -->
         <!-- allgemeine Beitragsbemessungsgrenze in der allgemeinen Renten-versicherung in Euro -->
         <INTERNAL name="BBGRV" type="BigDecimal" default="new BigDecimal(0)"/>
 
@@ -294,6 +292,24 @@
         <!-- Jahreswert, dessen Anteil fuer einen Lohnzahlungszeitraum in
              UPANTEIL errechnet werden soll in Cents -->
         <INTERNAL name="JW" type="BigDecimal" default="new BigDecimal(0)"/>
+        
+        <!-- Jahreswert Lohnsteuer vor KiFBG in Cent -->
+        <INTERNAL name="JWLSTA" type="BigDecimal" default="new BigDecimal(0)"/> <!-- Neu 2015 -->
+        
+        <!-- Jahreswert Lohnsteuer unter Berücksichtigung des KiFBG in Cent-->
+        <INTERNAL name="JWLSTN" type="BigDecimal" default="new BigDecimal(0)"/> <!-- Neu 2015 -->
+        
+         <!-- Jahreswert Solidaritätszuschlag vor KiFBG in Cent -->
+        <INTERNAL name="JWSOLZA" type="BigDecimal" default="new BigDecimal(0)"/> <!-- Neu 2015 -->
+        
+         <!-- Jahreswert Solidaritätszuschlag unter Berücksichtigung des KiFBG in Cent-->
+        <INTERNAL name="JWSOLZN" type="BigDecimal" default="new BigDecimal(0)"/> <!-- Neu 2015 -->
+        
+        <!-- Jahreswert Bemessungsgrundlage Kirchensteuer vor KiFBG in Cent -->
+        <INTERNAL name="JWBKA" type="BigDecimal" default="new BigDecimal(0)"/> <!-- Neu 2015 -->
+        
+         <!--Jahreswert Bemessungsgrundlage Kirchensteuer unter Berücksich-tigung des KiFBG in Cent -->
+        <INTERNAL name="JWBKN" type="BigDecimal" default="new BigDecimal(0)"/> <!-- Neu 2015 -->
 
         <!-- Nummer der Tabellenwerte fuer Parameter bei Altersentlastungsbetrag -->
         <INTERNAL name="K" type="int" default="0"/>
@@ -337,7 +353,6 @@
         <!-- Beitragssatz des Arbeitnehmers zur Pflegeversicherung -->
         <INTERNAL name="PVSATZAN" type="BigDecimal" default="new BigDecimal(0)"/>
 
-		<!-- Neu 2015 -->
 		<!-- Beitragssatz des Arbeitnehmers in der allgemeinen gesetzlichen Rentenversicherung (4 Dezimalstellen)  -->
 	    <INTERNAL name="RVSATZAN" type="BigDecimal" default="new BigDecimal(0)"/>
 
@@ -346,6 +361,9 @@
 
         <!-- Sonderausgaben-Pauschbetrag in EURO -->
         <INTERNAL name="SAP" type="BigDecimal" default="new BigDecimal(0)"/>
+        
+        <!-- Schleifenzähler für Differenzberechnung -->
+        <INTERNAL name="SCHLEIFZ" type="int" default="0"/> <!-- Neu 2015 -->
 
         <!-- Freigrenze fuer den Solidaritaetszuschlag in EURO -->
         <INTERNAL name="SOLZFREI" type="BigDecimal" default="new BigDecimal(0)"/>
@@ -369,7 +387,6 @@
 		<!-- Zwischenfeld zur Ermittlung der Steuer auf Vergütungen für mehrjährige Tätigkeit -->
         <INTERNAL name="STOVMT" type="BigDecimal" default="new BigDecimal(0)"/>
         
-        <!-- Neu 2015 -->
         <!-- Teilbetragssatz der Vorsorgepauschale für die Rentenversicherung (2 Dezimalstellen) -->
         <INTERNAL name="TBSVORV" type="BigDecimal" default="new BigDecimal(0)"/>
  
@@ -402,7 +419,16 @@
 			 private Basiskrankenversicherung und private Pflege-Pflichtversicherung 
 			 in Euro, Cent (2 Dezimalstellen) -->
         <INTERNAL name="VSP3" type="BigDecimal" default="new BigDecimal(0)"/>
-
+        
+        <!-- Erster Grenzwert in Steuerklasse V/VI in Euro -->
+        <INTERNAL name="W1STKL5" type="BigDecimal" default="new BigDecimal(0)"/> <!-- Neu 2015 -->
+        
+        <!-- Zweiter Grenzwert in Steuerklasse V/VI in Euro -->
+        <INTERNAL name="W2STKL5" type="BigDecimal" default="new BigDecimal(0)"/> <!-- Neu 2015 -->
+        
+        <!-- Dritter Grenzwert in Steuerklasse V/VI in Euro -->
+        <INTERNAL name="W3STKL5" type="BigDecimal" default="new BigDecimal(0)"/> <!-- Neu 2015 -->
+        
         <!-- Hoechstbetrag der Vorsorgepauschale nach § 10c Abs. 3 EStG in EURO -->
         <INTERNAL name="VSPKURZ" type="BigDecimal" default="new BigDecimal(0)"/>
 
@@ -442,6 +468,9 @@
              nach Abzug des Versorgungsfreibetrags und des Alterentlastungsbetrags
              zur Berechnung der Vorsorgepauschale in €, Cent (2 Dezimalstellen) -->
         <INTERNAL name="ZRE4VP" type="BigDecimal" default="new BigDecimal(0)"/>
+        
+        <!-- Merkfeld ZRE4VP für Schleifenberechnung Dezember 2015 in Euro, Cent (2 Dezimalstellen) -->
+        <INTERNAL name="ZRE4VPM" type="BigDecimal" default="new BigDecimal(0)"/> <!-- Neu 2015 -->
 
         <!-- Feste Tabellenfreibeträge (ohne Vorsorgepauschale) in €, Cent
              (2 Dezimalstellen) -->
@@ -512,14 +541,27 @@
 
 
 
-  <!-- PROGRAMMABLAUFPLAN, PAP Seite 12 -->
+  <!-- PROGRAMMABLAUFPLAN, PAP Seite 14 -->
   <MAIN>
-  	<EXECUTE method="MPARA"/> <!-- Neu 2015 -->
+  	<EXECUTE method="MPARA"/> 
     <EXECUTE method="MRE4JL"/>
     <EVAL exec="VBEZBSO= BigDecimal.ZERO"/>
     <EVAL exec="KENNVMT= 0"/>
     <EXECUTE method="MRE4"/>
     <EXECUTE method="MRE4ABZ"/>
+    
+    <!-- Anfang Neu 2015 -->
+    <EVAL exec="ZRE4VPM= ZRE4VP"/>
+    <EVAL exec="SCHLEIFZ = 1"/>
+    <EXECUTE method="MBERECH"/>
+    <EVAL exec="SCHLEIFZ = 2"/>
+    <EVAL exec="W1STKL5 = BigDecimal.valueOf(9873)"/>
+    <EVAL exec="ZRE4VP=ZRE4VPM"/>
+    <EXECUTE method="MBERECH"/>
+    <EXECUTE method="MLST1215"/>
+    <!-- Ende Neu 2015  -->
+    
+    <!--  
     <EXECUTE method="MZTABFB"/>
     <EXECUTE method="MLSTJAHR"/>
     <EVAL exec="LSTJAHR= ST.multiply(BigDecimal.valueOf(f)).setScale(0,BigDecimal.ROUND_DOWN)"/>
@@ -539,12 +581,12 @@
       </ELSE>
     </IF>
     <EXECUTE method="MSOLZ"/>
+    -->
     <EXECUTE method="MSONST"/>
     <EXECUTE method="MVMT"/>
   </MAIN>
 
-  <!-- Neu 2015 -->
-  <!-- Zuweisung von Werten für bestimmte Sozialversicherungsparameter  PAP Seite 13 -->
+  <!-- Zuweisung von Werten für bestimmte Sozialversicherungsparameter  PAP Seite 15 -->
   <METHOD name="MPARA">
   	 <IF expr="KRV &lt; 2"><!-- &lt; = < -->
       	<THEN>
@@ -583,9 +625,15 @@
       			<EVAL exec="PVSATZAN = PVSATZAN.add(BigDecimal.valueOf(0.0025))"/>
       		</THEN>
       	</IF>
+      	
+      	 <!-- Anfang Neu 2015 --> 
+      	 <EVAL exec="W1STKL5 = new BigDecimal(9763)"/>
+      	 <EVAL exec="W2STKL5 = new BigDecimal(26441)"/>
+      	 <EVAL exec="W3STKL5 = new BigDecimal(200584)"/>
+      	 <!-- Ende Neu 2015 -->
   </METHOD>
 
-  <!-- Ermittlung des Jahresarbeitslohns nach § 39 b Abs. 2 Satz 2 EStG, PAP Seite 14 -->
+  <!-- Ermittlung des Jahresarbeitslohns nach § 39 b Abs. 2 Satz 2 EStG, PAP Seite 16 -->
   <METHOD name="MRE4JL">
     <IF expr="LZZ == 1">
       <THEN>
@@ -630,7 +678,7 @@
 
 
 
-  <!-- Freibeträge für Versorgungsbezüge, Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 15 -->
+  <!-- Freibeträge für Versorgungsbezüge, Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 17 -->
   <METHOD name="MRE4">
     <IF expr="ZVBEZJ.compareTo (BigDecimal.ZERO) == 0">
       <THEN>
@@ -704,7 +752,7 @@
 
 
 
-  <!-- Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 16 -->
+  <!-- Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 18 -->
   <METHOD name="MRE4ALTE">
     <IF expr="ALTER1 == 0">
       <THEN>
@@ -741,7 +789,7 @@
 
 
 
-  <!-- Ermittlung des Jahresarbeitslohns nach Abzug der Freibeträge nach § 39 b Abs. 2 Satz 3 und 4 EStG, PAP Seite 18 -->
+  <!-- Ermittlung des Jahresarbeitslohns nach Abzug der Freibeträge nach § 39 b Abs. 2 Satz 3 und 4 EStG, PAP Seite 20 -->
 
   <METHOD name="MRE4ABZ"> 
   	<EVAL exec="ZRE4= (ZRE4J.subtract (FVB).subtract   (ALTE).subtract (JLFREIB).add (JLHINZU)).setScale (2, BigDecimal.ROUND_DOWN)"/>
@@ -767,10 +815,41 @@
     </IF> 
   </METHOD>
 
+  <!-- Komplett Neu 2015 -->
+  <!-- LohnzahlungszeitraumSchleife für Differenzrechnung Dezember 2015 Seite 21 -->
+  <METHOD name="MBERECH"> 
+  	<IF expr="SCHLEIFZ == 1"> 
+    	<THEN> 
+    	 <EXECUTE method="MZTABFBA"/>
+    	</THEN> 
+    	 <ELSE>
+          <EXECUTE method="MZTABFBN"/>
+        </ELSE>
+    </IF> 
+    
+    <EXECUTE method="MLSTJAHR"/>
+	<EVAL exec="LSTJAHR = (ST.multiply(BigDecimal.valueOf(f))).setScale(0,BigDecimal.ROUND_DOWN)"/> 
+	<EXECUTE method="UPLSTLZZ"/>
+	<EXECUTE method="UPVKVLZZ"/>
+	   	
+	 <IF expr="ZKF.compareTo(BigDecimal.ZERO) == 1">  <!-- ZKF > 0 -->
+	    <THEN> 
+	    	  <EVAL exec="ZTABFB = ZTABFB.add(KFB)"/> 
+	    	  <EXECUTE method="MRE4ABZ"/>
+	    	  <EXECUTE method="MLSTJAHR"/>
+	    	  <EVAL exec="JBMG = (ST.multiply(BigDecimal.valueOf(f))).setScale(0,BigDecimal.ROUND_DOWN)"/> 
+	    </THEN> 
+	    <ELSE>
+	          <EVAL exec="JBMG = LSTJAHR"/> 
+	    </ELSE>
+	  </IF> 
+	  
+	  <EXECUTE method="MSOLZ"/>
+	    
+  </METHOD>
 
-
-  <!-- Ermittlung der festen Tabellenfreibeträge (ohne Vorsorgepauschale), PAP Seite 19 -->
-  <METHOD name="MZTABFB">
+  <!-- Ermittlung der festen Tabellenfreibeträge (ohne Vorsorgepauschale), PAP Seite 22 -->
+  <METHOD name="MZTABFBA"> <!-- Neu 2015 Nur Änderung an der Bezeichnung-->
     <EVAL exec="ANP= BigDecimal.ZERO"/>
     <IF expr="ZVBEZ.compareTo (BigDecimal.ZERO) &gt;= 0 &amp;&amp; ZVBEZ.compareTo(FVBZ) == -1">
       <THEN>
@@ -866,7 +945,103 @@
 
 
 
-  <!-- Ermittlung Jahreslohnsteuer, PAP Seite 20 -->
+<!-- Komplett Neu 2015 -->
+<!-- Ermittlung der festen Tabellenfreibeträge (ohne Vorsorgepauschale), PAP Seite 23 -->
+  <METHOD name="MZTABFBN"> 
+    <EVAL exec="ANP= BigDecimal.ZERO"/>
+    <IF expr="ZVBEZ.compareTo (BigDecimal.ZERO) &gt;= 0 &amp;&amp; ZVBEZ.compareTo(FVBZ) == -1">
+      <THEN>
+        <EVAL exec="FVBZ = BigDecimal.valueOf(ZVBEZ.longValue())"/>
+      </THEN>
+    </IF>
+    <IF expr="STKL &lt; 6">
+      <THEN>
+        <IF expr="ZVBEZ.compareTo (BigDecimal.ZERO) == 1">
+          <THEN>
+            <IF expr="(ZVBEZ.subtract (FVBZ)).compareTo (BigDecimal.valueOf (102)) == -1">
+              <THEN>
+                <EVAL exec="ANP= (ZVBEZ.subtract (FVBZ)).setScale (0, BigDecimal.ROUND_UP)"/>
+              </THEN>
+              <ELSE>
+                <EVAL exec="ANP= BigDecimal.valueOf (102)"/>
+              </ELSE>
+            </IF>
+          </THEN>
+        </IF>
+      </THEN>
+      <ELSE>
+      	<EVAL exec="FVBZ= BigDecimal.valueOf (0)"/>
+      	<EVAL exec="FVBZSO= BigDecimal.valueOf (0)"/>
+      </ELSE>
+    </IF>
+    <IF expr="STKL &lt; 6">
+      <THEN>
+      	<IF expr="ZRE4.compareTo(ZVBEZ) == 1">
+        	<THEN>
+	        	<IF expr="ZRE4.subtract(ZVBEZ).compareTo(ZAHL1000) == -1">
+		        	<THEN>
+		        		<EVAL exec="ANP = ANP.add(ZRE4).subtract(ZVBEZ).setScale(0,BigDecimal.ROUND_UP)"/>
+		        	</THEN>
+	        		<ELSE>
+	        			<EVAL exec="ANP = ANP.add(ZAHL1000)"/>
+	        		</ELSE>
+	        	</IF>
+        	</THEN>
+        </IF>
+      </THEN>
+    </IF>
+    <EVAL exec="KZTAB= 1"/>
+    <IF expr="STKL == 1">
+      <THEN>
+        <EVAL exec="SAP= BigDecimal.valueOf (36)"/>
+        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (7152))).setScale (0, BigDecimal.ROUND_DOWN)"/>
+      </THEN>
+	  <ELSE>
+			<IF expr="STKL == 2">
+			    <THEN>
+			        <EVAL exec="EFA= BigDecimal.valueOf (1908)"/>
+			        <EVAL exec="SAP= BigDecimal.valueOf (36)"/>
+			        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (7152))).setScale (0, BigDecimal.ROUND_DOWN)"/>
+			    </THEN>
+		 
+		    	<ELSE>
+					<IF expr="STKL == 3">
+					    <THEN>
+					        <EVAL exec="KZTAB= 2"/>
+					        <EVAL exec="SAP= BigDecimal.valueOf (36)"/>
+					        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (7152))).setScale (0, BigDecimal.ROUND_DOWN)"/>
+					    </THEN>
+					
+						<ELSE>
+						  	<IF expr="STKL == 4">
+						      <THEN>
+						        <EVAL exec="SAP= BigDecimal.valueOf (36)"/>
+						        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (3576))).setScale (0, BigDecimal.ROUND_DOWN)"/>
+						      </THEN> 
+								
+							  <ELSE>
+								  	<IF expr="STKL == 5">
+								      <THEN>
+								        <EVAL exec="SAP= BigDecimal.valueOf (36)"/>
+								        <EVAL exec="KFB= BigDecimal.ZERO"/>
+								      </THEN> 
+										
+									  <ELSE>
+								        <EVAL exec="KFB= BigDecimal.ZERO"/>
+									  </ELSE>
+									</IF>
+							 </ELSE>
+							</IF>
+						</ELSE>	
+					</IF>  	
+				</ELSE>	
+			</IF>	
+		</ELSE>	
+    </IF>
+    <EVAL exec="ZTABFB= (EFA.add (ANP).add (SAP).add (FVBZ)).setScale (2, BigDecimal.ROUND_DOWN)"/>
+  </METHOD>
+
+  <!-- Ermittlung Jahreslohnsteuer, PAP Seite 24 -->
   <METHOD name="MLSTJAHR">
      <EXECUTE method="UPEVP"/>
     <IF expr="KENNVMT != 1">
@@ -894,7 +1069,7 @@
     </IF> 
   </METHOD>
   
-  <!-- PAP Seite 21 --> 
+  <!-- PAP Seite 25 --> 
   <METHOD name="UPVKVLZZ">
 	 <EXECUTE method="UPVKV"/>
 	 <EVAL exec="JW = VKV"/>
@@ -902,7 +1077,7 @@
 	 <EVAL exec="VKVLZZ = ANTEIL1"/>
   </METHOD>
 
-  <!-- PAP Seite 21 --> 
+  <!-- PAP Seite 25 --> 
   <METHOD name="UPVKV">
 	 <IF expr="PKV &gt; 0">
 		<THEN>
@@ -921,15 +1096,27 @@
 	</IF>
   </METHOD>
   
-  <!-- PAP Seite 22 -->
+  <!-- PAP Seite 26 -->
    <METHOD name="UPLSTLZZ">
    	  <EVAL exec="JW = LSTJAHR.multiply(ZAHL100)"/>
+   	  
+   	  <!-- Anfang Neu 2015 -->
+   	  <IF expr="SCHLEIFZ == 1">
+			<THEN>
+				<EVAL exec="JWLSTA = JW"/>
+			</THEN>
+			<ELSE>
+				<EVAL exec="JWLSTN = JW"/>
+			</ELSE>
+	  </IF>
+   	  <!-- Ende Neu 2015 -->
+   	  
 	  <EXECUTE method="UPANTEIL"/>
 	  <EVAL exec="LSTLZZ = ANTEIL1"/>
    </METHOD>
 	
 	
-  <!-- Ermittlung der Jahreslohnsteuer aus dem Einkommensteuertarif. PAP Seite 22 -->
+  <!-- Ermittlung der Jahreslohnsteuer aus dem Einkommensteuertarif. PAP Seite 27 -->
   <METHOD name="UPMLST">
 	<IF expr="ZVE.compareTo (ZAHL1) == -1">
       <THEN>
@@ -942,7 +1129,19 @@
     </IF>
 	<IF expr="STKL &lt; 5">
       <THEN>
-        <EXECUTE method="UPTAB14"/> 
+      
+      	 <!-- Anfang Neu 2015 -->
+   	  	<IF expr="SCHLEIFZ == 1">
+			<THEN>
+				<EXECUTE method="UPTAB14"/> 
+			</THEN>
+			<ELSE>
+				<EXECUTE method="UPTAB15"/> 
+			</ELSE>
+	  	</IF>
+   	  	<!-- Ende Neu 2015 -->
+      
+        
       </THEN>
       <ELSE>
         <EXECUTE method="MST5_6"/>
@@ -957,7 +1156,7 @@
   				a) Es wird davon ausge-gangen, dassa) für die BBG (Ost) 60.000 Euro und für die BBG (West) 71.400 Euro festgelegt wird sowie
   				b) der Beitragssatz zur Rentenversicherung auf 18,9 % gesenkt wird.
   			
-  			PAP Seite 23  -->
+  			PAP Seite 28  -->
   <METHOD name="UPEVP">
     <IF expr="KRV &gt; 1"><!-- &lt; = < &gt; = > -->
       <THEN>
@@ -999,8 +1198,8 @@
   </METHOD>
  
 
-  <!-- Achtung !!! Komplett Neu 2015 -->
-  <!-- Vorsorgepauschale (§39b Abs. 2 Satz 5 Nr 3 EStG) Vergleichsberechnung fuer Guenstigerpruefung, PAP Seite 24 -->
+
+  <!-- Vorsorgepauschale (§39b Abs. 2 Satz 5 Nr 3 EStG) Vergleichsberechnung fuer Guenstigerpruefung, PAP Seite 29 -->
   <METHOD name="MVSP">
     <IF expr="ZRE4VP.compareTo(BBGKVPV) == 1">
       <THEN>
@@ -1067,32 +1266,33 @@
   	</IF>
   </METHOD>
 
-  <!-- Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 25 -->
+  <!-- Neu 2015  -->
+  <!-- Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 30 -->
   <METHOD name="MST5_6">
     <EVAL exec="ZZX= X"/>
-    <IF expr="ZZX.compareTo (BigDecimal.valueOf (26441)) == 1">
+    <IF expr="ZZX.compareTo(W2STKL5) == 1">
       <THEN>
-        <EVAL exec="ZX= BigDecimal.valueOf (26441)"/>
+        <EVAL exec="ZX= W2STKL5"/>
         <EXECUTE method="UP5_6"/>
-	    <IF expr="ZZX.compareTo (BigDecimal.valueOf (200584)) == 1">
+	    <IF expr="ZZX.compareTo (W3STKL5) == 1">
 	      <THEN>
-            <EVAL exec="ST= (ST.add ((BigDecimal.valueOf (200584).subtract (BigDecimal.valueOf (26441))).multiply (BigDecimal.valueOf (0.42)))).setScale (0, BigDecimal.ROUND_DOWN)"/>
-            <EVAL exec="ST= (ST.add ((ZZX.subtract (BigDecimal.valueOf (200584))).multiply (BigDecimal.valueOf (0.45)))).setScale (0, BigDecimal.ROUND_DOWN)"/>
+            <EVAL exec="ST= (ST.add ((W3STKL5.subtract (W2STKL5)).multiply (BigDecimal.valueOf (0.42)))).setScale (0, BigDecimal.ROUND_DOWN)"/>
+            <EVAL exec="ST= (ST.add ((ZZX.subtract (W3STKL5)).multiply (BigDecimal.valueOf (0.45)))).setScale (0, BigDecimal.ROUND_DOWN)"/>
           </THEN>
           <ELSE>
-            <EVAL exec="ST= (ST.add ((ZZX.subtract (BigDecimal.valueOf (26441))).multiply (BigDecimal.valueOf (0.42)))).setScale (0, BigDecimal.ROUND_DOWN)"/>
+            <EVAL exec="ST= (ST.add ((ZZX.subtract (W2STKL5)).multiply (BigDecimal.valueOf (0.42)))).setScale (0, BigDecimal.ROUND_DOWN)"/>
           </ELSE>
         </IF>
       </THEN>
       <ELSE>
         <EVAL exec="ZX= ZZX"/>
         <EXECUTE method="UP5_6"/>
-        <IF expr="ZZX.compareTo (BigDecimal.valueOf (9763)) == 1"> 
+        <IF expr="ZZX.compareTo (W1STKL5) == 1"> 
           <THEN>
             <EVAL exec="VERGL= ST"/>
-            <EVAL exec="ZX= BigDecimal.valueOf (9763)"/> 
+            <EVAL exec="ZX= W1STKL5"/> 
             <EXECUTE method="UP5_6"/>
-            <EVAL exec="HOCH= (ST.add ((ZZX.subtract (BigDecimal.valueOf (9763))).multiply (BigDecimal.valueOf (0.42)))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Neuer Wert 2014 -->
+            <EVAL exec="HOCH= (ST.add ((ZZX.subtract (W1STKL5)).multiply (BigDecimal.valueOf (0.42)))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Neuer Wert 2014 -->
             <IF expr="HOCH.compareTo (VERGL) == -1">
               <THEN>
                 <EVAL exec="ST= HOCH"/>
@@ -1109,13 +1309,37 @@
 
   
   
-  <!-- Unterprogramm zur Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 26 -->
+  <!-- Unterprogramm zur Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 31 -->
   <METHOD name="UP5_6">
     <EVAL exec="X= (ZX.multiply (BigDecimal.valueOf (1.25))).setScale (2, BigDecimal.ROUND_DOWN)"/>
-    <EXECUTE method="UPTAB14"/> 
+    
+   	 <!-- Anfang Neu 2015 -->
+   	  	<IF expr="SCHLEIFZ == 1">
+			<THEN>
+				<EXECUTE method="UPTAB14"/> 
+			</THEN>
+			<ELSE>
+				<EXECUTE method="UPTAB15"/> 
+			</ELSE>
+	  	</IF>
+   	  <!-- Ende Neu 2015 -->
+    
+    
     <EVAL exec="ST1= ST"/>
     <EVAL exec="X= (ZX.multiply (BigDecimal.valueOf (0.75))).setScale (2, BigDecimal.ROUND_DOWN)"/>
-    <EXECUTE method="UPTAB14"/> 
+    
+   	 <!-- Anfang Neu 2015 -->
+   	  	<IF expr="SCHLEIFZ == 1">
+			<THEN>
+				<EXECUTE method="UPTAB14"/> 
+			</THEN>
+			<ELSE>
+				<EXECUTE method="UPTAB15"/> 
+			</ELSE>
+	  	</IF>
+   	  	<!-- Ende Neu 2015 -->
+    
+    
     <EVAL exec="ST2= ST"/>
     <EVAL exec="DIFF= (ST1.subtract (ST2)).multiply (ZAHL2)"/>
     <EVAL exec="MIST= (ZX.multiply (BigDecimal.valueOf (0.14))).setScale (0, BigDecimal.ROUND_DOWN)"/>
@@ -1131,7 +1355,7 @@
 
 
 
-  <!-- Solidaritaetszuschlag, PAP Seite 27 -->
+  <!-- Solidaritaetszuschlag, PAP Seite 32 -->
   <METHOD name="MSOLZ">
     <EVAL exec="SOLZFREI= BigDecimal.valueOf (972 * KZTAB)"/>
     <IF expr="JBMG.compareTo (SOLZFREI) == 1">
@@ -1144,6 +1368,18 @@
           </THEN>
         </IF>
         <EVAL exec="JW= SOLZJ.multiply (ZAHL100).setScale (0, BigDecimal.ROUND_DOWN)"/>
+        
+        <!-- Anfang Neu 2015 -->
+        <IF expr="SCHLEIFZ == 1">
+          <THEN>
+            <EVAL exec="JWSOLZA = JW"/>
+          </THEN>
+           <ELSE>
+        	<EVAL exec="JWSOLZN = JW"/>
+      	</ELSE>
+        </IF>
+        <!-- Ende Neu 2015 -->
+        
         <EXECUTE method="UPANTEIL"/>
         <EVAL exec="SOLZLZZ= ANTEIL1"/>
       </THEN>
@@ -1154,6 +1390,19 @@
     <IF expr="R &gt; 0">
       <THEN>
         <EVAL exec="JW= JBMG.multiply (ZAHL100)"/>
+        
+        <!-- Anfang Neu 2015 -->
+         <IF expr="SCHLEIFZ == 1">
+          <THEN>
+            <EVAL exec="JWBKA = JW"/>
+          </THEN>
+           <ELSE>
+        	<EVAL exec="JWBKN = JW"/>
+      	</ELSE>
+        </IF>
+        <!-- Ende Neu 2015 -->
+        
+        
         <EXECUTE method="UPANTEIL"/>
         <EVAL exec="BK= ANTEIL1"/>
       </THEN>
@@ -1163,9 +1412,53 @@
     </IF>
   </METHOD>
 
+  <!-- Komplett Neu 2015 -->
+  <!-- Differenzrechnung Dezember 2015, PAP Seite 33 -->
+  <METHOD name="MLST1215">
+  	 <IF expr="LZZ &gt; 1">
+        <THEN>
+            <EVAL exec="JW = (JWLSTN.subtract(BigDecimal.valueOf(11).multiply((JWLSTA.subtract(JWLSTN))))).setScale(0, BigDecimal.ROUND_DOWN)"/>
+            
+             <IF expr="JW.compareTo(BigDecimal.ZERO) == -1"> <!-- JW < 0 -->
+        		<THEN>
+            		<EVAL exec="ANTEIL1 = BigDecimal.ZERO"/>
+       			 </THEN>
+       			 <ELSE>
+       			  <EXECUTE method="UPANTEIL"/>
+     			 </ELSE>
+     		</IF>
+     		
+     		<EVAL exec="LSTLZZ = ANTEIL1"/>
+     	    <EVAL exec="JW = (JWSOLZN.subtract(BigDecimal.valueOf(11).multiply(JWSOLZA.subtract(JWSOLZN)))).setScale(0, BigDecimal.ROUND_DOWN)"/>
+     	    
+     	    <IF expr="JW.compareTo(BigDecimal.ZERO) == -1"> <!-- JW < 0 -->
+        		<THEN>
+            		<EVAL exec="ANTEIL1 = BigDecimal.ZERO"/>
+       			 </THEN>
+       			 <ELSE>
+       			  <EXECUTE method="UPANTEIL"/>
+     			 </ELSE>
+     		</IF>
+     		
+     		<EVAL exec="SOLZLZZ = ANTEIL1"/>
+     	    <EVAL exec="JW = (JWBKN.subtract(BigDecimal.valueOf(11).multiply(JWBKA.subtract(JWBKN)))).setScale(0, BigDecimal.ROUND_DOWN)"/>
+     	    
+     	   	<IF expr="JW.compareTo(BigDecimal.ZERO) == -1"> <!-- JW < 0 -->
+        		<THEN>
+            		<EVAL exec="ANTEIL1 = BigDecimal.ZERO"/>
+       			 </THEN>
+       			 <ELSE>
+       			  <EXECUTE method="UPANTEIL"/>
+     			 </ELSE>
+     		</IF>
+     		
+     		<EVAL exec="BK = ANTEIL1"/>
+     		
+        </THEN>
+     </IF>
+  </METHOD>
 
-
-  <!-- Anteil von Jahresbetraegen fuer einen LZZ (§ 39b Abs. 2 Satz 9 EStG), PAP Seite 28 -->
+  <!-- Anteil von Jahresbetraegen fuer einen LZZ (§ 39b Abs. 2 Satz 9 EStG), PAP Seite 34 -->
   <METHOD name="UPANTEIL">
     <IF expr="LZZ == 1">
       <THEN>
@@ -1193,7 +1486,7 @@
 
 
 
-  <!-- Berechnung sonstiger Bezuege nach § 39b Abs. 3 Saetze 1 bis 8 EStG), PAP Seite 29 -->
+  <!-- Berechnung sonstiger Bezuege nach § 39b Abs. 3 Saetze 1 bis 8 EStG), PAP Seite 35 -->
   <METHOD name="MSONST">
     <EVAL exec="LZZ= 1"/>
     <IF expr="ZMVB == 0">
@@ -1246,7 +1539,7 @@
 
 
 
-  <!-- Berechnung der Verguetung fuer mehrjaehrige Taetigkeit nach § 39b Abs. 3 Satz 9 und 10 EStG), PAP Seite 30 -->
+  <!-- Berechnung der Verguetung fuer mehrjaehrige Taetigkeit nach § 39b Abs. 3 Satz 9 und 10 EStG), PAP Seite 36 -->
   <METHOD name="MVMT">
     <IF expr="VKAPA.compareTo (BigDecimal.ZERO) == -1">
       <THEN>
@@ -1317,7 +1610,7 @@
 
 
 
-  <!-- Sonderberechnung ohne sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 31 -->
+  <!-- Sonderberechnung ohne sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 37 -->
   <METHOD name="MOSONST">
     <EVAL exec="ZRE4J= (JRE4.divide (ZAHL100)).setScale (2, BigDecimal.ROUND_DOWN)"/>
     <EVAL exec="ZVBEZJ= (JVBEZ.divide (ZAHL100)).setScale (2, BigDecimal.ROUND_DOWN)"/>
@@ -1326,21 +1619,21 @@
     <EXECUTE method="MRE4"/>
     <EXECUTE method="MRE4ABZ"/>
     <EVAL exec="ZRE4VP = ZRE4VP.subtract(JRE4ENT.divide(ZAHL100))"/>
-    <EXECUTE method="MZTABFB"/>
+    <EXECUTE method="MZTABFBN"/> <!-- Anpassung 2015 -->
     <EXECUTE method="MLSTJAHR"/>
     <EVAL exec="LSTOSO= ST.multiply (ZAHL100)"/>
   </METHOD>
 
 
 
-  <!-- Sonderberechnung mit sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 29 -->
+  <!-- Sonderberechnung mit sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 38 -->
   <METHOD name="MRE4SONST">
     <EXECUTE method="MRE4"/>
     <EVAL exec="FVB= FVBSO"/>
     <EXECUTE method="MRE4ABZ"/>
     <EVAL exec="ZRE4VP = ZRE4VP.subtract(JRE4ENT.divide(ZAHL100)).subtract(SONSTENT.divide(ZAHL100))"/>
     <EVAL exec="FVBZ= FVBZSO"/>
-    <EXECUTE method="MZTABFB"/>
+    <EXECUTE method="MZTABFBN"/> <!-- Anpassung 2015 -->
   </METHOD>
   
   
@@ -1376,6 +1669,48 @@
                   </THEN>
                   <ELSE>
                     <EVAL exec="ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (15761))).setScale (0, BigDecimal.ROUND_DOWN)"/> 
+                  </ELSE>
+                </IF>
+              </ELSE>
+            </IF>
+          </ELSE>
+        </IF>
+      </ELSE>
+    </IF>
+    <EVAL exec="ST= ST.multiply (BigDecimal.valueOf (KZTAB))"/>
+  </METHOD>
+  
+  <!-- Komplett Neu 2015 -->
+     <!-- Tarifliche Einkommensteuer §32a EStG, PAP Seite 39 -->
+  <METHOD name="UPTAB15">
+    <IF expr="X.compareTo (BigDecimal.valueOf (8473)) == -1"> 
+      <THEN>
+        <EVAL exec="ST= BigDecimal.ZERO"/>
+      </THEN>
+      <ELSE>
+        <IF expr="X.compareTo (BigDecimal.valueOf (13470)) == -1">
+          <THEN>
+            <EVAL exec="Y= (X.subtract (BigDecimal.valueOf (8472))).divide (BigDecimal.valueOf (10000), 6, BigDecimal.ROUND_DOWN)"/> 
+            <EVAL exec="RW= Y.multiply (BigDecimal.valueOf (997.60))"/> 
+            <EVAL exec="RW= RW.add (BigDecimal.valueOf (1400))"/>
+            <EVAL exec="ST= (RW.multiply (Y)).setScale (0, BigDecimal.ROUND_DOWN)"/>
+          </THEN>
+          <ELSE>
+            <IF expr="X.compareTo (BigDecimal.valueOf (52882)) == -1">
+              <THEN>
+                <EVAL exec="Y= (X.subtract (BigDecimal.valueOf (13469))).divide (BigDecimal.valueOf (10000), 6, BigDecimal.ROUND_DOWN)"/>
+                <EVAL exec="RW= Y.multiply (BigDecimal.valueOf (228.74))"/>
+                <EVAL exec="RW= RW.add (BigDecimal.valueOf (2397))"/>
+                <EVAL exec="RW= RW.multiply (Y)"/>
+                <EVAL exec="ST= (RW.add (BigDecimal.valueOf (948.68))).setScale (0, BigDecimal.ROUND_DOWN)"/> 
+              </THEN>
+              <ELSE>
+	            <IF expr="X.compareTo (BigDecimal.valueOf (250731)) == -1">
+	              <THEN>
+                    <EVAL exec="ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (8261.29))).setScale (0, BigDecimal.ROUND_DOWN)"/> 
+                  </THEN>
+                  <ELSE>
+                    <EVAL exec="ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (15783.19))).setScale (0, BigDecimal.ROUND_DOWN)"/> 
                   </ELSE>
                 </IF>
               </ELSE>
