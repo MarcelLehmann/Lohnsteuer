@@ -10,9 +10,9 @@ Quelle: <a target="_blank" href="https://www.bmf-steuerrechner.de/interface/">ht
 Benutzung als Lohnrechner für z.B. 2015: 
 
   - Klasse Lohnsteuer2015Big.java in das eigene Projekt einbinden.
-  - Instanz der Klasse erzeugen und Variablen wie unter <a target="_blank"  href="https://www.bmf-steuerrechner.de/pruefdaten/pap2015.pdf">Programmablaufplan 2015 PDF (BMF)</a> definiert belegen.
+  - Instanz der Klasse erzeugen und Variablen wie unter <a target="_blank"  href="https://www.bmf-steuerrechner.de/pruefdaten/pap2015bisNovember.pdf">Programmablaufplan 2015 PDF (BMF)</a> definiert belegen.
   - Methode main() aufrufen.
-  - Ergebnis aus Variablen wie unter <a target="_blank"  href="https://www.bmf-steuerrechner.de/pruefdaten/pap2015.pdf">Programmablaufplan 2015 PDF (BMF)</a> definiert auslesen und weiterverarbeiten.
+  - Ergebnis aus Variablen wie unter <a target="_blank"  href="https://www.bmf-steuerrechner.de/pruefdaten/pap2015bisNovember.pdf">Programmablaufplan 2015 PDF (BMF)</a> definiert auslesen und weiterverarbeiten.
 
 
 Verfügbare Rechner
