@@ -30,6 +30,7 @@ import de.powerproject.lohnpap.Lohnsteuer2013Big;
 import de.powerproject.lohnpap.Lohnsteuer2014Big;
 import de.powerproject.lohnpap.Lohnsteuer2015Big;
 import de.powerproject.lohnpap.Lohnsteuer2015DezemberBig;
+import de.powerproject.lohnpap.Lohnsteuer2016Big;
 
 /**
  * 
@@ -85,6 +86,11 @@ public class LohnsteuerTest {
 	@Test
 	public void check2015Dezember() throws Exception {
 		checkLohnsteuer(Lohnsteuer2015DezemberBig.class, "2015Dez");
+	}
+
+	@Test
+	public void check2016() throws Exception {
+		checkLohnsteuer(Lohnsteuer2016Big.class, "2016V1");
 	}
 
 	private void printBlank(String jsp) {
@@ -162,13 +168,20 @@ public class LohnsteuerTest {
 			String name = n.getAttribute("name");
 			String value = n.getAttribute("value");
 
-			Field field = ls.getClass().getDeclaredField(name);
-			Object o = field.get(ls);
-			if (o != null) {
-				o = o.toString();
-			}
+			try {
 
-			assertEquals("Wert " + name, value, o);
+				Field field = ls.getClass().getDeclaredField(name);
+				Object o = field.get(ls);
+				if (o != null) {
+					o = o.toString();
+				}
+
+				assertEquals("Wert " + name, value, o);
+
+			} catch (IllegalAccessException e) {
+				System.err.print("field " + name + " missing!");
+				throw e;
+			}
 		}
 	}
 }

@@ -11,12 +11,12 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * 
  * @author Marcel Lehmann
- * @date 2010-01-01
  *
  */
 
@@ -63,8 +63,13 @@ public class Generator {
 
 	private void parse() throws Exception {
 
+		System.out.println("parse file " + xml.getName());
+
 		SAXParserFactory f = SAXParserFactory.newInstance();
 		SAXParser p = f.newSAXParser();
+
+		p.setProperty("http://xml.org/sax/properties/lexical-handler", new PAPCommentReader());
+
 		PapHandler h = new PapHandler();
 		p.parse(xml, h);
 		if (failed) {
@@ -72,49 +77,54 @@ public class Generator {
 		}
 	}
 
-	class PapHandler extends DefaultHandler {
+	private void writeln() {
+		write(null, true, true);
+	}
 
-		private boolean variable, constants, methods;
+	private void writeln(String s) {
+		write(s, true, true);
+	}
 
-		private int indent = 0;
+	private void write(String s) {
+		write(s, true, false);
+	}
 
-		private void writeln(String s) {
-			write(s, true, true);
-		}
+	private void append(String s) {
+		write(s, false, false);
+	}
 
-		private void write(String s) {
-			write(s, true, false);
-		}
+	private void appendln() {
+		write(null, false, true);
+	}
 
-		private void append(String s) {
-			write(s, false, false);
-		}
+	private void write(String s, boolean tab, boolean newLine) {
 
-		private void appendln(String s) {
-			write(s, false, true);
-		}
+		try {
 
-		private void write(String s, boolean tab, boolean newLine) {
-
-			try {
-
-				if (tab) {
-					for (int i = 0; i < indent; i++) {
-						fw.append('\t');
-					}
+			if (tab) {
+				for (int i = 0; i < indent; i++) {
+					fw.append('\t');
 				}
-
-				fw.append(s);
-
-				if (newLine) {
-					fw.append('\n');
-				}
-
-			} catch (IOException e) {
-				e.printStackTrace();
-				failed = true;
 			}
+
+			if (s != null) {
+				fw.append(s);
+			}
+
+			if (newLine) {
+				fw.append('\n');
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			failed = true;
 		}
+	}
+
+	private int indent = 0;
+	private boolean variables, constants, methods, method;
+
+	class PapHandler extends DefaultHandler {
 
 		@Override
 		public void startElement(String uri, String localName, String qName, Attributes attributes)
@@ -125,26 +135,27 @@ public class Generator {
 					String name = attributes.getValue("name");
 					fw = new FileWriter(path + File.separator + name + ".java");
 					writeln("package de.powerproject.lohnpap;");
-					writeln("");
+					writeln();
 					writeln("import java.math.BigDecimal;");
-					writeln("");
+					writeln();
 					writeln("/**");
 					writeln(" * ");
 					writeln(" * @author Lohnsteuer Generator by Marcel Lehmann (power-project.de) ");
 					writeln(" * @date " + new Date());
 					writeln(" * ");
 					writeln(" */");
-					writeln("");
+					writeln();
 					writeln("public class " + attributes.getValue("name") + " {");
+					appendln();
 					indent++;
 				} else if ("VARIABLES".equals(qName)) {
-					variable = true;
+					variables = true;
 				} else if ("CONSTANTS".equals(qName)) {
 					constants = true;
 				} else if ("METHODS".equals(qName)) {
 					methods = true;
 				} else if ("INPUT".equals(qName) || "OUTPUT".equals(qName) || "INTERNAL".equals(qName)) {
-					if (variable) {
+					if (variables) {
 						String type = attributes.getValue("type");
 						String name = attributes.getValue("name");
 						String def = attributes.getValue("default");
@@ -158,39 +169,37 @@ public class Generator {
 						if ("int".equals(type)) {
 							def = "" + Double.valueOf(def).intValue();
 						}
-						appendln("");
-						write("public " + type + " " + name + " = " + def + ";");
+
+						writeln("public " + type + " " + name + " = " + def + ";");
 					}
 				} else if ("CONSTANT".equals(qName)) {
 					if (constants) {
 						String type = attributes.getValue("type");
 						String name = attributes.getValue("name");
 						String value = attributes.getValue("value");
-						appendln("");
-						write("private static final " + type + " " + name + " = " + value + ";");
+						writeln("private static final " + type + " " + name + " = " + value + ";");
 					}
 				} else if ("MAIN".equals(qName)) {
 					if (methods) {
-						appendln("");
 						writeln("public void main() {");
 						indent++;
 					}
 				} else if ("EXECUTE".equals(qName)) {
 					String method = attributes.getValue("method");
-					appendln("");
+					appendln();
 					write(method + "();");
 				} else if ("METHOD".equals(qName)) {
-					String method = attributes.getValue("name");
-					appendln("");
-					writeln("private void " + method + "() {");
+					String methodName = attributes.getValue("name");
+					writeln("private void " + methodName + "() {");
+					method = true;
 					indent++;
 				} else if ("EVAL".equals(qName)) {
 					String exec = attributes.getValue("exec");
-					appendln("");
+					appendln();
 					write(exec + ";");
 				} else if ("IF".equals(qName)) {
 					String expr = attributes.getValue("expr");
-					appendln("");
+					appendln();
 					write("if(" + expr + ") ");
 				} else if ("THEN".equals(qName)) {
 					append("{");
@@ -215,31 +224,80 @@ public class Generator {
 					write("}");
 					fw.close();
 				} else if ("VARIABLES".equals(qName)) {
-					appendln("");
-					variable = false;
+					variables = false;
 				} else if ("CONSTANTS".equals(qName)) {
-					appendln("");
 					constants = false;
+					appendln();
 				} else if ("METHODS".equals(qName)) {
-					appendln("");
 					methods = false;
 				} else if ("METHOD".equals(qName)) {
 					indent--;
-					appendln("");
+					method = false;
+					appendln();
 					writeln("}");
+					appendln();
 				} else if ("MAIN".equals(qName)) {
 					indent--;
-					appendln("");
+					appendln();
 					writeln("}");
+					appendln();
 					methods = false;
 				} else if ("THEN".equals(qName) || "ELSE".equals(qName)) {
 					indent--;
-					appendln("");
+					appendln();
 					write("}");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				failed = true;
+			}
+		}
+	}
+
+	class PAPCommentReader implements LexicalHandler {
+
+		private int count = 0;
+
+		@Override
+		public void startDTD(String name, String publicId, String systemId) throws SAXException {
+		}
+
+		@Override
+		public void endDTD() throws SAXException {
+		}
+
+		@Override
+		public void startEntity(String name) throws SAXException {
+		}
+
+		@Override
+		public void endEntity(String name) throws SAXException {
+		}
+
+		@Override
+		public void startCDATA() throws SAXException {
+		}
+
+		@Override
+		public void endCDATA() throws SAXException {
+		}
+
+		@Override
+		public void comment(char[] ch, int start, int length) throws SAXException {
+
+			count++;
+
+			if (count > 2 && (variables || constants)) {
+				appendln();
+			}
+
+			String comment = new String(ch, start, length);
+			comment = comment.replace("\n", "<br>\n");
+
+			if (method) {
+				append("/** " + comment + "*/");
+			} else {
+				writeln("/** " + comment + "*/");
 			}
 		}
 	}
