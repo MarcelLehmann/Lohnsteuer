@@ -9,7 +9,7 @@ Quelle: <a target="_blank" href="https://www.bmf-steuerrechner.de/interface/">ht
 
 Benutzung als Netto-Lohnrechner: 
 
-  - lohnsteuer.jar in das eigene Projekt einbinden.
+  - <a href="https://github.com/MarcelLehmann/Lohnsteuer/raw/master/LohnPapGenerator/lohnsteuer.jar">lohnsteuer.jar</a> in das eigene Projekt einbinden.
   - Aktuelle Instanz mittels Lohnsteuer.getInstance() holen.
   - Eingabevariablen mittels Setter-Methoden belegen. Z.B. über setJre4(...) den voraussichtlichen Jahresarbeitslohn übergeben. Die Methoden sind mit einem Kommentar versehen, der die jeweilige Bedeutung erläutert. Weitere Informationen sind unter <a target="_blank"  href="https://www.bmf-steuerrechner.de/pruefdaten/pap2016.pdf">Programmablaufplan 2016 PDF (BMF)</a> zu finden.
   - Methode main() aufrufen.
