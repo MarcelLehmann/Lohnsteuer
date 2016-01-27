@@ -7,12 +7,14 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,11 +28,23 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import de.powerproject.lohnpap.Lohnsteuer2013Big;
-import de.powerproject.lohnpap.Lohnsteuer2014Big;
-import de.powerproject.lohnpap.Lohnsteuer2015Big;
-import de.powerproject.lohnpap.Lohnsteuer2015DezemberBig;
-import de.powerproject.lohnpap.Lohnsteuer2016Big;
+import de.powerproject.lohnpap.generator.Generator;
+import de.powerproject.lohnpap.generator.PapFile;
+import de.powerproject.lohnpap.pap.Lohnsteuer;
+import de.powerproject.lohnpap.pap.Lohnsteuer2006;
+import de.powerproject.lohnpap.pap.Lohnsteuer2007;
+import de.powerproject.lohnpap.pap.Lohnsteuer2008;
+import de.powerproject.lohnpap.pap.Lohnsteuer2009;
+import de.powerproject.lohnpap.pap.Lohnsteuer2010;
+import de.powerproject.lohnpap.pap.Lohnsteuer2011;
+import de.powerproject.lohnpap.pap.Lohnsteuer2011Dezember;
+import de.powerproject.lohnpap.pap.Lohnsteuer2012;
+import de.powerproject.lohnpap.pap.Lohnsteuer2013;
+import de.powerproject.lohnpap.pap.Lohnsteuer2014;
+import de.powerproject.lohnpap.pap.Lohnsteuer2015;
+import de.powerproject.lohnpap.pap.Lohnsteuer2015Dezember;
+import de.powerproject.lohnpap.pap.Lohnsteuer2016;
+import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 /**
  * 
@@ -44,6 +58,8 @@ import de.powerproject.lohnpap.Lohnsteuer2016Big;
  */
 
 public class LohnsteuerTest {
+
+	private static final Class<?> CURRENT = Lohnsteuer2016.class;;
 
 	File tmp;
 
@@ -69,28 +85,107 @@ public class LohnsteuerTest {
 	}
 
 	@Test
+	public void check2006() throws Exception {
+		checkLohnsteuer(Lohnsteuer2006.class, "2006", getDate(2006, 1, 1));
+	}
+
+	@Test
+	public void check2007() throws Exception {
+		checkLohnsteuer(Lohnsteuer2007.class, "2007", getDate(2007, 1, 1));
+	}
+
+	@Test
+	public void check2008() throws Exception {
+		checkLohnsteuer(Lohnsteuer2008.class, "2008", getDate(2008, 1, 1));
+	}
+
+	@Test
+	public void check2009() throws Exception {
+		checkLohnsteuer(Lohnsteuer2009.class, "2009", getDate(2009, 1, 1));
+	}
+
+	@Test
+	public void check2010() throws Exception {
+		checkLohnsteuer(Lohnsteuer2010.class, "2010", getDate(2010, 1, 1));
+	}
+
+	@Test
+	public void check2011() throws Exception {
+		checkLohnsteuer(Lohnsteuer2011.class, "2011bisNov", getDate(2011, 1, 1));
+	}
+
+	@Test
+	public void check2011Dezember() throws Exception {
+		checkLohnsteuer(Lohnsteuer2011Dezember.class, "2011Dez", getDate(2011, 12, 1));
+	}
+
+	@Test
+	public void check2012() throws Exception {
+		checkLohnsteuer(Lohnsteuer2012.class, "2012", getDate(2012, 1, 1));
+	}
+
+	@Test
 	public void check2013() throws Exception {
-		checkLohnsteuer(Lohnsteuer2013Big.class, "2013");
+		checkLohnsteuer(Lohnsteuer2013.class, "2013", getDate(2013, 1, 1));
 	}
 
 	@Test
 	public void check2014() throws Exception {
-		checkLohnsteuer(Lohnsteuer2014Big.class, "2014");
+		checkLohnsteuer(Lohnsteuer2014.class, "2014", getDate(2014, 1, 1));
 	}
 
 	@Test
 	public void check2015() throws Exception {
-		checkLohnsteuer(Lohnsteuer2015Big.class, "2015bisNov");
+		checkLohnsteuer(Lohnsteuer2015.class, "2015bisNov", getDate(2015, 1, 1));
 	}
 
 	@Test
 	public void check2015Dezember() throws Exception {
-		checkLohnsteuer(Lohnsteuer2015DezemberBig.class, "2015Dez");
+		checkLohnsteuer(Lohnsteuer2015Dezember.class, "2015Dez", getDate(2015, 12, 1));
 	}
 
 	@Test
 	public void check2016() throws Exception {
-		checkLohnsteuer(Lohnsteuer2016Big.class, "2016V1");
+		checkLohnsteuer(Lohnsteuer2016.class, "2016V1", getDate(2016, 1, 1));
+	}
+
+	@Test
+	public void checkCurrent() throws Exception {
+
+		System.out.print("Lohnsteuer current");
+		printBlank("current");
+
+		PapFile pf = Generator.PAP_FILES.get(0);
+		assertTrue("first entry must be null", pf.getTo() == null);
+		assertEquals(CURRENT, Class.forName("de.powerproject.lohnpap.pap." + pf.getName()));
+		assertEquals(CURRENT, Lohnsteuer.getInstance().getClass());
+
+		System.out.print("...............................");
+	}
+
+	@Test
+	public void checkFuture() {
+
+		System.out.print("Lohnsteuer future");
+		printBlank("future");
+
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.YEAR, +3);
+		int year = cal.get(Calendar.YEAR);
+
+		assertEquals(CURRENT, Lohnsteuer.getInstance(getDate(year, 1, 1)).getClass());
+
+		System.out.print("...............................");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void checkInvalidDate() {
+
+		System.out.print("Lohnsteuer invalid");
+		printBlank("invalid");
+		System.out.print("...............................");
+
+		Lohnsteuer.getInstance(getDate(2000, 1, 1));
 	}
 
 	private void printBlank(String jsp) {
@@ -99,10 +194,15 @@ public class LohnsteuerTest {
 		}
 	}
 
-	private void checkLohnsteuer(Class<?> c, String jsp) throws Exception {
+	private void checkLohnsteuer(Class<?> c, String jsp, Date testDate) throws Exception {
 
 		System.out.print("Lohnsteuer " + jsp);
+
 		printBlank(jsp);
+
+		LohnsteuerInterface li = Lohnsteuer.getInstance(testDate);
+		assertNotNull(li);
+		assertEquals(c, li.getClass());
 
 		for (int lohn = 5000; lohn <= 80000; lohn += 2500) {
 
@@ -130,13 +230,15 @@ public class LohnsteuerTest {
 
 	private void check(Class<?> c, String jsp, int lzz, BigDecimal re4, int stkl) throws Exception {
 
+		double anzKinder = stkl == 2 ? 1.5 : 0;
+
 		URL url = new URL("https://www.bmf-steuerrechner.de/interface/" + jsp + ".jsp?LZZ=" + lzz + "&RE4="
-				+ re4.intValue() + "&STKL=" + stkl);
+				+ re4.intValue() + "&STKL=" + stkl + "&ZKF=" + anzKinder);
 
 		URLConnection con = url.openConnection();
-		InputStream is = con.getInputStream();
-
-		Files.copy(is, tmp.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		try (InputStream is = con.getInputStream()) {
+			Files.copy(is, tmp.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		}
 
 		DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
 		f.setNamespaceAware(false);
@@ -146,15 +248,16 @@ public class LohnsteuerTest {
 
 		// create instance of class
 		Constructor<?> constructor = c.getConstructor();
-		Object ls = constructor.newInstance();
+		LohnsteuerInterface ls = (LohnsteuerInterface) constructor.newInstance();
 
 		// fill instance
-		c.getDeclaredField("LZZ").set(ls, lzz);
-		c.getDeclaredField("RE4").set(ls, re4);
-		c.getDeclaredField("STKL").set(ls, stkl);
+		ls.setLzz(lzz);
+		ls.setRe4(re4);
+		ls.setStkl(stkl);
+		ls.setZkf(new BigDecimal(anzKinder));
 
 		// invoke main
-		c.getMethod("main").invoke(ls);
+		ls.main();
 
 		// parse web service and verify with result
 		NodeList ausgaben = d.getElementsByTagName("ausgabe");
@@ -170,8 +273,8 @@ public class LohnsteuerTest {
 
 			try {
 
-				Field field = ls.getClass().getDeclaredField(name);
-				Object o = field.get(ls);
+				Method m = c.getDeclaredMethod("get" + Generator.firstUpper(name));
+				Object o = m.invoke(ls);
 				if (o != null) {
 					o = o.toString();
 				}
@@ -183,5 +286,12 @@ public class LohnsteuerTest {
 				throw e;
 			}
 		}
+	}
+
+	private Date getDate(int year, int month, int day) {
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month - 1, day);
+		return cal.getTime();
 	}
 }
