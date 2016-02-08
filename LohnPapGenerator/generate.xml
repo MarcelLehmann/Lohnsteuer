@@ -23,6 +23,8 @@
 		<!-- clean build folder -->
 		<delete dir="build" />
 		<mkdir dir="build/classes" />
+		
+		<copy file="LICENSE" tofile="build/classes/LICENSE" />
 
 		<!-- build classes -->
 		<javac srcdir="${papDir}" destdir="build/classes"
