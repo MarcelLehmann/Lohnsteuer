@@ -7,11 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -145,7 +143,7 @@ public class Generator {
 	private boolean variables, constants, methods, method;
 	private Map<String, String> inputVars = new HashMap<>();
 	private Map<String, String> outputVars = new HashMap<>();
-	private Set<String> internalVars = new HashSet<>();
+	private Map<String, String> internalVars = new HashMap<>();
 	private String lastComment = null;
 
 	protected void printLastComment(AbstractWriter writer) throws IOException {
@@ -189,12 +187,12 @@ public class Generator {
 					}
 					for (Entry<String, String> e : inputInterfaceVars.entrySet()) {
 						String name = e.getKey();
-						if (!inputVars.containsKey(name.toLowerCase())) {
+						if (!inputVars.containsKey(name)) {
 							pw.appendln();
-							if (internalVars.contains(name)) {
-								pw.writeln(e.getValue() + " { this." + name + " = arg0 }");
+							pw.writeln("@Override");
+							if (internalVars.containsKey(name)) {
+								pw.writeln(e.getValue() + " { this." + internalVars.get(name) + " = arg0 }");
 							} else {
-								pw.writeln("@Override");
 								pw.writeln(e.getValue() + " { /* required for newer calculator */ }");
 							}
 						}
@@ -205,18 +203,18 @@ public class Generator {
 
 					for (Entry<String, String> e : outputVars.entrySet()) {
 						pw.appendln();
-						if (inputInterfaceVars.containsKey(e.getKey())) {
+						if (outputInterfaceVars.containsKey(e.getKey())) {
 							pw.writeln("@Override");
 						}
 						pw.writeln(e.getValue());
 					}
 					for (Entry<String, String> e : outputInterfaceVars.entrySet()) {
 						String name = e.getKey();
-						if (!outputVars.containsKey(name.toLowerCase())) {
+						if (!outputVars.containsKey(name)) {
 							pw.appendln();
-							if (internalVars.contains(name)) {
-								pw.writeln("@Override");
-								pw.writeln(e.getValue() + " { return " + name + "; }");
+							pw.writeln("@Override");
+							if (internalVars.containsKey(name)) {
+								pw.writeln(e.getValue() + " { return " + internalVars.get(name) + "; }");
 							} else {
 								pw.writeln(e.getValue() + " { /* required for newer calculator */ return null; }");
 							}
@@ -242,27 +240,29 @@ public class Generator {
 						}
 
 						if ("INTERNAL".equals(qName)) {
-							internalVars.add(name);
+							internalVars.put(firstUpper(name), name);
 							printLastComment(pw);
 						}
 
 						pw.writeln("protected " + type + " " + name + " = " + def + ";");
 
 						if ("INPUT".equals(qName)) {
-							String pre = "public void set" + firstUpper(name) + "(" + type + " arg0)";
-							inputVars.put(name.toLowerCase(), pre + " { this." + name + " = arg0" + "; }");
+							String uname = firstUpper(name);
+							String pre = "public void set" + uname + "(" + type + " arg0)";
+							inputVars.put(uname, pre + " { this." + name + " = arg0" + "; }");
 							printLastComment(piw);
 							if (piw != null) {
 								piw.writeln(pre + ";");
-								inputInterfaceVars.put(name, pre);
+								inputInterfaceVars.put(uname, pre);
 							}
 						} else if ("OUTPUT".equals(qName)) {
-							String pre = "public " + type + " get" + firstUpper(name) + "()";
-							outputVars.put(name.toLowerCase(), pre + " { return this." + name + "; }");
+							String uname = firstUpper(name);
+							String pre = "public " + type + " get" + uname + "()";
+							outputVars.put(uname, pre + " { return this." + name + "; }");
 							printLastComment(piw);
 							if (piw != null) {
 								piw.writeln(pre + ";");
-								outputInterfaceVars.put(name, pre);
+								outputInterfaceVars.put(uname, pre);
 							}
 						}
 					}
@@ -275,6 +275,7 @@ public class Generator {
 					}
 				} else if ("MAIN".equals(qName)) {
 					if (methods) {
+						pw.writeln("@Override");
 						pw.writeln("public void main() {");
 						pw.incIndent();
 					}

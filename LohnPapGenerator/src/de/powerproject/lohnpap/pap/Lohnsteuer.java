@@ -6,7 +6,7 @@ import java.util.Calendar;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer)
- * @date Mon Jan 25 23:07:31 CET 2016
+ * @date Mon Feb 08 21:33:07 CET 2016
  * 
  */
 
@@ -46,7 +46,7 @@ public class Lohnsteuer {
 			if (year == 2011 && month == 12) {
 				return new Lohnsteuer2011Dezember();
 			}
-			if (year == 2011 && month >= 1 && month <= 12) {
+			if (year == 2011 && month >= 1 && month <= 11) {
 				return new Lohnsteuer2011();
 			}
 			if (year == 2010 && month >= 1 && month <= 12) {
