@@ -53,7 +53,7 @@ public class Generator {
 		PAP_FILES.add(new PapFile("Lohnsteuer2013.xml", 2013, 1, 12));
 		PAP_FILES.add(new PapFile("Lohnsteuer2012.xml", 2012, 1, 12));
 		PAP_FILES.add(new PapFile("Lohnsteuer2011Dezember.xml", 2011, 12, 12));
-		PAP_FILES.add(new PapFile("Lohnsteuer2011.xml", 2011, 1, 12));
+		PAP_FILES.add(new PapFile("Lohnsteuer2011.xml", 2011, 1, 11));
 		PAP_FILES.add(new PapFile("Lohnsteuer2010.xml", 2010, 1, 12));
 		PAP_FILES.add(new PapFile("Lohnsteuer2009.xml", 2009, 1, 12));
 		PAP_FILES.add(new PapFile("Lohnsteuer2008.xml", 2008, 1, 12));

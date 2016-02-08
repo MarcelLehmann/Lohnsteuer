@@ -15,6 +15,8 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -82,6 +84,32 @@ public class LohnsteuerTest {
 	public void tearDown() throws Exception {
 		tmp.delete();
 		System.out.println();
+	}
+
+	@Test
+	public void checkDuplicateEntry() {
+
+		Set<String> values = new HashSet<>();
+
+		boolean first = true;
+
+		for (PapFile pf : Generator.PAP_FILES) {
+
+			if (first) {
+
+				first = false;
+
+			} else {
+
+				assertNotNull("only first entry can be null", pf.getTo());
+
+				for (int i = pf.getFrom(); i <= pf.getTo(); i++) {
+
+					String id = pf.getYear() + " " + i;
+					assertTrue("duplicate entry " + id, values.add(id));
+				}
+			}
+		}
 	}
 
 	@Test
