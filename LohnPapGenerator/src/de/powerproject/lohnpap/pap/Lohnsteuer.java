@@ -6,7 +6,7 @@ import java.util.Calendar;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer)
- * @date Mon Feb 08 21:33:07 CET 2016
+ * @date Sun Dec 18 22:36:03 CET 2016
  * 
  */
 
@@ -25,7 +25,10 @@ public class Lohnsteuer {
 			int year = cal.get(Calendar.YEAR);
 			int month = cal.get(Calendar.MONTH) + 1;
 
-			if (year >= 2016 && month >= 1) {
+			if (year >= 2017 && month >= 1) {
+				return new Lohnsteuer2017();
+			}
+			if (year == 2016 && month >= 1 && month <= 12) {
 				return new Lohnsteuer2016();
 			}
 			if (year == 2015 && month == 12) {
@@ -67,6 +70,6 @@ public class Lohnsteuer {
 			throw new IllegalArgumentException("Illegal Date " + date + "");
 		}
 
-		return new Lohnsteuer2016();
+		return new Lohnsteuer2017();
 	}
 }

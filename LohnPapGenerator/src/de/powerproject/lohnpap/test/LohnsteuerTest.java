@@ -46,6 +46,7 @@ import de.powerproject.lohnpap.pap.Lohnsteuer2014;
 import de.powerproject.lohnpap.pap.Lohnsteuer2015;
 import de.powerproject.lohnpap.pap.Lohnsteuer2015Dezember;
 import de.powerproject.lohnpap.pap.Lohnsteuer2016;
+import de.powerproject.lohnpap.pap.Lohnsteuer2017;
 import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 /**
@@ -61,7 +62,7 @@ import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 public class LohnsteuerTest {
 
-	private static final Class<?> CURRENT = Lohnsteuer2016.class;;
+	private static final Class<?> CURRENT = Lohnsteuer2017.class;
 
 	File tmp;
 
@@ -175,6 +176,11 @@ public class LohnsteuerTest {
 	@Test
 	public void check2016() throws Exception {
 		checkLohnsteuer(Lohnsteuer2016.class, "2016V1", getDate(2016, 1, 1));
+	}
+
+	@Test
+	public void check2017() throws Exception {
+		checkLohnsteuer(Lohnsteuer2017.class, "LSt2017", getDate(2017, 1, 1));
 	}
 
 	@Test
