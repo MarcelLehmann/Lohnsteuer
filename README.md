@@ -19,48 +19,20 @@ Benutzung als Netto-Lohnrechner:
 
 Verfügbare Rechner
 
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2017.pdf"> 
-Programmablaufplan 2017 (PDF 518 KB)
-</a> 
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2016.pdf"> 
-Programmablaufplan 2016 (PDF 518 KB)
-</a> 
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2015Dezember.pdf"> 
-Programmablaufplan 2015 Dezember (PDF 618 KB)
-</a> 
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2015bisNovember.pdf"> 
-Programmablaufplan 2015 bis November (PDF 591 KB)
-</a> 
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2014.pdf"> 
-Programmablaufplan 2014 (PDF 632 KB)
-</a> 
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2013_2.pdf"> 
-Programmablaufplan 2013 (PDF 616 KB)
-</a> 
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2012.pdf"> 
-Programmablaufplan 2012 (PDF 171 KB)
-</a> 
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2011Dezember.pdf">
-Programmablaufplan Dezember 2011 (PDF 157 KB)
-</a> 
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2011bisNovember.pdf">
-Programmablaufplan bis November 2011 (PDF 211 KB)
-</a> 
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2010.pdf">
-Programmablaufplan 2010 (PDF 202 KB)
-</a> 
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2009.pdf">
-Programmablaufplan 2009 (PDF 144 KB)
-</a> 
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2008.pdf">
-Programmablaufplan 2008 (PDF 143 KB)
-</a>
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2007.pdf">
-Programmablaufplan 2007 (PDF 151 KB)
-</a>
- - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2006.pdf">
-Programmablaufplan 2006 (PDF 195 KB)
-</a>
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2017.pdf">Programmablaufplan 2017 (PDF 518 KB)</a> 
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2016.pdf">Programmablaufplan 2016 (PDF 518 KB)</a> 
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2015Dezember.pdf">Programmablaufplan 2015 Dezember (PDF 618 KB)</a> 
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2015bisNovember.pdf">Programmablaufplan 2015 bis November (PDF 591 KB)</a> 
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2014.pdf">Programmablaufplan 2014 (PDF 632 KB)</a> 
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2013_2.pdf">Programmablaufplan 2013 (PDF 616 KB)</a> 
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2012.pdf">Programmablaufplan 2012 (PDF 171 KB)</a> 
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2011Dezember.pdf">Programmablaufplan Dezember 2011 (PDF 157 KB)</a> 
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2011bisNovember.pdf">Programmablaufplan bis November 2011 (PDF 211 KB)</a> 
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2010.pdf">Programmablaufplan 2010 (PDF 202 KB)</a> 
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2009.pdf">Programmablaufplan 2009 (PDF 144 KB)</a> 
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2008.pdf">Programmablaufplan 2008 (PDF 143 KB)</a>
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2007.pdf">Programmablaufplan 2007 (PDF 151 KB)</a>
+ - <a target="_blank" href="https://www.bmf-steuerrechner.de/pruefdaten/pap2006.pdf">Programmablaufplan 2006 (PDF 195 KB)</a>
 
 <h3>Lizenzinformation</h3>
 
