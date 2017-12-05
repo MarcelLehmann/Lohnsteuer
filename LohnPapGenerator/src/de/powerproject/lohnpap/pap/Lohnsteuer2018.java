@@ -9,10 +9,10 @@ import java.math.BigDecimal;
  * 
  */
 
-public class Lohnsteuer2016 implements LohnsteuerInterface {
+public class Lohnsteuer2018 implements LohnsteuerInterface {
 
-	/** Stand: 2015-11-06 */
-	/** ZIVIT Düsseldorf */
+	/** Stand: 2017-11-24 */
+	/** ITZBund Düsseldorf */
 
 	/* EINGABEPARAMETER*/
 
@@ -520,7 +520,6 @@ public class Lohnsteuer2016 implements LohnsteuerInterface {
 	public BigDecimal getWvfrbo() { return this.WVFRBO; }
 
 	/** PROGRAMMABLAUFPLAN, PAP Seite 13 */
-	/** Neu 2016 */
 	@Override
 	public void main() {
 
@@ -540,32 +539,32 @@ public class Lohnsteuer2016 implements LohnsteuerInterface {
 
 		if(KRV < 2) /** &lt; = < */{
 			if(KRV == 0) {
-				BBGRV = new BigDecimal(74400);/** Neu 2016 */
+				BBGRV = new BigDecimal(78000);/** Neu 2018 */
 			} else {
-				BBGRV = new BigDecimal(64800);/** Neu 2016 */
+				BBGRV = new BigDecimal(69600);/** Neu 2018 */
 			}
-			RVSATZAN = BigDecimal.valueOf(0.0935);
-			TBSVORV = BigDecimal.valueOf(0.64);/** Neu 2016 */
+			RVSATZAN = BigDecimal.valueOf(0.093);/** Neu 2018 */
+			TBSVORV = BigDecimal.valueOf(0.72);/** Neu 2018 */
 		} else {/** Nichts zu tun */
 		}
-		BBGKVPV = new BigDecimal(50850);/** Neu 2016 */
+		BBGKVPV = new BigDecimal(53100);/** Neu 2018 */
 		KVSATZAN = (KVZ.divide(ZAHL100)).add(BigDecimal.valueOf(0.07));
 		KVSATZAG = BigDecimal.valueOf(0.07);
 		if(PVS == 1) {
-			PVSATZAN = BigDecimal.valueOf(0.01675);
-			PVSATZAG = BigDecimal.valueOf(0.00675);
+			PVSATZAN = BigDecimal.valueOf(0.01775);
+			PVSATZAG = BigDecimal.valueOf(0.00775);
 		} else {
-			PVSATZAN =  BigDecimal.valueOf(0.01175);
-			PVSATZAG =  BigDecimal.valueOf(0.01175);
+			PVSATZAN =  BigDecimal.valueOf(0.01275);
+			PVSATZAG =  BigDecimal.valueOf(0.01275);
 		}
 		if(PVZ == 1) {
 			PVSATZAN = PVSATZAN.add(BigDecimal.valueOf(0.0025));
-		}/** Anfang Neu 2016 */
-		W1STKL5 = new BigDecimal(10070);
-		W2STKL5 = new BigDecimal(26832);
-		W3STKL5 = new BigDecimal(203557);
-		GFB = new BigDecimal(8652);
-		SOLZFREI = new BigDecimal(972);/** Ende Neu 2016 */
+		}/** Anfang Neu 2018 */
+		W1STKL5 = new BigDecimal(10440);
+		W2STKL5 = new BigDecimal(27475);
+		W3STKL5 = new BigDecimal(208426);
+		GFB = new BigDecimal(9000);/** Ende Neu 2018 */
+		SOLZFREI = new BigDecimal(972);
 	}
 
 	/** Ermittlung des Jahresarbeitslohns nach § 39 b Abs. 2 Satz 2 EStG, PAP Seite 15 */
@@ -631,10 +630,10 @@ public class Lohnsteuer2016 implements LohnsteuerInterface {
 			FVB= ((VBEZB.multiply (TAB1[J]))).divide (ZAHL100).setScale (2, BigDecimal.ROUND_UP);
 			if(FVB.compareTo (HFVB) == 1) {
 				FVB = HFVB;
-			}/** Anfang Neu 2016 */
+			}
 			if(FVB.compareTo (ZVBEZJ) == 1) {
 				FVB = ZVBEZJ;
-			}/** Ende Neu 2016 */
+			}
 			FVBSO= (FVB.add((VBEZBSO.multiply (TAB1[J])).divide (ZAHL100))).setScale (2, BigDecimal.ROUND_UP);
 			if(FVBSO.compareTo (TAB2[J]) == 1) {
 				FVBSO = TAB2[J];
@@ -699,13 +698,13 @@ public class Lohnsteuer2016 implements LohnsteuerInterface {
 	/** Berechnung fuer laufende Lohnzahlungszeitraueme Seite 20 */
 	protected void MBERECH() {
 
-		MZTABFB();/** Neu 2016 */
-		VFRB = ((ANP.add(FVB.add(FVBZ))).multiply(ZAHL100)).setScale(0, BigDecimal.ROUND_DOWN);/** Neu 2016 */
-		MLSTJAHR();/** Anfang Neu 2016 */
+		MZTABFB();
+		VFRB = ((ANP.add(FVB.add(FVBZ))).multiply(ZAHL100)).setScale(0, BigDecimal.ROUND_DOWN);
+		MLSTJAHR();
 		WVFRB = ((ZVE.subtract(GFB)).multiply(ZAHL100)).setScale(0, BigDecimal.ROUND_DOWN);
 		if(WVFRB.compareTo(BigDecimal.ZERO) == -1) /** WVFRB < 0 */{
 			WVFRB = BigDecimal.valueOf(0);
-		}/** Ende Neu 2016 */
+		}
 		LSTJAHR = (ST.multiply(BigDecimal.valueOf(f))).setScale(0,BigDecimal.ROUND_DOWN);
 		UPLSTLZZ();
 		UPVKVLZZ();
@@ -751,21 +750,21 @@ public class Lohnsteuer2016 implements LohnsteuerInterface {
 		KZTAB= 1;
 		if(STKL == 1) {
 			SAP= BigDecimal.valueOf (36);
-			KFB= (ZKF.multiply (BigDecimal.valueOf (7248))).setScale (0, BigDecimal.ROUND_DOWN);/** Neu 2016 */
+			KFB= (ZKF.multiply (BigDecimal.valueOf (7428))).setScale (0, BigDecimal.ROUND_DOWN);
 		} else {
 			if(STKL == 2) {
 				EFA= BigDecimal.valueOf (1908);
 				SAP= BigDecimal.valueOf (36);
-				KFB= (ZKF.multiply (BigDecimal.valueOf (7248))).setScale (0, BigDecimal.ROUND_DOWN);/** Neu 2016 */
+				KFB= (ZKF.multiply (BigDecimal.valueOf (7428))).setScale (0, BigDecimal.ROUND_DOWN);
 			} else {
 				if(STKL == 3) {
 					KZTAB= 2;
 					SAP= BigDecimal.valueOf (36);
-					KFB= (ZKF.multiply (BigDecimal.valueOf (7248))).setScale (0, BigDecimal.ROUND_DOWN);/** Neu 2016 */
+					KFB= (ZKF.multiply (BigDecimal.valueOf (7428))).setScale (0, BigDecimal.ROUND_DOWN);
 				} else {
 					if(STKL == 4) {
 						SAP= BigDecimal.valueOf (36);
-						KFB= (ZKF.multiply (BigDecimal.valueOf (3624))).setScale (0, BigDecimal.ROUND_DOWN);/** Neu 2016 */
+						KFB= (ZKF.multiply (BigDecimal.valueOf (3714))).setScale (0, BigDecimal.ROUND_DOWN);
 					} else {
 						if(STKL == 5) {
 							SAP= BigDecimal.valueOf (36);
@@ -827,7 +826,6 @@ public class Lohnsteuer2016 implements LohnsteuerInterface {
 	}
 
 	/** PAP Seite 24 */
-	/** Neu 2016 */
 	protected void UPLSTLZZ() {
 
 		JW = LSTJAHR.multiply(ZAHL100);
@@ -844,8 +842,8 @@ public class Lohnsteuer2016 implements LohnsteuerInterface {
 		} else {
 			X= (ZVE.divide (BigDecimal.valueOf(KZTAB))).setScale (0, BigDecimal.ROUND_DOWN);
 		}
-		if(STKL < 5) {/** Neu 2016 */
-			UPTAB16();
+		if(STKL < 5) {/** Neu 2018 */
+			UPTAB18();
 		} else {
 			MST5_6();
 		}
@@ -925,7 +923,7 @@ public class Lohnsteuer2016 implements LohnsteuerInterface {
 				VERGL= ST;
 				ZX= W1STKL5;
 				UP5_6();
-				HOCH= (ST.add ((ZZX.subtract (W1STKL5)).multiply (BigDecimal.valueOf (0.42)))).setScale (0, BigDecimal.ROUND_DOWN);/** Neuer Wert 2014 */
+				HOCH= (ST.add ((ZZX.subtract (W1STKL5)).multiply (BigDecimal.valueOf (0.42)))).setScale (0, BigDecimal.ROUND_DOWN);
 				if(HOCH.compareTo (VERGL) == -1) {
 					ST= HOCH;
 				} else {
@@ -938,11 +936,11 @@ public class Lohnsteuer2016 implements LohnsteuerInterface {
 	/** Unterprogramm zur Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 29 */
 	protected void UP5_6() {
 
-		X= (ZX.multiply (BigDecimal.valueOf (1.25))).setScale (2, BigDecimal.ROUND_DOWN);/** Neu 2016 */
-		UPTAB16();
+		X= (ZX.multiply (BigDecimal.valueOf (1.25))).setScale (2, BigDecimal.ROUND_DOWN);/** Neu 2018 */
+		UPTAB18();
 		ST1= ST;
-		X= (ZX.multiply (BigDecimal.valueOf (0.75))).setScale (2, BigDecimal.ROUND_DOWN);/** Neu 2016 */
-		UPTAB16();
+		X= (ZX.multiply (BigDecimal.valueOf (0.75))).setScale (2, BigDecimal.ROUND_DOWN);/** Neu 2018 */
+		UPTAB18();
 		ST2= ST;
 		DIFF= (ST1.subtract (ST2)).multiply (ZAHL2);
 		MIST= (ZX.multiply (BigDecimal.valueOf (0.14))).setScale (0, BigDecimal.ROUND_DOWN);
@@ -956,7 +954,7 @@ public class Lohnsteuer2016 implements LohnsteuerInterface {
 	/** Solidaritaetszuschlag, PAP Seite 30 */
 	protected void MSOLZ() {
 
-		SOLZFREI = (SOLZFREI.multiply(BigDecimal.valueOf(KZTAB)));/** Neu 2016 */
+		SOLZFREI = (SOLZFREI.multiply(BigDecimal.valueOf(KZTAB)));
 		if(JBMG.compareTo (SOLZFREI) == 1) {
 			SOLZJ= (JBMG.multiply (BigDecimal.valueOf (5.5))).divide(ZAHL100).setScale(2, BigDecimal.ROUND_DOWN);
 			SOLZMIN= (JBMG.subtract (SOLZFREI)).multiply (BigDecimal.valueOf (20)).divide (ZAHL100).setScale (2, BigDecimal.ROUND_DOWN);
@@ -1017,11 +1015,11 @@ public class Lohnsteuer2016 implements LohnsteuerInterface {
 			ZVBEZJ= ((JVBEZ.add (VBS)).divide (ZAHL100)).setScale (2, BigDecimal.ROUND_DOWN);
 			VBEZBSO= STERBE;
 			MRE4SONST();
-			MLSTJAHR();/** Anfang Neu 2016 */
+			MLSTJAHR();
 			WVFRBM = (ZVE.subtract(GFB)).multiply(ZAHL100).setScale(2,BigDecimal.ROUND_DOWN);
 			if(WVFRBM.compareTo(BigDecimal.ZERO) == -1) /** WVFRBM < 0 */{
 				WVFRBM = BigDecimal.ZERO;
-			}/** Ende Neu 2016 */
+			}
 			UPVKV();
 			VKVSONST = VKV.subtract(VKVSONST);
 			LSTSO= ST.multiply (ZAHL100);/** lt. PAP muss hier auf ganze EUR aufgerundet werden, <br>
@@ -1102,13 +1100,13 @@ public class Lohnsteuer2016 implements LohnsteuerInterface {
 		MRE4();
 		MRE4ABZ();
 		ZRE4VP = ZRE4VP.subtract(JRE4ENT.divide(ZAHL100));
-		MZTABFB();/** Neu 2016 */
+		MZTABFB();
 		VFRBS1 = ((ANP.add(FVB.add(FVBZ))).multiply(ZAHL100)).setScale(2,BigDecimal.ROUND_DOWN);
-		MLSTJAHR();/** Anfang Neu 2016 */
+		MLSTJAHR();
 		WVFRBO = ((ZVE.subtract(GFB)).multiply(ZAHL100)).setScale(2, BigDecimal.ROUND_DOWN);
 		if(WVFRBO.compareTo(BigDecimal.ZERO) == -1 ) {
 			WVFRBO = BigDecimal.ZERO;
-		}/** Ende Neu 2016 */
+		}
 		LSTOSO= ST.multiply (ZAHL100);
 	}
 
@@ -1120,34 +1118,34 @@ public class Lohnsteuer2016 implements LohnsteuerInterface {
 		MRE4ABZ();
 		ZRE4VP = ZRE4VP.subtract(JRE4ENT.divide(ZAHL100)).subtract(SONSTENT.divide(ZAHL100));
 		FVBZ= FVBZSO;
-		MZTABFB();/** Neu 2016 */
+		MZTABFB();
 		VFRBS2 = ((((ANP.add(FVB).add(FVBZ))).multiply(ZAHL100))).subtract(VFRBS1);
 	}
 
-	/** Komplett Neu 2016 */
+	/** Komplett Neu 2018 */
 	/** Tarifliche Einkommensteuer §32a EStG, PAP Seite 36 */
-	protected void UPTAB16() {
+	protected void UPTAB18() {
 
 		if(X.compareTo(GFB.add(ZAHL1)) == -1) {
 			ST= BigDecimal.ZERO;
 		} else {
-			if(X.compareTo (BigDecimal.valueOf (13670)) == -1) {
+			if(X.compareTo (BigDecimal.valueOf (13997)) == -1) {
 				Y = (X.subtract(GFB)).divide(ZAHL10000, 6,BigDecimal.ROUND_DOWN);
-				RW= Y.multiply (BigDecimal.valueOf (993.62));
+				RW= Y.multiply (BigDecimal.valueOf (997.8));
 				RW= RW.add (BigDecimal.valueOf (1400));
 				ST= (RW.multiply (Y)).setScale (0, BigDecimal.ROUND_DOWN);
 			} else {
-				if(X.compareTo (BigDecimal.valueOf (53666)) == -1) {
-					Y= (X.subtract (BigDecimal.valueOf (13669))).divide (ZAHL10000, 6, BigDecimal.ROUND_DOWN);
-					RW= Y.multiply (BigDecimal.valueOf (225.40));
+				if(X.compareTo (BigDecimal.valueOf (54950)) == -1) {
+					Y= (X.subtract (BigDecimal.valueOf (13996))).divide (ZAHL10000, 6, BigDecimal.ROUND_DOWN);
+					RW= Y.multiply (BigDecimal.valueOf (220.13));
 					RW= RW.add (BigDecimal.valueOf (2397));
 					RW= RW.multiply (Y);
-					ST= (RW.add (BigDecimal.valueOf (952.48))).setScale (0, BigDecimal.ROUND_DOWN);
+					ST= (RW.add (BigDecimal.valueOf (948.49))).setScale (0, BigDecimal.ROUND_DOWN);
 				} else {
-					if(X.compareTo (BigDecimal.valueOf (254447)) == -1) {
-						ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (8394.14))).setScale (0, BigDecimal.ROUND_DOWN);
+					if(X.compareTo (BigDecimal.valueOf (260533)) == -1) {
+						ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (8621.75))).setScale (0, BigDecimal.ROUND_DOWN);
 					} else {
-						ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (16027.52))).setScale (0, BigDecimal.ROUND_DOWN);
+						ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (16437.7))).setScale (0, BigDecimal.ROUND_DOWN);
 					}
 				}
 			}
