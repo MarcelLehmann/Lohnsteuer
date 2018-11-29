@@ -48,6 +48,7 @@ import de.powerproject.lohnpap.pap.Lohnsteuer2015Dezember;
 import de.powerproject.lohnpap.pap.Lohnsteuer2016;
 import de.powerproject.lohnpap.pap.Lohnsteuer2017;
 import de.powerproject.lohnpap.pap.Lohnsteuer2018;
+import de.powerproject.lohnpap.pap.Lohnsteuer2019;
 import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 /**
@@ -63,7 +64,7 @@ import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 public class LohnsteuerTest {
 
-	private static final Class<?> CURRENT = Lohnsteuer2018.class;
+	private static final Class<?> CURRENT = Lohnsteuer2019.class;
 
 	File tmp;
 
@@ -190,6 +191,11 @@ public class LohnsteuerTest {
 	}
 
 	@Test
+	public void check2019() throws Exception {
+		checkLohnsteuer(Lohnsteuer2019.class, "LSt2019", getDate(2019, 1, 1));
+	}
+
+	@Test
 	public void checkCurrent() throws Exception {
 
 		System.out.print("Lohnsteuer current");
@@ -258,12 +264,9 @@ public class LohnsteuerTest {
 
 	/**
 	 * 
-	 * @param lzz
-	 *            (Lohnzahlungszeitraum 1=Jahr, 2=Monat, 3=Woche, 4 = tag)
-	 * @param re4
-	 *            (Vorrausichtlicher Jahresarbeitslohn)
-	 * @param stkl
-	 *            (Steuerklasse)
+	 * @param lzz  (Lohnzahlungszeitraum 1=Jahr, 2=Monat, 3=Woche, 4 = tag)
+	 * @param re4  (Vorrausichtlicher Jahresarbeitslohn)
+	 * @param stkl (Steuerklasse)
 	 * 
 	 * @throws Exception
 	 */
