@@ -49,6 +49,7 @@ import de.powerproject.lohnpap.pap.Lohnsteuer2016;
 import de.powerproject.lohnpap.pap.Lohnsteuer2017;
 import de.powerproject.lohnpap.pap.Lohnsteuer2018;
 import de.powerproject.lohnpap.pap.Lohnsteuer2019;
+import de.powerproject.lohnpap.pap.Lohnsteuer2020;
 import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 /**
@@ -64,7 +65,8 @@ import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 public class LohnsteuerTest {
 
-	private static final Class<?> CURRENT = Lohnsteuer2019.class;
+	private static final Class<?> CURRENT = Lohnsteuer2020.class;
+	private static final String CURRENT_CODE = "Lohn2020"; // siehe BMF-Seite
 
 	File tmp;
 
@@ -117,82 +119,87 @@ public class LohnsteuerTest {
 
 	@Test
 	public void check2006() throws Exception {
-		checkLohnsteuer(Lohnsteuer2006.class, "2006", getDate(2006, 1, 1));
+		checkLohnsteuer(Lohnsteuer2006.class, "2006Version1", getDate(2006, 1, 1));
 	}
 
 	@Test
 	public void check2007() throws Exception {
-		checkLohnsteuer(Lohnsteuer2007.class, "2007", getDate(2007, 1, 1));
+		checkLohnsteuer(Lohnsteuer2007.class, "2007Version1", getDate(2007, 1, 1));
 	}
 
 	@Test
 	public void check2008() throws Exception {
-		checkLohnsteuer(Lohnsteuer2008.class, "2008", getDate(2008, 1, 1));
+		checkLohnsteuer(Lohnsteuer2008.class, "2008Version1", getDate(2008, 1, 1));
 	}
 
 	@Test
 	public void check2009() throws Exception {
-		checkLohnsteuer(Lohnsteuer2009.class, "2009", getDate(2009, 1, 1));
+		checkLohnsteuer(Lohnsteuer2009.class, "2009Version1", getDate(2009, 1, 1));
 	}
 
 	@Test
 	public void check2010() throws Exception {
-		checkLohnsteuer(Lohnsteuer2010.class, "2010", getDate(2010, 1, 1));
+		checkLohnsteuer(Lohnsteuer2010.class, "2010Version1", getDate(2010, 1, 1));
 	}
 
 	@Test
 	public void check2011() throws Exception {
-		checkLohnsteuer(Lohnsteuer2011.class, "2011bisNov", getDate(2011, 1, 1));
+		checkLohnsteuer(Lohnsteuer2011.class, "2011bisNovVersion1", getDate(2011, 1, 1));
 	}
 
 	@Test
 	public void check2011Dezember() throws Exception {
-		checkLohnsteuer(Lohnsteuer2011Dezember.class, "2011Dez", getDate(2011, 12, 1));
+		checkLohnsteuer(Lohnsteuer2011Dezember.class, "2011DezVersion1", getDate(2011, 12, 1));
 	}
 
 	@Test
 	public void check2012() throws Exception {
-		checkLohnsteuer(Lohnsteuer2012.class, "2012", getDate(2012, 1, 1));
+		checkLohnsteuer(Lohnsteuer2012.class, "2012Version1", getDate(2012, 1, 1));
 	}
 
 	@Test
 	public void check2013() throws Exception {
-		checkLohnsteuer(Lohnsteuer2013.class, "2013", getDate(2013, 1, 1));
+		checkLohnsteuer(Lohnsteuer2013.class, "2013Version1", getDate(2013, 1, 1));
 	}
 
 	@Test
 	public void check2014() throws Exception {
-		checkLohnsteuer(Lohnsteuer2014.class, "2014", getDate(2014, 1, 1));
+		checkLohnsteuer(Lohnsteuer2014.class, "2014Version1", getDate(2014, 1, 1));
 	}
 
 	@Test
 	public void check2015() throws Exception {
-		checkLohnsteuer(Lohnsteuer2015.class, "2015bisNov", getDate(2015, 1, 1));
+		checkLohnsteuer(Lohnsteuer2015.class, "2015bisNovVersion1", getDate(2015, 1, 1));
 	}
 
 	@Test
 	public void check2015Dezember() throws Exception {
-		checkLohnsteuer(Lohnsteuer2015Dezember.class, "2015Dez", getDate(2015, 12, 1));
+		checkLohnsteuer(Lohnsteuer2015Dezember.class, "2015DezVersion1", getDate(2015, 12, 1));
 	}
 
 	@Test
 	public void check2016() throws Exception {
-		checkLohnsteuer(Lohnsteuer2016.class, "2016V1", getDate(2016, 1, 1));
+		checkLohnsteuer(Lohnsteuer2016.class, "2016Version1", getDate(2016, 1, 1));
 	}
 
 	@Test
 	public void check2017() throws Exception {
-		checkLohnsteuer(Lohnsteuer2017.class, "LSt2017", getDate(2017, 1, 1));
+		checkLohnsteuer(Lohnsteuer2017.class, "2017Version1", getDate(2017, 1, 1));
 	}
 
 	@Test
 	public void check2018() throws Exception {
-		checkLohnsteuer(Lohnsteuer2018.class, "LSt2018", getDate(2018, 1, 1));
+		checkLohnsteuer(Lohnsteuer2018.class, "2018Version1", getDate(2018, 1, 1));
 	}
 
 	@Test
 	public void check2019() throws Exception {
-		checkLohnsteuer(Lohnsteuer2019.class, "LSt2019", getDate(2019, 1, 1));
+		checkLohnsteuer(Lohnsteuer2019.class, "2019Version1", getDate(2019, 1, 1));
+	}
+
+	@Test
+	public void check2020() throws Exception {
+		checkLohnsteuer(Lohnsteuer2020.class, "2020Version1", getDate(2020, 1, 1));
 	}
 
 	@Test
@@ -264,19 +271,20 @@ public class LohnsteuerTest {
 
 	/**
 	 * 
-	 * @param lzz  (Lohnzahlungszeitraum 1=Jahr, 2=Monat, 3=Woche, 4 = tag)
-	 * @param re4  (Vorrausichtlicher Jahresarbeitslohn)
-	 * @param stkl (Steuerklasse)
+	 * @param xhtml
+	 * @param lzz   (Lohnzahlungszeitraum 1=Jahr, 2=Monat, 3=Woche, 4 = tag)
+	 * @param re4   (Vorrausichtlicher Jahresarbeitslohn)
+	 * @param stkl  (Steuerklasse)
 	 * 
 	 * @throws Exception
 	 */
 
-	private void check(Class<?> c, String jsp, int lzz, BigDecimal re4, int stkl) throws Exception {
+	private void check(Class<?> c, String xhtml, int lzz, BigDecimal re4, int stkl) throws Exception {
 
 		double anzKinder = stkl == 2 ? 1.5 : 0;
 
-		URL url = new URL("https://www.bmf-steuerrechner.de/interface/" + jsp + ".jsp?LZZ=" + lzz + "&RE4="
-				+ re4.intValue() + "&STKL=" + stkl + "&ZKF=" + anzKinder);
+		URL url = new URL("https://www.bmf-steuerrechner.de/interface/" + xhtml + ".xhtml?code=" + CURRENT_CODE
+				+ "&LZZ=" + lzz + "&RE4=" + re4.intValue() + "&STKL=" + stkl + "&ZKF=" + anzKinder);
 
 		URLConnection con = url.openConnection();
 		try (InputStream is = con.getInputStream()) {

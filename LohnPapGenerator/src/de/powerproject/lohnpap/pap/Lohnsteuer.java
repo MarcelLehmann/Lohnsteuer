@@ -6,7 +6,7 @@ import java.util.Calendar;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer)
- * @date Thu Nov 29 21:20:40 CET 2018
+ * @date Wed Dec 18 20:09:22 CET 2019
  * 
  */
 
@@ -25,7 +25,10 @@ public class Lohnsteuer {
 			int year = cal.get(Calendar.YEAR);
 			int month = cal.get(Calendar.MONTH) + 1;
 
-			if (year >= 2019 && month >= 1) {
+			if (year >= 2020 && month >= 1) {
+				return new Lohnsteuer2020();
+			}
+			if (year == 2019 && month >= 1 && month <= 12) {
 				return new Lohnsteuer2019();
 			}
 			if (year == 2018 && month >= 1 && month <= 12) {
@@ -76,6 +79,6 @@ public class Lohnsteuer {
 			throw new IllegalArgumentException("Illegal Date " + date + "");
 		}
 
-		return new Lohnsteuer2019();
+		return new Lohnsteuer2020();
 	}
 }
