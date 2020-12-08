@@ -9,10 +9,10 @@ import java.math.BigDecimal;
  * 
  */
 
-public class Lohnsteuer2017 implements LohnsteuerInterface {
+public class Lohnsteuer2021 implements LohnsteuerInterface {
 
-	/** Stand: 2016-11-08 */
-	/** ITZBund Düsseldorf */
+	/** Stand: 2020-11-03 */
+	/** ITZBund Berlin */
 
 	/* EINGABEPARAMETER*/
 
@@ -94,6 +94,9 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 	/** Beitragsbemessungsgrenze in der gesetzlichen Krankenversicherung <br>
 		        	und der sozialen Pflegeversicherung in Euro */
 	protected BigDecimal BBGKVPV = new BigDecimal(0);
+
+	/** Nach Programmablaufplan 2019 */
+	protected BigDecimal bd = new BigDecimal(0);
 
 	/** allgemeine Beitragsbemessungsgrenze in der allgemeinen Renten-versicherung in Euro */
 	protected BigDecimal BBGRV = new BigDecimal(0);
@@ -215,6 +218,15 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 	/** Zwischenwert fuer den Solidaritaetszuschlag auf die Jahreslohnsteuer<br>
 		             in EURO, C (2 Dezimalstellen) */
 	protected BigDecimal SOLZMIN = new BigDecimal(0);
+
+	/** Neu ab 2021: Bemessungsgrundlage des Solidaritätszuschlags zur Prüfung der Freigrenze beim Solidaritätszuschlag für sonstige Bezüge (ohne Vergütung für mehrjährige Tätigkeit) in Euro */
+	protected BigDecimal SOLZSBMG = new BigDecimal(0);
+
+	/** Neu ab 2021: Zu versteuerndes Einkommen für die Ermittlung der Bemessungsgrundlage des Solidaritätszuschlags zur Prüfung der Freigrenze beim Solidaritätszuschlag für sonstige Bezüge (ohne Vergütung für mehrjährige Tätigkeit) in Euro, Cent (2 Dezimalstellen) */
+	protected BigDecimal SOLZSZVE = new BigDecimal(0);
+
+	/** Neu ab 2021: Bemessungsgrundlage des Solidaritätszuschlags für die Prüfung der Freigrenze beim Solidaritätszuschlag für die Vergütung für mehrjährige Tätigkeit in Euro */
+	protected BigDecimal SOLZVBMG = new BigDecimal(0);
 
 	/** Tarifliche Einkommensteuer in EURO */
 	protected BigDecimal ST = new BigDecimal(0);
@@ -519,7 +531,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 	@Override
 	public BigDecimal getWvfrbo() { return this.WVFRBO; }
 
-	/** PROGRAMMABLAUFPLAN, PAP Seite 13 */
+	/** PROGRAMMABLAUFPLAN, PAP Seite 14 */
 	@Override
 	public void main() {
 
@@ -534,40 +546,41 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		MVMT();
 	}
 
-	/** Zuweisung von Werten für bestimmte Sozialversicherungsparameter  PAP Seite 14 */
+	/** Zuweisung von Werten für bestimmte Sozialversicherungsparameter  PAP Seite 15 */
 	protected void MPARA() {
 
 		if(KRV < 2) /** &lt; = < */{
 			if(KRV == 0) {
-				BBGRV = new BigDecimal(76200);/** Neu 2017 */
+				BBGRV = new BigDecimal(85200);/** Geändert für 2021 */
 			} else {
-				BBGRV = new BigDecimal(68400);/** Neu 2017 */
+				BBGRV = new BigDecimal(80400);/** Geändert für 2021 */
 			}
-			RVSATZAN = BigDecimal.valueOf(0.0935);
-			TBSVORV = BigDecimal.valueOf(0.68);/** Neu 2017 */
+			RVSATZAN = BigDecimal.valueOf(0.093);/** Neu 2019 */
+			TBSVORV = BigDecimal.valueOf(0.84);/** Geändert für 2021 */
 		} else {/** Nichts zu tun */
 		}
-		BBGKVPV = new BigDecimal(52200);/** Neu 2017 */
-		KVSATZAN = (KVZ.divide(ZAHL100)).add(BigDecimal.valueOf(0.07));
-		KVSATZAG = BigDecimal.valueOf(0.07);
+		BBGKVPV = new BigDecimal(58050);/** Geändert für 2021 */
+		bd = new BigDecimal(2);/** Neu 2019 */
+		KVSATZAN = (KVZ.divide(bd).divide(ZAHL100)).add(BigDecimal.valueOf(0.07));/** Neu 2019 */
+		KVSATZAG = BigDecimal.valueOf(0.0065+0.07);/** Geändert für 2021 */
 		if(PVS == 1) {
-			PVSATZAN = BigDecimal.valueOf(0.01775);/** Neu 2017 */
-			PVSATZAG = BigDecimal.valueOf(0.00775);/** Neu 2017 */
+			PVSATZAN = BigDecimal.valueOf(0.02025);/** Neu 2019 */
+			PVSATZAG = BigDecimal.valueOf(0.01025);/** Neu 2019 */
 		} else {
-			PVSATZAN =  BigDecimal.valueOf(0.01275);/** Neu 2017 */
-			PVSATZAG =  BigDecimal.valueOf(0.01275);/** Neu 2017 */
+			PVSATZAN =  BigDecimal.valueOf(0.01525);/** Neu 2019 */
+			PVSATZAG =  BigDecimal.valueOf(0.01525);/** Neu 2019 */
 		}
 		if(PVZ == 1) {
 			PVSATZAN = PVSATZAN.add(BigDecimal.valueOf(0.0025));
-		}/** Anfang Neu 2017 */
-		W1STKL5 = new BigDecimal(10240);
-		W2STKL5 = new BigDecimal(27029);
-		W3STKL5 = new BigDecimal(205043);
-		GFB = new BigDecimal(8820);/** Ende Neu 2017 */
-		SOLZFREI = new BigDecimal(972);
+		}/** Anfang Geändert für 2021 */
+		W1STKL5 = new BigDecimal(11237);
+		W2STKL5 = new BigDecimal(28959);
+		W3STKL5 = new BigDecimal(219690);
+		GFB = new BigDecimal(9744);
+		SOLZFREI = new BigDecimal(16956);/** Ende Geändert für 2021 */
 	}
 
-	/** Ermittlung des Jahresarbeitslohns nach § 39 b Abs. 2 Satz 2 EStG, PAP Seite 15 */
+	/** Ermittlung des Jahresarbeitslohns nach § 39 b Abs. 2 Satz 2 EStG, PAP Seite 16 */
 	protected void MRE4JL() {
 
 		if(LZZ == 1) {
@@ -600,7 +613,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Freibeträge für Versorgungsbezüge, Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 16 */
+	/** Freibeträge für Versorgungsbezüge, Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 17 */
 	protected void MRE4() {
 
 		if(ZVBEZJ.compareTo (BigDecimal.ZERO) == 0) {
@@ -654,7 +667,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		MRE4ALTE();
 	}
 
-	/** Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 17 */
+	/** Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 18 */
 	protected void MRE4ALTE() {
 
 		if(ALTER1 == 0) {
@@ -678,7 +691,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Ermittlung des Jahresarbeitslohns nach Abzug der Freibeträge nach § 39 b Abs. 2 Satz 3 und 4 EStG, PAP Seite 19 */
+	/** Ermittlung des Jahresarbeitslohns nach Abzug der Freibeträge nach § 39 b Abs. 2 Satz 3 und 4 EStG, PAP Seite 20 */
 	protected void MRE4ABZ() {
 
 		ZRE4= (ZRE4J.subtract (FVB).subtract   (ALTE).subtract (JLFREIB).add (JLHINZU)).setScale (2, BigDecimal.ROUND_DOWN);
@@ -695,7 +708,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Berechnung fuer laufende Lohnzahlungszeitraueme Seite 20 */
+	/** Berechnung fuer laufende Lohnzahlungszeitraueme Seite 21 */
 	protected void MBERECH() {
 
 		MZTABFB();
@@ -719,7 +732,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		MSOLZ();
 	}
 
-	/** Ermittlung der festen Tabellenfreibeträge (ohne Vorsorgepauschale), PAP Seite 21 */
+	/** Ermittlung der festen Tabellenfreibeträge (ohne Vorsorgepauschale), PAP Seite 22 */
 	protected void MZTABFB() {
 
 		ANP= BigDecimal.ZERO;
@@ -750,21 +763,21 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		KZTAB= 1;
 		if(STKL == 1) {
 			SAP= BigDecimal.valueOf (36);
-			KFB= (ZKF.multiply (BigDecimal.valueOf (7356))).setScale (0, BigDecimal.ROUND_DOWN);/** Neu 2017 */
+			KFB= (ZKF.multiply (BigDecimal.valueOf (8388))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2021 */
 		} else {
 			if(STKL == 2) {
 				EFA= BigDecimal.valueOf (1908);
 				SAP= BigDecimal.valueOf (36);
-				KFB= (ZKF.multiply (BigDecimal.valueOf (7356))).setScale (0, BigDecimal.ROUND_DOWN);/** Neu 2017 */
+				KFB= (ZKF.multiply (BigDecimal.valueOf (8388))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2021 */
 			} else {
 				if(STKL == 3) {
 					KZTAB= 2;
 					SAP= BigDecimal.valueOf (36);
-					KFB= (ZKF.multiply (BigDecimal.valueOf (7356))).setScale (0, BigDecimal.ROUND_DOWN);/** Neu 2017 */
+					KFB= (ZKF.multiply (BigDecimal.valueOf (8388))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2021 */
 				} else {
 					if(STKL == 4) {
 						SAP= BigDecimal.valueOf (36);
-						KFB= (ZKF.multiply (BigDecimal.valueOf (3678))).setScale (0, BigDecimal.ROUND_DOWN);/** Neu 2017 */
+						KFB= (ZKF.multiply (BigDecimal.valueOf (4194))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2021 */
 					} else {
 						if(STKL == 5) {
 							SAP= BigDecimal.valueOf (36);
@@ -779,7 +792,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		ZTABFB= (EFA.add (ANP).add (SAP).add (FVBZ)).setScale (2, BigDecimal.ROUND_DOWN);
 	}
 
-	/** Ermittlung Jahreslohnsteuer, PAP Seite 22 */
+	/** Ermittlung Jahreslohnsteuer, PAP Seite 23 */
 	protected void MLSTJAHR() {
 
 		UPEVP();
@@ -802,7 +815,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		}
 	}
 
-	/** PAP Seite 23 */
+	/** PAP Seite 24 */
 	protected void UPVKVLZZ() {
 
 		UPVKV();
@@ -811,7 +824,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		VKVLZZ = ANTEIL1;
 	}
 
-	/** PAP Seite 23 */
+	/** PAP Seite 24 */
 	protected void UPVKV() {
 
 		if(PKV > 0) {
@@ -825,7 +838,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		}
 	}
 
-	/** PAP Seite 24 */
+	/** PAP Seite 25 */
 	protected void UPLSTLZZ() {
 
 		JW = LSTJAHR.multiply(ZAHL100);
@@ -833,7 +846,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		LSTLZZ = ANTEIL1;
 	}
 
-	/** Ermittlung der Jahreslohnsteuer aus dem Einkommensteuertarif. PAP Seite 25 */
+	/** Ermittlung der Jahreslohnsteuer aus dem Einkommensteuertarif. PAP Seite 26 */
 	protected void UPMLST() {
 
 		if(ZVE.compareTo (ZAHL1) == -1) {
@@ -842,19 +855,14 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		} else {
 			X= (ZVE.divide (BigDecimal.valueOf(KZTAB))).setScale (0, BigDecimal.ROUND_DOWN);
 		}
-		if(STKL < 5) {/** Neu 2017 */
-			UPTAB17();
+		if(STKL < 5) {/** Änderung für 2021 */
+			UPTAB21();
 		} else {
 			MST5_6();
 		}
 	}
 
-	/** Vorsorgepauschale (§ 39b Absatz 2 Satz 5 Nummer 3 und Absatz 4 EStG)<br>
-  			Achtung: Es wird davon ausgegangen, dass	<br>
-  				a) Es wird davon ausge-gangen, dassa) für die BBG (Ost) 60.000 Euro und für die BBG (West) 71.400 Euro festgelegt wird sowie<br>
-  				b) der Beitragssatz zur Rentenversicherung auf 18,9 % gesenkt wird.<br>
-  			<br>
-  			PAP Seite 26 */
+	/** Vorsorgepauschale (§ 39b Absatz 2 Satz 5 Nummer 3 und Absatz 4 EStG) PAP Seite 27 */
 	protected void UPEVP() {
 
 		if(KRV > 1) /** &lt; = < &gt; = > */{
@@ -882,7 +890,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Vorsorgepauschale (§39b Abs. 2 Satz 5 Nr 3 EStG) Vergleichsberechnung fuer Guenstigerpruefung, PAP Seite 27 */
+	/** Vorsorgepauschale (§39b Abs. 2 Satz 5 Nr 3 EStG) Vergleichsberechnung fuer Guenstigerpruefung, PAP Seite 28 */
 	protected void MVSP() {
 
 		if(ZRE4VP.compareTo(BBGKVPV) == 1) {
@@ -903,7 +911,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		VSP = VSP3.add(VSP1).setScale(0, BigDecimal.ROUND_UP);
 	}
 
-	/** Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 28 */
+	/** Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 29 */
 	protected void MST5_6() {
 
 		ZZX= X;
@@ -933,14 +941,14 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Unterprogramm zur Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 29 */
+	/** Unterprogramm zur Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 30 */
 	protected void UP5_6() {
 
-		X= (ZX.multiply (BigDecimal.valueOf (1.25))).setScale (2, BigDecimal.ROUND_DOWN);/** Neu 2017 */
-		UPTAB17();
+		X= (ZX.multiply (BigDecimal.valueOf (1.25))).setScale (2, BigDecimal.ROUND_DOWN);/** Änderung für 2021 */
+		UPTAB21();
 		ST1= ST;
-		X= (ZX.multiply (BigDecimal.valueOf (0.75))).setScale (2, BigDecimal.ROUND_DOWN);/** Neu 2017 */
-		UPTAB17();
+		X= (ZX.multiply (BigDecimal.valueOf (0.75))).setScale (2, BigDecimal.ROUND_DOWN);/** Änderung für 2021 */
+		UPTAB21();
 		ST2= ST;
 		DIFF= (ST1.subtract (ST2)).multiply (ZAHL2);
 		MIST= (ZX.multiply (BigDecimal.valueOf (0.14))).setScale (0, BigDecimal.ROUND_DOWN);
@@ -951,13 +959,13 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Solidaritaetszuschlag, PAP Seite 30 */
+	/** Solidaritaetszuschlag, PAP Seite 31 */
 	protected void MSOLZ() {
 
 		SOLZFREI = (SOLZFREI.multiply(BigDecimal.valueOf(KZTAB)));
 		if(JBMG.compareTo (SOLZFREI) == 1) {
 			SOLZJ= (JBMG.multiply (BigDecimal.valueOf (5.5))).divide(ZAHL100).setScale(2, BigDecimal.ROUND_DOWN);
-			SOLZMIN= (JBMG.subtract (SOLZFREI)).multiply (BigDecimal.valueOf (20)).divide (ZAHL100).setScale (2, BigDecimal.ROUND_DOWN);
+			SOLZMIN= (JBMG.subtract (SOLZFREI)).multiply (BigDecimal.valueOf (11.9)).divide (ZAHL100).setScale (2, BigDecimal.ROUND_DOWN);/** Änderung für 2021 */
 			if(SOLZMIN.compareTo (SOLZJ) == -1) {
 				SOLZJ= SOLZMIN;
 			}
@@ -976,7 +984,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Anteil von Jahresbetraegen fuer einen LZZ (§ 39b Abs. 2 Satz 9 EStG), PAP Seite 31 */
+	/** Anteil von Jahresbetraegen fuer einen LZZ (§ 39b Abs. 2 Satz 9 EStG), PAP Seite 32 */
 	protected void UPANTEIL() {
 
 		if(LZZ == 1) {
@@ -994,7 +1002,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Berechnung sonstiger Bezuege nach § 39b Abs. 3 Saetze 1 bis 8 EStG), PAP Seite 32 */
+	/** Berechnung sonstiger Bezuege nach § 39b Abs. 3 Saetze 1 bis 8 EStG), PAP Seite 33 */
 	protected void MSONST() {
 
 		LZZ= 1;
@@ -1030,7 +1038,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 			if(STS.compareTo (BigDecimal.ZERO) == -1) {
 				STS= BigDecimal.ZERO;
 			}
-			SOLZS= STS.multiply (BigDecimal.valueOf (5.5)).divide (ZAHL100, 0, BigDecimal.ROUND_DOWN);
+			MSOLZSTS();/** Neu ab 2021 */
 			if(R > 0) {
 				BKS= STS;
 			} else {
@@ -1039,7 +1047,34 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Berechnung der Verguetung fuer mehrjaehrige Taetigkeit nach § 39b Abs. 3 Satz 9 und 10 EStG), PAP Seite 33 */
+	/** Berechnung des SolZ auf sonstige Bezüge, PAP Seite 34, Neu ab 2021 */
+	protected void MSOLZSTS() {
+
+		if(ZKF.compareTo(BigDecimal.ZERO) == 1) /** ZKF > 0 */{
+			SOLZSZVE= ZVE.subtract(KFB);
+		} else {
+			SOLZSZVE= ZVE;
+		}
+		if(SOLZSZVE.compareTo(BigDecimal.ONE) == -1) /** SOLZSZVE < 1 */{
+			SOLZSZVE= BigDecimal.ZERO;
+			X= BigDecimal.ZERO;
+		} else {
+			X= SOLZSZVE.divide(BigDecimal.valueOf(KZTAB), 0, BigDecimal.ROUND_DOWN);
+		}
+		if(STKL < 5) /** STKL < 5 */{
+			UPTAB21();
+		} else {
+			MST5_6();
+		}
+		SOLZSBMG= ST.multiply(BigDecimal.valueOf(f)).setScale(0,BigDecimal.ROUND_DOWN);
+		if(SOLZSBMG.compareTo(SOLZFREI) == 1) /** SOLZSBMG > SOLZFREI */{
+			SOLZS= STS.multiply(BigDecimal.valueOf(5.5)).divide(ZAHL100, 0, BigDecimal.ROUND_DOWN);
+		} else {
+			SOLZS= BigDecimal.ZERO;
+		}
+	}
+
+	/** Berechnung der Verguetung fuer mehrjaehrige Taetigkeit nach § 39b Abs. 3 Satz 9 und 10 EStG), PAP Seite 35 */
 	protected void MVMT() {
 
 		if(VKAPA.compareTo (BigDecimal.ZERO) == -1) {
@@ -1076,8 +1111,13 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
         			weshalb nach dem Aufrunden auf ganze EUR durch 'divide(ZAHL100, 0, BigDecimal.ROUND_DOWN)'<br>
         			wieder die Multiplikation mit 100 erfolgt. */
 				STV = STV.multiply(BigDecimal.valueOf(f)).divide(ZAHL100, 0, BigDecimal.ROUND_DOWN).multiply(ZAHL100);
-			}
-			SOLZV= ((STV.multiply (BigDecimal.valueOf (5.5))).divide (ZAHL100)).setScale (0, BigDecimal.ROUND_DOWN);
+			}/** Beginn Neu 2021 */
+			SOLZVBMG=STV.divide(ZAHL100, 0, BigDecimal.ROUND_DOWN).add(JBMG);
+			if(SOLZVBMG.compareTo(SOLZFREI) == 1) /** SOLZVBMG > SOLZFREI */{
+				SOLZV= STV.multiply(BigDecimal.valueOf(5.5)).divide(ZAHL100, 0, BigDecimal.ROUND_DOWN);
+			} else {
+				SOLZV= BigDecimal.ZERO;
+			}/** Ende Neu 2021 */
 			if(R > 0) {
 				BKV= STV;
 			} else {
@@ -1090,7 +1130,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Sonderberechnung ohne sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 34 */
+	/** Sonderberechnung ohne sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 36 */
 	protected void MOSONST() {
 
 		ZRE4J= (JRE4.divide (ZAHL100)).setScale (2, BigDecimal.ROUND_DOWN);
@@ -1110,7 +1150,7 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		LSTOSO= ST.multiply (ZAHL100);
 	}
 
-	/** Sonderberechnung mit sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 35 */
+	/** Sonderberechnung mit sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 37 */
 	protected void MRE4SONST() {
 
 		MRE4();
@@ -1122,30 +1162,30 @@ public class Lohnsteuer2017 implements LohnsteuerInterface {
 		VFRBS2 = ((((ANP.add(FVB).add(FVBZ))).multiply(ZAHL100))).subtract(VFRBS1);
 	}
 
-	/** Komplett Neu 2017 */
-	/** Tarifliche Einkommensteuer §32a EStG, PAP Seite 36 */
-	protected void UPTAB17() {
-
+	/** Komplett Neu 2020 */
+	/** Tarifliche Einkommensteuer §32a EStG, PAP Seite 38 */
+	protected void UPTAB21() {
+/** Änderung für 2021 */
 		if(X.compareTo(GFB.add(ZAHL1)) == -1) {
 			ST= BigDecimal.ZERO;
 		} else {
-			if(X.compareTo (BigDecimal.valueOf (13770)) == -1) {
+			if(X.compareTo (BigDecimal.valueOf (14754)) == -1) /** Geändert für 2021 */{
 				Y = (X.subtract(GFB)).divide(ZAHL10000, 6,BigDecimal.ROUND_DOWN);
-				RW= Y.multiply (BigDecimal.valueOf (1007.27));
+				RW= Y.multiply (BigDecimal.valueOf (995.21));/** Geändert für 2021 */
 				RW= RW.add (BigDecimal.valueOf (1400));
 				ST= (RW.multiply (Y)).setScale (0, BigDecimal.ROUND_DOWN);
 			} else {
-				if(X.compareTo (BigDecimal.valueOf (54058)) == -1) {
-					Y= (X.subtract (BigDecimal.valueOf (13769))).divide (ZAHL10000, 6, BigDecimal.ROUND_DOWN);
-					RW= Y.multiply (BigDecimal.valueOf (223.76));
+				if(X.compareTo (BigDecimal.valueOf (57919)) == -1) /** Geändert für 2021 */{
+					Y= (X.subtract (BigDecimal.valueOf (14753))).divide (ZAHL10000, 6, BigDecimal.ROUND_DOWN);/** Geändert für 2021 */
+					RW= Y.multiply (BigDecimal.valueOf (208.85));/** Geändert für 2021 */
 					RW= RW.add (BigDecimal.valueOf (2397));
 					RW= RW.multiply (Y);
-					ST= (RW.add (BigDecimal.valueOf (939.57))).setScale (0, BigDecimal.ROUND_DOWN);
+					ST= (RW.add (BigDecimal.valueOf (950.96))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2021 */
 				} else {
-					if(X.compareTo (BigDecimal.valueOf (256304)) == -1) {
-						ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (8475.44))).setScale (0, BigDecimal.ROUND_DOWN);
+					if(X.compareTo (BigDecimal.valueOf (274613)) == -1) /** Geändert für 2021 */{
+						ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (9136.63))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2021 */
 					} else {
-						ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (16164.53))).setScale (0, BigDecimal.ROUND_DOWN);
+						ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (17374.99))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2021 */
 					}
 				}
 			}

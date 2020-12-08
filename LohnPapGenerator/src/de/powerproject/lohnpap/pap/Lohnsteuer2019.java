@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer) 
- * @date Wed Dec 18 20:09:22 CET 2019
+ * @date Tue Dec 08 20:54:21 CET 2020
  * 
  */
 
