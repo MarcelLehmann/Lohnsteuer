@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer) 
- * @date Tue Dec 08 20:54:21 CET 2020
+ * @date Tue Dec 14 20:16:22 CET 2021
  * 
  */
 
@@ -24,25 +24,36 @@ public interface LohnsteuerInterface {
 	             der Lohnzahlungszeitraum endet (§ 24 a EStG), sonst = 0 */
 	public void setAlter1(int arg0);
 
-	/** in VKAPA und VMT enthaltene Entschädigungen nach §24 Nummer 1 EStG in Cent */
+	/** in VKAPA und VMT enthaltene Entschädigungen nach §24 Nummer 1 EStG <br>
+	             sowie tarifermäßigt zu besteuernde Vorteile bei Vermögensbeteiligungen <br>
+	             (§ 19a Absatz 4 EStG) in Cent */
 	public void setEntsch(BigDecimal arg0);
 
 	/** eingetragener Faktor mit drei Nachkommastellen */
 	public void setF(double arg0);
 
-	/** Jahresfreibetrag nach Maßgabe der Eintragungen auf der<br>
-	             Lohnsteuerkarte in Cents (ggf. 0) */
+	/** Jahresfreibetrag für die Ermittlung der Lohnsteuer für die sonstigen Bezüge <br>
+	             sowie für Vermögensbeteiligungen nach § 19a Absatz 1 und 4 EStG nach Maßgabe der <br>
+	             elektronischen Lohnsteuerabzugsmerkmale nach § 39e EStG oder der Eintragung <br>
+	             auf der Bescheinigung für den Lohnsteuerabzug 2022 in Cent (ggf. 0) */
 	public void setJfreib(BigDecimal arg0);
 
-	/** Jahreshinzurechnungsbetrag in Cents (ggf. 0) */
+	/** Jahreshinzurechnungsbetrag für die Ermittlung der Lohnsteuer für die sonstigen Bezüge<br>
+	             sowie für Vermögensbeteiligungen nach § 19a Absatz 1 und 4 EStG nach Maßgabe der <br>
+	             elektronischen Lohnsteuerabzugsmerkmale nach § 39e EStG oder der Eintragung auf der <br>
+	             Bescheinigung für den Lohnsteuerabzug 2022 in Cent (ggf. 0) */
 	public void setJhinzu(BigDecimal arg0);
 
-	/** Voraussichtlicher Jahresarbeitslohn ohne sonstige Bezüge und ohne Vergütung für mehrjährige Tätigkeit in Cent. <br>
-	             Anmerkung: Die Eingabe dieses Feldes (ggf. 0) ist erforderlich bei Eingabe „sonsti-ger Bezüge“ (Feld SONSTB) <br>
-	             oder bei Eingabe der „Vergütung für mehrjährige Tätigkeit“ (Feld VMT).<br>
-	             Sind in einem vorangegangenen Abrechnungszeitraum bereits sonstige Bezüge gezahlt worden, so sind sie dem <br>
-	             voraussichtlichen Jahresarbeitslohn hinzuzurechnen. Vergütungen für mehrere Jahres aus einem vorangegangenen <br>
-	             Abrechnungszeitraum sind in voller Höhe hinzuzurechnen. */
+	/** Voraussichtlicher Jahresarbeitslohn ohne sonstige Bezüge (d.h. auch ohne Vergütung <br>
+	             für mehrjährige Tätigkeit und ohne die zu besteuernden Vorteile bei Vermögensbeteiligungen,<br>
+	             § 19a Absatz 4 EStG) in Cent. <br>
+	             Anmerkung: Die Eingabe dieses Feldes (ggf. 0) ist erforderlich bei Eingaben zu sonstigen <br>
+	             Bezügen (Felder SONSTB, VMT oder VKAPA). <br>
+	             Sind in einem vorangegangenen Abrechnungszeitraum bereits sonstige Bezüge gezahlt worden,<br>
+	             so sind sie dem voraussichtlichen Jahresarbeitslohn hinzuzurechnen. Gleiches gilt für zu <br>
+	             besteuernde Vorteile bei Vermögensbeteiligungen (§ 19a Absatz 4 EStG). Vergütungen für <br>
+	             mehrjährige Tätigkeit aus einem vorangegangenen Abrechnungszeitraum werden in voller <br>
+	             Höhe hinzugerechnet. */
 	public void setJre4(BigDecimal arg0);
 
 	/** In JRE4 enthaltene Versorgungsbezuege in Cents (ggf. 0) */
@@ -71,13 +82,19 @@ public interface LohnsteuerInterface {
 	             4 = Tag */
 	public void setLzz(int arg0);
 
-	/** In der Lohnsteuerkarte des Arbeitnehmers eingetragener Freibetrag für<br>
-	             den Lohnzahlungszeitraum in Cent */
+	/** Der als elektronisches Lohnsteuerabzugsmerkmal für den Arbeitgeber nach § 39e EStG festgestellte <br>
+	             oder in der Bescheinigung für den Lohnsteuerabzug 2022 eingetragene Freibetrag für den <br>
+	             Lohnzahlungszeitraum in Cent */
 	public void setLzzfreib(BigDecimal arg0);
 
-	/** In der Lohnsteuerkarte des Arbeitnehmers eingetragener Hinzurechnungsbetrag<br>
-	             für den Lohnzahlungszeitraum in Cent */
+	/** Der als elektronisches Lohnsteuerabzugsmerkmal für den Arbeitgeber nach § 39e EStG festgestellte <br>
+	             oder in der Bescheinigung für den Lohnsteuerabzug 2022 eingetragene Hinzurechnungsbetrag für den<br>
+	             Lohnzahlungszeitraum in Cent */
 	public void setLzzhinzu(BigDecimal arg0);
+
+	/** Nicht zu besteuernde Vorteile bei Vermögensbeteiligungen <br>
+	             (§ 19a Absatz 1 Satz 4 EStG) in Cent */
+	public void setMbv(BigDecimal arg0);
 
 	/** Dem Arbeitgeber mitgeteilte Zahlungen des Arbeitnehmers zur privaten<br>
 	             Kranken- bzw. Pflegeversicherung im Sinne des §10 Abs. 1 Nr. 3 EStG 2010<br>
@@ -99,19 +116,21 @@ public interface LohnsteuerInterface {
 	        	 	zu zahlen hat, sonst 0. */
 	public void setPvz(int arg0);
 
-	/** Religionsgemeinschaft des Arbeitnehmers lt. Lohnsteuerkarte (bei<br>
-	             keiner Religionszugehoerigkeit = 0) */
+	/** Religionsgemeinschaft des Arbeitnehmers lt. elektronischer Lohnsteuerabzugsmerkmale oder der <br>
+	             Bescheinigung für den Lohnsteuerabzug 2022 (bei keiner Religionszugehörigkeit = 0) */
 	public void setR(int arg0);
 
-	/** Steuerpflichtiger Arbeitslohn vor Beruecksichtigung der Freibetraege<br>
-	             fuer Versorgungsbezuege, des Altersentlastungsbetrags und des auf<br>
-	             der Lohnsteuerkarte fuer den Lohnzahlungszeitraum eingetragenen<br>
-	             Freibetrags in Cents. */
+	/** Steuerpflichtiger Arbeitslohn für den Lohnzahlungszeitraum vor Berücksichtigung des <br>
+	             Versorgungsfreibetrags und des Zuschlags zum Versorgungsfreibetrag, des Altersentlastungsbetrags <br>
+	             und des als elektronisches Lohnsteuerabzugsmerkmal festgestellten oder in der Bescheinigung für <br>
+	             den Lohnsteuerabzug 2022 für den Lohnzahlungszeitraum eingetragenen Freibetrags bzw. <br>
+	             Hinzurechnungsbetrags in Cent */
 	public void setRe4(BigDecimal arg0);
 
-	/** Sonstige Bezuege (ohne Verguetung aus mehrjaehriger Taetigkeit) einschliesslich<br>
-	             Sterbegeld bei Versorgungsbezuegen sowie Kapitalauszahlungen/Abfindungen,<br>
-	             soweit es sich nicht um Bezuege fuer mehrere Jahre handelt in Cents (ggf. 0) */
+	/** Sonstige Bezüge (ohne Vergütung aus mehrjähriger Tätigkeit) einschließlich nicht tarifermäßigt <br>
+	             zu besteuernde Vorteile bei Vermögensbeteiligungen und Sterbegeld bei Versorgungsbezügen sowie <br>
+	             Kapitalauszahlungen/Abfindungen, soweit es sich nicht um Bezüge für mehrere Jahre handelt, <br>
+	             in Cent (ggf. 0) */
 	public void setSonstb(BigDecimal arg0);
 
 	/** Sterbegeld bei Versorgungsbezuegen sowie Kapitalauszahlungen/Abfindungen,<br>
@@ -152,8 +171,10 @@ public interface LohnsteuerInterface {
 	             für mehrere Jahre in Cent (ggf. 0) */
 	public void setVkapa(BigDecimal arg0);
 
-	/** Vergütung für mehrjährige Tätigkeit ohne Kapitalauszahlungen und ohne Abfindungen <br>
-				 bei Versorgungsbezügen in Cent (ggf. 0) */
+	/** Entschädigungen und Vergütung für mehrjährige Tätigkeit sowie tarifermäßigt <br>
+			     zu besteuernde Vorteile bei Vermögensbeteiligungen (§ 19a Absatz 4 Satz 2 EStG) <br>
+			     ohne Kapitalauszahlungen und ohne Abfindungen bei Versorgungsbezügen <br>
+			     in Cent (ggf. 0) */
 	public void setVmt(BigDecimal arg0);
 
 	/** Zahl der Freibetraege fuer Kinder (eine Dezimalstelle, nur bei Steuerklassen<br>
@@ -164,18 +185,27 @@ public interface LohnsteuerInterface {
 	             erforderlich bei Jahresberechnung (LZZ = 1) */
 	public void setZmvb(int arg0);
 
-	/** In JRE4 enthaltene Entschädigungen nach § 24 Nummer 1 EStG in Cent */
+	/** In JRE4 enthaltene Entschädigungen nach § 24 Nummer 1 EStG und zu besteuernde <br>
+	             Vorteile bei Vermögensbeteiligungen (§ 19a Absatz 4 EStG in Cent */
 	public void setJre4ent(BigDecimal arg0);
 
-	/** In SONSTB enthaltene Entschädigungen nach § 24 Nummer 1 EStG in Cent */
+	/** In SONSTB enthaltene Entschädigungen nach § 24 Nummer 1 EStG sowie nicht <br>
+	    	     tarifermäßigt zu besteuernde Vorteile bei Vermögensbeteiligungen in Cent */
 	public void setSonstent(BigDecimal arg0);
 
 	/** Bemessungsgrundlage fuer die Kirchenlohnsteuer in Cents */
 	public BigDecimal getBk();
 
-	/** Bemessungsgrundlage der sonstigen Einkuenfte (ohne Verguetung<br>
-	             fuer mehrjaehrige Taetigkeit) fuer die Kirchenlohnsteuer in Cents */
+	/** Bemessungsgrundlage der sonstigen Bezüge (ohne Vergütung für mehrjährige Tätigkeit)<br>
+	             für die Kirchenlohnsteuer in Cent.<br>
+                 Hinweis: Negativbeträge, die aus nicht zu besteuernden Vorteilen bei <br>
+                 Vermögensbeteiligungen (§ 19a Absatz 1 Satz 4 EStG) resultieren, mindern BK <br>
+                 (maximal bis 0). Der Sonderausgabenabzug für tatsächlich erbrachte Vorsorgeaufwendungen <br>
+                 im Rahmen der Veranlagung zur Einkommensteuer bleibt unberührt. */
 	public BigDecimal getBks();
+
+	/** Bemessungsgrundlage der Vergütung für mehrjährige Tätigkeit und der tarifermäßigt <br>
+	             zu besteuernden Vorteile bei Vermögensbeteiligungen für die Kirchenlohnsteuer in Cent */
 	public BigDecimal getBkv();
 
 	/** Fuer den Lohnzahlungszeitraum einzubehaltende Lohnsteuer in Cents */
@@ -185,19 +215,27 @@ public interface LohnsteuerInterface {
 	             in Cents */
 	public BigDecimal getSolzlzz();
 
-	/** Solidaritaetszuschlag fuer sonstige Bezuege (ohne Verguetung fuer mehrjaehrige<br>
-	             Taetigkeit) in Cents */
+	/** Solidaritätszuschlag für sonstige Bezüge (ohne Vergütung für mehrjährige Tätigkeit in Cent.<br>
+                 Hinweis: Negativbeträge, die aus nicht zu besteuernden Vorteilen bei Vermögensbeteiligungen <br>
+                 (§ 19a Absatz 1 Satz 4 EStG) resultieren, mindern SOLZLZZ (maximal bis 0). Der <br>
+                 Sonderausgabenabzug für tatsächlich erbrachte Vorsorgeaufwendungen im Rahmen der <br>
+                 Veranlagung zur Einkommensteuer bleibt unberührt. */
 	public BigDecimal getSolzs();
 
-	/** Solidaritaetszuschlag fuer die Verguetung fuer mehrjaehrige Taetigkeit in<br>
-	             Cents */
+	/** Solidaritätszuschlag für die Vergütung für mehrjährige Tätigkeit und der tarifermäßigt <br>
+	             zu besteuernden Vorteile bei Vermögensbeteiligungen in Cent */
 	public BigDecimal getSolzv();
 
-	/** Lohnsteuer fuer sonstige Einkuenfte (ohne Verguetung fuer mehrjaehrige<br>
-	             Taetigkeit) in Cents */
+	/** Lohnsteuer für sonstige Bezüge (ohne Vergütung für mehrjährige Tätigkeit und ohne <br>
+	             tarifermäßigt zu besteuernde Vorteile bei Vermögensbeteiligungen) in Cent<br>
+                 Hinweis: Negativbeträge, die aus nicht zu besteuernden Vorteilen bei Vermögensbeteiligungen<br>
+                 (§ 19a Absatz 1 Satz 4 EStG) resultieren, mindern LSTLZZ (maximal bis 0). Der <br>
+                 Sonderausgabenabzug für tatsächlich erbrachte Vorsorgeaufwendungen im Rahmen der <br>
+                 Veranlagung zur Einkommensteuer bleibt unberührt. */
 	public BigDecimal getSts();
 
-	/** Lohnsteuer fuer Verguetung fuer mehrjaehrige Taetigkeit in Cents */
+	/** Lohnsteuer für die Vergütung für mehrjährige Tätigkeit und der tarifermäßigt zu besteuernden<br>
+	             Vorteile bei Vermögensbeteiligungen in Cent */
 	public BigDecimal getStv();
 
 	/** Für den Lohnzahlungszeitraum berücksichtigte Beiträge des Arbeitnehmers zur<br>

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer) 
- * @date Tue Dec 08 20:54:22 CET 2020
+ * @date Tue Dec 14 20:16:23 CET 2021
  * 
  */
 
@@ -425,6 +425,9 @@ public class Lohnsteuer2010 implements LohnsteuerInterface {
 
 	@Override
 	public void setKvz(BigDecimal arg0) { /* required for newer calculator */ }
+
+	@Override
+	public void setMbv(BigDecimal arg0) { /* required for newer calculator */ }
 
 	@Override
 	public void setSonstent(BigDecimal arg0) { /* required for newer calculator */ }

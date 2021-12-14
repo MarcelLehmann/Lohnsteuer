@@ -35,6 +35,7 @@ import de.powerproject.lohnpap.generator.PapFile;
 import de.powerproject.lohnpap.pap.Lohnsteuer;
 import de.powerproject.lohnpap.pap.Lohnsteuer2020;
 import de.powerproject.lohnpap.pap.Lohnsteuer2021;
+import de.powerproject.lohnpap.pap.Lohnsteuer2022;
 import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 /**
@@ -50,8 +51,8 @@ import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 public class LohnsteuerTest {
 
-	private static final Class<?> CURRENT = Lohnsteuer2021.class;
-	private static final String CURRENT_CODE = "eP2021"; // siehe BMF-Seite
+	private static final Class<?> CURRENT = Lohnsteuer2022.class;
+	private static final String CURRENT_CODE = "2022eP"; // siehe BMF-Seite
 
 	File tmp;
 
@@ -186,10 +187,15 @@ public class LohnsteuerTest {
 	public void check2020() throws Exception {
 		checkLohnsteuer(Lohnsteuer2020.class, "2020Version1", getDate(2020, 1, 1));
 	}
-	
+
 	@Test
 	public void check2021() throws Exception {
 		checkLohnsteuer(Lohnsteuer2021.class, "2021Version1", getDate(2021, 1, 1));
+	}
+
+	@Test
+	public void check2022() throws Exception {
+		checkLohnsteuer(Lohnsteuer2022.class, "2022Version1", getDate(2022, 1, 1));
 	}
 
 	@Test
