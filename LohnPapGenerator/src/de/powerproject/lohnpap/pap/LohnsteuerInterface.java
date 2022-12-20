@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer) 
- * @date Tue Dec 14 20:16:22 CET 2021
+ * @date Tue Dec 20 09:07:35 CET 2022
  * 
  */
 
@@ -35,13 +35,13 @@ public interface LohnsteuerInterface {
 	/** Jahresfreibetrag für die Ermittlung der Lohnsteuer für die sonstigen Bezüge <br>
 	             sowie für Vermögensbeteiligungen nach § 19a Absatz 1 und 4 EStG nach Maßgabe der <br>
 	             elektronischen Lohnsteuerabzugsmerkmale nach § 39e EStG oder der Eintragung <br>
-	             auf der Bescheinigung für den Lohnsteuerabzug 2022 in Cent (ggf. 0) */
+	             auf der Bescheinigung für den Lohnsteuerabzug 2023 in Cent (ggf. 0) */
 	public void setJfreib(BigDecimal arg0);
 
 	/** Jahreshinzurechnungsbetrag für die Ermittlung der Lohnsteuer für die sonstigen Bezüge<br>
 	             sowie für Vermögensbeteiligungen nach § 19a Absatz 1 und 4 EStG nach Maßgabe der <br>
 	             elektronischen Lohnsteuerabzugsmerkmale nach § 39e EStG oder der Eintragung auf der <br>
-	             Bescheinigung für den Lohnsteuerabzug 2022 in Cent (ggf. 0) */
+	             Bescheinigung für den Lohnsteuerabzug 2023 in Cent (ggf. 0) */
 	public void setJhinzu(BigDecimal arg0);
 
 	/** Voraussichtlicher Jahresarbeitslohn ohne sonstige Bezüge (d.h. auch ohne Vergütung <br>
@@ -83,12 +83,12 @@ public interface LohnsteuerInterface {
 	public void setLzz(int arg0);
 
 	/** Der als elektronisches Lohnsteuerabzugsmerkmal für den Arbeitgeber nach § 39e EStG festgestellte <br>
-	             oder in der Bescheinigung für den Lohnsteuerabzug 2022 eingetragene Freibetrag für den <br>
+	             oder in der Bescheinigung für den Lohnsteuerabzug 2023 eingetragene Freibetrag für den <br>
 	             Lohnzahlungszeitraum in Cent */
 	public void setLzzfreib(BigDecimal arg0);
 
 	/** Der als elektronisches Lohnsteuerabzugsmerkmal für den Arbeitgeber nach § 39e EStG festgestellte <br>
-	             oder in der Bescheinigung für den Lohnsteuerabzug 2022 eingetragene Hinzurechnungsbetrag für den<br>
+	             oder in der Bescheinigung für den Lohnsteuerabzug 2023 eingetragene Hinzurechnungsbetrag für den<br>
 	             Lohnzahlungszeitraum in Cent */
 	public void setLzzhinzu(BigDecimal arg0);
 
@@ -117,13 +117,13 @@ public interface LohnsteuerInterface {
 	public void setPvz(int arg0);
 
 	/** Religionsgemeinschaft des Arbeitnehmers lt. elektronischer Lohnsteuerabzugsmerkmale oder der <br>
-	             Bescheinigung für den Lohnsteuerabzug 2022 (bei keiner Religionszugehörigkeit = 0) */
+	             Bescheinigung für den Lohnsteuerabzug 2023 (bei keiner Religionszugehörigkeit = 0) */
 	public void setR(int arg0);
 
 	/** Steuerpflichtiger Arbeitslohn für den Lohnzahlungszeitraum vor Berücksichtigung des <br>
 	             Versorgungsfreibetrags und des Zuschlags zum Versorgungsfreibetrag, des Altersentlastungsbetrags <br>
 	             und des als elektronisches Lohnsteuerabzugsmerkmal festgestellten oder in der Bescheinigung für <br>
-	             den Lohnsteuerabzug 2022 für den Lohnzahlungszeitraum eingetragenen Freibetrags bzw. <br>
+	             den Lohnsteuerabzug 2023 für den Lohnzahlungszeitraum eingetragenen Freibetrags bzw. <br>
 	             Hinzurechnungsbetrags in Cent */
 	public void setRe4(BigDecimal arg0);
 

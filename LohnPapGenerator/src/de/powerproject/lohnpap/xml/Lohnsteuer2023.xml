@@ -1,6 +1,6 @@
-﻿<PAP name="Lohnsteuer2022Big" version="1.0" versionNummer="1.0">   
+﻿<PAP name="Lohnsteuer2023Big" version="1.0" versionNummer="1.0">   
     <VARIABLES> 
-		<!-- Stand: 2022-05-02 09:00-->
+		<!-- Stand: 2023-11-16 14:40-->
 		<!-- ITZBund Berlin --> 
 
    		 <!--  EINGABEPARAMETER  -->
@@ -27,13 +27,13 @@
 	        <!-- Jahresfreibetrag für die Ermittlung der Lohnsteuer für die sonstigen Bezüge 
 	             sowie für Vermögensbeteiligungen nach § 19a Absatz 1 und 4 EStG nach Maßgabe der 
 	             elektronischen Lohnsteuerabzugsmerkmale nach § 39e EStG oder der Eintragung 
-	             auf der Bescheinigung für den Lohnsteuerabzug 2022 in Cent (ggf. 0) -->
+	             auf der Bescheinigung für den Lohnsteuerabzug 2023 in Cent (ggf. 0) -->
 	        <INPUT name="JFREIB" type="BigDecimal"/>
 	
 	        <!-- Jahreshinzurechnungsbetrag für die Ermittlung der Lohnsteuer für die sonstigen Bezüge
 	             sowie für Vermögensbeteiligungen nach § 19a Absatz 1 und 4 EStG nach Maßgabe der 
 	             elektronischen Lohnsteuerabzugsmerkmale nach § 39e EStG oder der Eintragung auf der 
-	             Bescheinigung für den Lohnsteuerabzug 2022 in Cent (ggf. 0) -->
+	             Bescheinigung für den Lohnsteuerabzug 2023 in Cent (ggf. 0) -->
 	        <INPUT name="JHINZU" type="BigDecimal"/>
 	
 	        <!-- Voraussichtlicher Jahresarbeitslohn ohne sonstige Bezüge (d.h. auch ohne Vergütung 
@@ -75,12 +75,12 @@
 	        <INPUT name="LZZ" type="int"/>
 	
 	        <!-- Der als elektronisches Lohnsteuerabzugsmerkmal für den Arbeitgeber nach § 39e EStG festgestellte 
-	             oder in der Bescheinigung für den Lohnsteuerabzug 2022 eingetragene Freibetrag für den 
+	             oder in der Bescheinigung für den Lohnsteuerabzug 2023 eingetragene Freibetrag für den 
 	             Lohnzahlungszeitraum in Cent -->
 	        <INPUT name="LZZFREIB" type="BigDecimal"/>
 	
 	        <!-- Der als elektronisches Lohnsteuerabzugsmerkmal für den Arbeitgeber nach § 39e EStG festgestellte 
-	             oder in der Bescheinigung für den Lohnsteuerabzug 2022 eingetragene Hinzurechnungsbetrag für den
+	             oder in der Bescheinigung für den Lohnsteuerabzug 2023 eingetragene Hinzurechnungsbetrag für den
 	             Lohnzahlungszeitraum in Cent -->
 	        <INPUT name="LZZHINZU" type="BigDecimal"/>
 	
@@ -109,13 +109,13 @@
 	        <INPUT name="PVZ" type="int" default="0"/>
 	        
 	        <!-- Religionsgemeinschaft des Arbeitnehmers lt. elektronischer Lohnsteuerabzugsmerkmale oder der 
-	             Bescheinigung für den Lohnsteuerabzug 2022 (bei keiner Religionszugehörigkeit = 0) -->
+	             Bescheinigung für den Lohnsteuerabzug 2023 (bei keiner Religionszugehörigkeit = 0) -->
 	        <INPUT name="R" type="int"/>
 	
 	        <!-- Steuerpflichtiger Arbeitslohn für den Lohnzahlungszeitraum vor Berücksichtigung des 
 	             Versorgungsfreibetrags und des Zuschlags zum Versorgungsfreibetrag, des Altersentlastungsbetrags 
 	             und des als elektronisches Lohnsteuerabzugsmerkmal festgestellten oder in der Bescheinigung für 
-	             den Lohnsteuerabzug 2022 für den Lohnzahlungszeitraum eingetragenen Freibetrags bzw. 
+	             den Lohnsteuerabzug 2023 für den Lohnzahlungszeitraum eingetragenen Freibetrags bzw. 
 	             Hinzurechnungsbetrags in Cent -->
 	        <INPUT name="RE4" type="BigDecimal"/>
 	
@@ -303,10 +303,7 @@
 		        <!-- Differenz zwischen ST1 und ST2 in EURO -->
 		        <INTERNAL name="DIFF" type="BigDecimal" default="new BigDecimal(0)"/>
 		
-		        <!-- Entlastungsbetrag für Alleinerziehende in Euro 
-		             Hinweis: Der Entlastungsbetrag für Alleinerziehende beträgt ab 
-		             2022 4.008 Euro. Der Erhöhungsbetrag von 2.100 Euro, der für die 
-		             Jahre 2020 und 2021 galt, ist ab 2022 weggefallen (Jahressteuergesetz 2020). -->
+		        <!-- Entlastungsbetrag für Alleinerziehende in Euro -->
 		        <INTERNAL name="EFA" type="BigDecimal" default="new BigDecimal(0)"/>
 		
 		        <!-- Versorgungsfreibetrag in €, Cent (2 Dezimalstellen) -->
@@ -652,24 +649,24 @@
       	<THEN>
 	        <IF expr="KRV == 0">
 	      		<THEN>
-	      			<EVAL exec="BBGRV = new BigDecimal(84600)"/>  <!-- Geändert für 2022 -->
+	      			<EVAL exec="BBGRV = new BigDecimal(87600)"/>  <!-- Geändert für 2023 -->
 	      		</THEN>
 	      		<ELSE>
-	        		<EVAL exec="BBGRV = new BigDecimal(81000)"/>  <!-- Geändert für 2022 -->
+	        		<EVAL exec="BBGRV = new BigDecimal(85200)"/>  <!-- Geändert für 2023 -->
 	      		</ELSE>
       		</IF>
       		<EVAL exec="RVSATZAN = BigDecimal.valueOf(0.093)"/> <!-- Neu 2019 -->
-      		<EVAL exec="TBSVORV = BigDecimal.valueOf(0.88)"/>  <!-- Geändert für 2022-->
+      		<EVAL exec="TBSVORV = BigDecimal.valueOf(1.00)"/>  <!-- Geändert für 2023-->
       	</THEN>
       	<ELSE>
         	<!-- Nichts zu tun -->
      	</ELSE>
      </IF>
        
-        <EVAL exec="BBGKVPV = new BigDecimal(58050)"/> <!-- Geändert für 2021 -->
+        <EVAL exec="BBGKVPV = new BigDecimal(59850)"/> <!-- Geändert für 2023 -->
        	<EVAL exec="bd = new BigDecimal(2)"/><!-- Neu 2019 -->
       	<EVAL exec="KVSATZAN = (KVZ.divide(bd).divide(ZAHL100)).add(BigDecimal.valueOf(0.07))"/><!-- Neu 2019 -->
-      	<EVAL exec="KVSATZAG = BigDecimal.valueOf(0.0065+0.07)"/>  <!-- Geändert für 2021-->
+      	<EVAL exec="KVSATZAG = BigDecimal.valueOf(0.008+0.07)"/>  <!-- Geändert für 2023-->
       	
       	<IF expr="PVS == 1">
       		<THEN>
@@ -687,16 +684,13 @@
       		</THEN>
       	</IF>
       	
-      	 <!-- Anfang Geändert für 2022 --> 
-      	 <EVAL exec="W1STKL5 = new BigDecimal(11793)"/> <!-- 2022.2 -->
-      	 <EVAL exec="W2STKL5 = new BigDecimal(29298)"/>
+      	 <!-- Anfang Geändert für 2023 --> 
+      	 <EVAL exec="W1STKL5 = new BigDecimal(12485)"/> 
+      	 <EVAL exec="W2STKL5 = new BigDecimal(31404)"/>
       	 <EVAL exec="W3STKL5 = new BigDecimal(222260)"/>
-      	 <EVAL exec="GFB = new BigDecimal(10347)"/> <!-- 2022.2 -->
-     	 <!-- Ende Geändert für 2022 -->
-      	 
-      	 <!-- Anfang Geändert für 2021 --> 
-      	 <EVAL exec="SOLZFREI = new BigDecimal(16956)"/>
-     	 <!-- Ende Geändert für 2021 -->
+      	 <EVAL exec="GFB = new BigDecimal(10908)"/> 
+      	 <EVAL exec="SOLZFREI = new BigDecimal(17543)"/>
+     	 <!-- Ende Geändert für 2023 -->
      
   </METHOD>
 
@@ -965,14 +959,14 @@
     <IF expr="STKL == 1">
       <THEN>
         <EVAL exec="SAP= BigDecimal.valueOf (36)"/>
-        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (8388))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2021 -->
+        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (8952))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2023 -->
       </THEN>
 	  <ELSE>
 			<IF expr="STKL == 2">
 			    <THEN>
-			        <EVAL exec="EFA= BigDecimal.valueOf (4008)"/> <!-- mod f 2022 -->
+			        <EVAL exec="EFA= BigDecimal.valueOf (4008)"/> <!-- Geändert für 2022 -->
 			        <EVAL exec="SAP= BigDecimal.valueOf (36)"/>
-			        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (8388))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2021 -->
+			        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (8952))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2023 -->
 			    </THEN>
 		 
 		    	<ELSE>
@@ -980,14 +974,14 @@
 					    <THEN>
 					        <EVAL exec="KZTAB= 2"/>
 					        <EVAL exec="SAP= BigDecimal.valueOf (36)"/>
-					        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (8388))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2021 -->
+					        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (8952))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2023 -->
 					    </THEN>
 					
 						<ELSE>
 						  	<IF expr="STKL == 4">
 						      <THEN>
 						        <EVAL exec="SAP= BigDecimal.valueOf (36)"/>
-						        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (4194))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2021 -->
+						        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (4476))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2023 -->
 						      </THEN> 
 								
 							  <ELSE>
@@ -1088,8 +1082,8 @@
 	<IF expr="STKL &lt; 5">
       <THEN>
       
-      	 <!-- Änderung für 2022 -->
-      	 <EXECUTE method="UPTAB22"/> 
+      	 <!-- Änderung für 2023 -->
+      	 <EXECUTE method="UPTAB23"/> 
 
       </THEN>
       <ELSE>
@@ -1212,14 +1206,14 @@
   <METHOD name="UP5_6">
     <EVAL exec="X= (ZX.multiply (BigDecimal.valueOf (1.25))).setScale (2, BigDecimal.ROUND_DOWN)"/>
     
-   	<!-- Änderung für 2022 -->
-   	<EXECUTE method="UPTAB22"/> 
+   	<!-- Änderung für 2023 -->
+   	<EXECUTE method="UPTAB23"/> 
     
     <EVAL exec="ST1= ST"/>
     <EVAL exec="X= (ZX.multiply (BigDecimal.valueOf (0.75))).setScale (2, BigDecimal.ROUND_DOWN)"/>
     
-   	<!-- Änderung für 2022 -->
-   	<EXECUTE method="UPTAB22"/> 
+   	<!-- Änderung für 2023 -->
+   	<EXECUTE method="UPTAB23"/> 
     
     <EVAL exec="ST2= ST"/>
     <EVAL exec="DIFF= (ST1.subtract (ST2)).multiply (ZAHL2)"/>
@@ -1344,7 +1338,7 @@
     </IF>
   </METHOD>
 
-  <!-- Neu für 2022 -->
+  <!-- Neu für 2022, PAP Seite 34 -->
   <METHOD name="STSMIN">
   
 
@@ -1407,7 +1401,7 @@
 
 
   
-  <!-- Berechnung des SolZ auf sonstige Bezüge, PAP Seite 34, Neu ab 2021 -->
+  <!-- Berechnung des SolZ auf sonstige Bezüge, PAP Seite 35, Neu ab 2021 -->
   <METHOD name="MSOLZSTS">
     <IF expr="ZKF.compareTo(BigDecimal.ZERO) == 1"> <!-- ZKF > 0 -->
       <THEN>
@@ -1428,8 +1422,8 @@
     </IF>
     <IF expr="STKL &lt; 5"> <!-- STKL < 5 -->
       <THEN>
-        <!-- Änderung für 2022 -->
-        <EXECUTE method="UPTAB22"/> 
+        <!-- Änderung für 2023 -->
+        <EXECUTE method="UPTAB23"/> 
       </THEN>
       <ELSE>
       	<EXECUTE method="MST5_6"/> 
@@ -1446,7 +1440,7 @@
     </IF>
   </METHOD>
   
-  <!-- Berechnung der Verguetung fuer mehrjaehrige Taetigkeit nach § 39b Abs. 3 Satz 9 und 10 EStG), PAP Seite 35 -->
+  <!-- Berechnung der Verguetung fuer mehrjaehrige Taetigkeit nach § 39b Abs. 3 Satz 9 und 10 EStG), PAP Seite 36 -->
   <METHOD name="MVMT">
     <IF expr="VKAPA.compareTo (BigDecimal.ZERO) == -1">
       <THEN>
@@ -1525,7 +1519,7 @@
     </IF>
   </METHOD>
 
-  <!-- Sonderberechnung ohne sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 36 -->
+  <!-- Sonderberechnung ohne sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 37 -->
   <METHOD name="MOSONST">
     <EVAL exec="ZRE4J= (JRE4.divide (ZAHL100)).setScale (2, BigDecimal.ROUND_DOWN)"/>
     <EVAL exec="ZVBEZJ= (JVBEZ.divide (ZAHL100)).setScale (2, BigDecimal.ROUND_DOWN)"/>
@@ -1548,7 +1542,7 @@
     <EVAL exec="LSTOSO= ST.multiply (ZAHL100)"/>
   </METHOD>
 
-  <!-- Sonderberechnung mit sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 37 -->
+  <!-- Sonderberechnung mit sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 38 -->
   <METHOD name="MRE4SONST">
     <EXECUTE method="MRE4"/>
     <EVAL exec="FVB= FVBSO"/>
@@ -1561,36 +1555,36 @@
   </METHOD>
   
   <!-- Komplett Neu 2020 -->
-     <!-- Tarifliche Einkommensteuer §32a EStG, PAP Seite 38 -->
-  <METHOD name="UPTAB22"> <!-- Änderung für 2022 -->
+     <!-- Tarifliche Einkommensteuer §32a EStG, PAP Seite 39 -->
+  <METHOD name="UPTAB23"> <!-- Änderung für 2023 -->
     <IF expr="X.compareTo(GFB.add(ZAHL1)) == -1"> 
       <THEN>
         <EVAL exec="ST= BigDecimal.ZERO"/>
       </THEN>
       <ELSE>
-        <IF expr="X.compareTo (BigDecimal.valueOf (14927)) == -1"><!-- Geändert für 2022 -->
+        <IF expr="X.compareTo (BigDecimal.valueOf (16000)) == -1"><!-- Geändert für 2023 -->
           <THEN>
             <EVAL exec="Y = (X.subtract(GFB)).divide(ZAHL10000, 6,BigDecimal.ROUND_DOWN)"/> 
-            <EVAL exec="RW= Y.multiply (BigDecimal.valueOf (1088.67))"/> <!-- Geändert für 2022.2 -->
+            <EVAL exec="RW= Y.multiply (BigDecimal.valueOf (979.18))"/> <!-- Geändert für 2023 -->
             <EVAL exec="RW= RW.add (BigDecimal.valueOf (1400))"/>
             <EVAL exec="ST= (RW.multiply (Y)).setScale (0, BigDecimal.ROUND_DOWN)"/>
           </THEN>
           <ELSE>
-            <IF expr="X.compareTo (BigDecimal.valueOf (58597)) == -1"><!-- Geändert für 2022 -->
+            <IF expr="X.compareTo (BigDecimal.valueOf (62810)) == -1"><!-- Geändert für 2023 -->
               <THEN>
-                <EVAL exec="Y= (X.subtract (BigDecimal.valueOf (14926))).divide (ZAHL10000, 6, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2022  -->
-                <EVAL exec="RW= Y.multiply (BigDecimal.valueOf (206.43))"/><!-- Geändert für 2022 -->
+                <EVAL exec="Y= (X.subtract (BigDecimal.valueOf (15999))).divide (ZAHL10000, 6, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2023  -->
+                <EVAL exec="RW= Y.multiply (BigDecimal.valueOf (192.59))"/><!-- Geändert für 2023 -->
                 <EVAL exec="RW= RW.add (BigDecimal.valueOf (2397))"/>
                 <EVAL exec="RW= RW.multiply (Y)"/>
-                <EVAL exec="ST= (RW.add (BigDecimal.valueOf (869.32))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2022.2 -->
+                <EVAL exec="ST= (RW.add (BigDecimal.valueOf (966.53))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2023 -->
               </THEN>
               <ELSE>
 	            <IF expr="X.compareTo (BigDecimal.valueOf (277826)) == -1"><!-- Geändert für 2022 -->
 	              <THEN>
-                    <EVAL exec="ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (9336.45))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2022.2 -->
+                    <EVAL exec="ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (9972.98))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2023 -->
                   </THEN>
                   <ELSE>
-                    <EVAL exec="ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (17671.2))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2022.2 -->
+                    <EVAL exec="ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (18307.73))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- Geändert für 2023 -->
                   </ELSE>
                 </IF>
               </ELSE>

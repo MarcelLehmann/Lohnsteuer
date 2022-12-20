@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer) 
- * @date Tue Dec 14 20:16:23 CET 2021
+ * @date Tue Dec 20 09:07:35 CET 2022
  * 
  */
 
 public class Lohnsteuer2022 implements LohnsteuerInterface {
 
-	/** Stand: 2021-11-09 10:25 */
+	/** Stand: 2022-05-02 09:00 */
 	/** ITZBund Berlin */
 
 	/* EINGABEPARAMETER*/
@@ -580,10 +580,10 @@ public class Lohnsteuer2022 implements LohnsteuerInterface {
 		if(PVZ == 1) {
 			PVSATZAN = PVSATZAN.add(BigDecimal.valueOf(0.0035));/** geändert für 2022 */
 		}/** Anfang Geändert für 2022 */
-		W1STKL5 = new BigDecimal(11480);
+		W1STKL5 = new BigDecimal(11793);/** 2022.2 */
 		W2STKL5 = new BigDecimal(29298);
 		W3STKL5 = new BigDecimal(222260);
-		GFB = new BigDecimal(9984);/** Ende Geändert für 2022 *//** Anfang Geändert für 2021 */
+		GFB = new BigDecimal(10347);/** 2022.2 *//** Ende Geändert für 2022 *//** Anfang Geändert für 2021 */
 		SOLZFREI = new BigDecimal(16956);/** Ende Geändert für 2021 */
 	}
 
@@ -760,10 +760,10 @@ public class Lohnsteuer2022 implements LohnsteuerInterface {
 		}
 		if(STKL < 6) {
 			if(ZRE4.compareTo(ZVBEZ) == 1) {
-				if(ZRE4.subtract(ZVBEZ).compareTo(ZAHL1000) == -1) {
+				if(ZRE4.subtract(ZVBEZ).compareTo(BigDecimal.valueOf(1200)) == -1) {
 					ANP = ANP.add(ZRE4).subtract(ZVBEZ).setScale(0,BigDecimal.ROUND_UP);
 				} else {
-					ANP = ANP.add(ZAHL1000);
+					ANP = ANP.add(BigDecimal.valueOf(1200));
 				}
 			}
 		}
@@ -1198,7 +1198,7 @@ public class Lohnsteuer2022 implements LohnsteuerInterface {
 		} else {
 			if(X.compareTo (BigDecimal.valueOf (14927)) == -1) /** Geändert für 2022 */{
 				Y = (X.subtract(GFB)).divide(ZAHL10000, 6,BigDecimal.ROUND_DOWN);
-				RW= Y.multiply (BigDecimal.valueOf (1008.7));/** Geändert für 2022 */
+				RW= Y.multiply (BigDecimal.valueOf (1088.67));/** Geändert für 2022.2 */
 				RW= RW.add (BigDecimal.valueOf (1400));
 				ST= (RW.multiply (Y)).setScale (0, BigDecimal.ROUND_DOWN);
 			} else {
@@ -1207,12 +1207,12 @@ public class Lohnsteuer2022 implements LohnsteuerInterface {
 					RW= Y.multiply (BigDecimal.valueOf (206.43));/** Geändert für 2022 */
 					RW= RW.add (BigDecimal.valueOf (2397));
 					RW= RW.multiply (Y);
-					ST= (RW.add (BigDecimal.valueOf (938.24))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2022 */
+					ST= (RW.add (BigDecimal.valueOf (869.32))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2022.2 */
 				} else {
 					if(X.compareTo (BigDecimal.valueOf (277826)) == -1) /** Geändert für 2022 */{
-						ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (9267.53))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2022 */
+						ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (9336.45))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2022.2 */
 					} else {
-						ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (17602.28))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2022 */
+						ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (17671.2))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2022.2 */
 					}
 				}
 			}
