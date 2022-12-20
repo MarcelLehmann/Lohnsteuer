@@ -19,6 +19,7 @@ Benutzung als Netto-Lohnrechner:
 
 Verfügbare Rechner
 
+- <a target="_blank" href="https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2022-11-18-PAP-2023-anlage-1.pdf?__blob=publicationFile&v=2">Programmablaufplan 2023  	(PDF 458 KB)</a> 
 - <a target="_blank" href="https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2021-11-05-PAP-2022-anlage-1.pdf?__blob=publicationFile&v=3">Programmablaufplan 2022  	(PDF 462 KB)</a> 
 - <a target="_blank" href="https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2020-11-09-PAP-2021-anlage-1.pdf?__blob=publicationFile&v=2">Programmablaufplan 2021 (PDF 766 KB)</a> 
  - <a target="_blank" href="https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2019-11-11-PAP-2020-anlage-1.pdf?__blob=publicationFile&v=2">Programmablaufplan 2020 (PDF 766 KB)</a> 
