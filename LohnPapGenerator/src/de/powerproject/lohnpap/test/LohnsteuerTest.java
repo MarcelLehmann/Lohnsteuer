@@ -33,10 +33,9 @@ import org.w3c.dom.NodeList;
 import de.powerproject.lohnpap.generator.Generator;
 import de.powerproject.lohnpap.generator.PapFile;
 import de.powerproject.lohnpap.pap.Lohnsteuer;
-import de.powerproject.lohnpap.pap.Lohnsteuer2020;
-import de.powerproject.lohnpap.pap.Lohnsteuer2021;
 import de.powerproject.lohnpap.pap.Lohnsteuer2022;
 import de.powerproject.lohnpap.pap.Lohnsteuer2023;
+import de.powerproject.lohnpap.pap.Lohnsteuer2023AbJuli;
 import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 /**
@@ -52,7 +51,7 @@ import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 public class LohnsteuerTest {
 
-	private static final Class<?> CURRENT = Lohnsteuer2023.class;
+	private static final Class<?> CURRENT = Lohnsteuer2023AbJuli.class;
 	private static final String CURRENT_CODE = "ext2023"; // siehe BMF-Seite
 
 	File tmp;
@@ -201,7 +200,12 @@ public class LohnsteuerTest {
 
 	@Test
 	public void check2023() throws Exception {
-		checkLohnsteuer(Lohnsteuer2023.class, "2023Version1", getDate(2023, 1, 1));
+		checkLohnsteuer(Lohnsteuer2023.class, "2023BisJuniVersion1", getDate(2023, 1, 1));
+	}
+	
+	@Test
+	public void check2023AbJuli() throws Exception {
+		checkLohnsteuer(Lohnsteuer2023AbJuli.class, "2023AbJuliVersion1", getDate(2023, 7, 1));
 	}
 
 	@Test

@@ -1,6 +1,6 @@
-﻿<PAP name="Lohnsteuer2023Big" version="1.0" versionNummer="1.0">   
+﻿<PAP name="Lohnsteuer2023AbJuliBig" version="1.0" versionNummer="1.0">   
     <VARIABLES> 
-		<!-- Stand: 2023-01-04 09:40-->
+		<!-- Stand: 2023-05-25 09:00-->
 		<!-- ITZBund Berlin --> 
 
    		 <!--  EINGABEPARAMETER  -->
@@ -295,8 +295,7 @@
 		        <!-- Beitragsbemessungsgrenze in der gesetzlichen Krankenversicherung 
 		        	und der sozialen Pflegeversicherung in Euro -->
 		        <INTERNAL name="BBGKVPV" type="BigDecimal" default="new BigDecimal(0)"/>
-		        <!--  Nach Programmablaufplan 2019 -->
-		        <INTERNAL name="bd" type="BigDecimal" default="new BigDecimal(0)"/>
+
 		        <!-- allgemeine Beitragsbemessungsgrenze in der allgemeinen Renten-versicherung in Euro -->
 		        <INTERNAL name="BBGRV" type="BigDecimal" default="new BigDecimal(0)"/>
 		
@@ -393,10 +392,10 @@
 		        <!-- Mindeststeuer fuer die Steuerklassen V und VI in EURO -->
 		        <INTERNAL name="MIST" type="BigDecimal" default="new BigDecimal(0)"/>
 		
-		        <!-- Beitragssatz des Arbeitgebers zur Pflegeversicherung -->
+		        <!-- Beitragssatz des Arbeitgebers zur Pflegeversicherung (6 Dezimalstellen)-->
 		        <INTERNAL name="PVSATZAG" type="BigDecimal" default="new BigDecimal(0)"/>
 		
-		        <!-- Beitragssatz des Arbeitnehmers zur Pflegeversicherung -->
+		        <!-- Beitragssatz des Arbeitnehmers zur Pflegeversicherung (6 Dezimalstellen)-->
 		        <INTERNAL name="PVSATZAN" type="BigDecimal" default="new BigDecimal(0)"/>
 		
 				<!-- Beitragssatz des Arbeitnehmers in der allgemeinen gesetzlichen Rentenversicherung (4 Dezimalstellen)  -->
@@ -664,25 +663,46 @@
      </IF>
        
         <EVAL exec="BBGKVPV = new BigDecimal(59850)"/> <!-- Geändert für 2023 -->
-       	<EVAL exec="bd = new BigDecimal(2)"/><!-- Neu 2019 -->
-      	<EVAL exec="KVSATZAN = (KVZ.divide(bd).divide(ZAHL100)).add(BigDecimal.valueOf(0.07))"/><!-- Neu 2019 -->
-      	<EVAL exec="KVSATZAG = BigDecimal.valueOf(0.008+0.07)"/>  <!-- Geändert für 2023-->
+      	<EVAL exec="KVSATZAN = (KVZ.divide(ZAHL2).divide(ZAHL100)).add(BigDecimal.valueOf(0.07))"/><!-- Neu 2019 -->
+      	<EVAL exec="KVSATZAG = BigDecimal.valueOf(0.008).add(BigDecimal.valueOf(0.07))"/>  <!-- Bugfix für 2023 ab Juli-->
       	
-      	<IF expr="PVS == 1">
+      	<!-- Neu ab 2023AbJuli -->
+      	<IF expr="LZZ == 1">
       		<THEN>
-      			<EVAL exec="PVSATZAN = BigDecimal.valueOf(0.02025)"/> <!-- Neu 2019 -->
-      			<EVAL exec="PVSATZAG = BigDecimal.valueOf(0.01025)"/> <!-- Neu 2019 -->
+		      	<IF expr="PVS == 1">
+		      		<THEN>
+		      			<EVAL exec="PVSATZAN = BigDecimal.valueOf(0.021125)"/> 
+		      			<EVAL exec="PVSATZAG = BigDecimal.valueOf(0.011125)"/> 
+		      		</THEN>
+		      		<ELSE>
+		        		<EVAL exec="PVSATZAN =  BigDecimal.valueOf(0.016125)"/> 
+		        		<EVAL exec="PVSATZAG =  BigDecimal.valueOf(0.016125)"/> 
+		      		</ELSE>
+		      	</IF>
+		      	<IF expr="PVZ == 1">
+		      		<THEN>
+		      			<EVAL exec="PVSATZAN = PVSATZAN.add(BigDecimal.valueOf(0.00475))"/> 
+		      		</THEN>
+		      	</IF>
       		</THEN>
       		<ELSE>
-        		<EVAL exec="PVSATZAN =  BigDecimal.valueOf(0.01525)"/> <!-- Neu 2019 -->
-        		<EVAL exec="PVSATZAG =  BigDecimal.valueOf(0.01525)"/> <!-- Neu 2019 -->
+		      	<IF expr="PVS == 1">
+		      		<THEN>
+		      			<EVAL exec="PVSATZAN = BigDecimal.valueOf(0.022)"/> 
+		      			<EVAL exec="PVSATZAG = BigDecimal.valueOf(0.012)"/> 
+		      		</THEN>
+		      		<ELSE>
+		        		<EVAL exec="PVSATZAN =  BigDecimal.valueOf(0.017)"/> 
+		        		<EVAL exec="PVSATZAG =  BigDecimal.valueOf(0.017)"/> 
+		      		</ELSE>
+		      	</IF>
+		      	<IF expr="PVZ == 1">
+		      		<THEN>
+		      			<EVAL exec="PVSATZAN = PVSATZAN.add(BigDecimal.valueOf(0.006))"/> 
+		      		</THEN>
+		      	</IF>
       		</ELSE>
-      	</IF>
-      	<IF expr="PVZ == 1">
-      		<THEN>
-      			<EVAL exec="PVSATZAN = PVSATZAN.add(BigDecimal.valueOf(0.0035))"/> <!--  geändert für 2022 -->
-      		</THEN>
-      	</IF>
+      	</IF>      	
       	
       	 <!-- Anfang Geändert für 2023 --> 
       	 <EVAL exec="W1STKL5 = new BigDecimal(12485)"/> 

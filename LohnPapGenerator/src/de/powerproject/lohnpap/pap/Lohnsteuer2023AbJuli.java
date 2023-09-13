@@ -9,9 +9,9 @@ import java.math.BigDecimal;
  * 
  */
 
-public class Lohnsteuer2023 implements LohnsteuerInterface {
+public class Lohnsteuer2023AbJuli implements LohnsteuerInterface {
 
-	/** Stand: 2023-01-04 09:40 */
+	/** Stand: 2023-05-25 09:00 */
 	/** ITZBund Berlin */
 
 	/* EINGABEPARAMETER*/
@@ -95,9 +95,6 @@ public class Lohnsteuer2023 implements LohnsteuerInterface {
 	/** Beitragsbemessungsgrenze in der gesetzlichen Krankenversicherung <br>
 		        	und der sozialen Pflegeversicherung in Euro */
 	protected BigDecimal BBGKVPV = new BigDecimal(0);
-
-	/** Nach Programmablaufplan 2019 */
-	protected BigDecimal bd = new BigDecimal(0);
 
 	/** allgemeine Beitragsbemessungsgrenze in der allgemeinen Renten-versicherung in Euro */
 	protected BigDecimal BBGRV = new BigDecimal(0);
@@ -195,10 +192,10 @@ public class Lohnsteuer2023 implements LohnsteuerInterface {
 	/** Mindeststeuer fuer die Steuerklassen V und VI in EURO */
 	protected BigDecimal MIST = new BigDecimal(0);
 
-	/** Beitragssatz des Arbeitgebers zur Pflegeversicherung */
+	/** Beitragssatz des Arbeitgebers zur Pflegeversicherung (6 Dezimalstellen) */
 	protected BigDecimal PVSATZAG = new BigDecimal(0);
 
-	/** Beitragssatz des Arbeitnehmers zur Pflegeversicherung */
+	/** Beitragssatz des Arbeitnehmers zur Pflegeversicherung (6 Dezimalstellen) */
 	protected BigDecimal PVSATZAN = new BigDecimal(0);
 
 	/** Beitragssatz des Arbeitnehmers in der allgemeinen gesetzlichen Rentenversicherung (4 Dezimalstellen) */
@@ -564,18 +561,30 @@ public class Lohnsteuer2023 implements LohnsteuerInterface {
 		} else {/** Nichts zu tun */
 		}
 		BBGKVPV = new BigDecimal(59850);/** Geändert für 2023 */
-		bd = new BigDecimal(2);/** Neu 2019 */
-		KVSATZAN = (KVZ.divide(bd).divide(ZAHL100)).add(BigDecimal.valueOf(0.07));/** Neu 2019 */
-		KVSATZAG = BigDecimal.valueOf(0.008+0.07);/** Geändert für 2023 */
-		if(PVS == 1) {
-			PVSATZAN = BigDecimal.valueOf(0.02025);/** Neu 2019 */
-			PVSATZAG = BigDecimal.valueOf(0.01025);/** Neu 2019 */
+		KVSATZAN = (KVZ.divide(ZAHL2).divide(ZAHL100)).add(BigDecimal.valueOf(0.07));/** Neu 2019 */
+		KVSATZAG = BigDecimal.valueOf(0.008).add(BigDecimal.valueOf(0.07));/** Bugfix für 2023 ab Juli *//** Neu ab 2023AbJuli */
+		if(LZZ == 1) {
+			if(PVS == 1) {
+				PVSATZAN = BigDecimal.valueOf(0.021125);
+				PVSATZAG = BigDecimal.valueOf(0.011125);
+			} else {
+				PVSATZAN =  BigDecimal.valueOf(0.016125);
+				PVSATZAG =  BigDecimal.valueOf(0.016125);
+			}
+			if(PVZ == 1) {
+				PVSATZAN = PVSATZAN.add(BigDecimal.valueOf(0.00475));
+			}
 		} else {
-			PVSATZAN =  BigDecimal.valueOf(0.01525);/** Neu 2019 */
-			PVSATZAG =  BigDecimal.valueOf(0.01525);/** Neu 2019 */
-		}
-		if(PVZ == 1) {
-			PVSATZAN = PVSATZAN.add(BigDecimal.valueOf(0.0035));/** geändert für 2022 */
+			if(PVS == 1) {
+				PVSATZAN = BigDecimal.valueOf(0.022);
+				PVSATZAG = BigDecimal.valueOf(0.012);
+			} else {
+				PVSATZAN =  BigDecimal.valueOf(0.017);
+				PVSATZAG =  BigDecimal.valueOf(0.017);
+			}
+			if(PVZ == 1) {
+				PVSATZAN = PVSATZAN.add(BigDecimal.valueOf(0.006));
+			}
 		}/** Anfang Geändert für 2023 */
 		W1STKL5 = new BigDecimal(12485);
 		W2STKL5 = new BigDecimal(31404);

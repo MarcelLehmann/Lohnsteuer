@@ -46,7 +46,8 @@ public class Generator {
 	static {
 		PAP_FILES = new ArrayList<>();
 		// neueste Eintrag immer oben und Ende = null
-		PAP_FILES.add(new PapFile("Lohnsteuer2023.xml", 2023, 1, null));
+		PAP_FILES.add(new PapFile("Lohnsteuer2023AbJuli.xml", 2023, 7, null));
+		PAP_FILES.add(new PapFile("Lohnsteuer2023.xml", 2023, 1, 6));
 		PAP_FILES.add(new PapFile("Lohnsteuer2022.xml", 2022, 1, 12));
 		PAP_FILES.add(new PapFile("Lohnsteuer2021.xml", 2021, 1, 12));
 		PAP_FILES.add(new PapFile("Lohnsteuer2020.xml", 2020, 1, 12));
@@ -541,7 +542,7 @@ class PapWrapperWriter extends AbstractWriter {
 
 				last = pap;
 
-				writeln("if (year >= " + pap.year + " && month >= " + pap.from + ") {");
+				writeln("if ((year == " + pap.year + " && month >= " + pap.from + ") || year > " + pap.year + ") {");
 				writeln("	return new " + pap.name + "();");
 				writeln("}");
 
