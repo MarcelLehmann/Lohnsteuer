@@ -1,7 +1,7 @@
 Lohnsteuer
 ==========
 
-Java Rechner für Lohnsteuer + Generator aus Programmablaufplan (PAP) vom Bundesministerium für Finanzen (BMF)
+Java Rechner für Lohnsteuer + Generator aus Programmablaufplan (PAP) vom Bundesministerium der Finanzen (BMF)
 (Stand Juli 2023, Eclipse Projekt)
 
 Code wird automatisch aus dem Programmablaufplan vom BMF erzeugt.<br>
