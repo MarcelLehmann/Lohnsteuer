@@ -41,7 +41,7 @@ import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 /**
  * 
  * Test des generierten Lohnsteuerrechners gegen die externe
- * Programmierschnittstelle des Bundesministerium für Finanzen (BMF)
+ * Programmierschnittstelle des Bundesministerium der Finanzen (BMF)
  * 
  * Infos unter https://www.bmf-steuerrechner.de/interface/
  * 
