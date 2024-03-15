@@ -2,7 +2,7 @@ Lohnsteuer
 ==========
 
 Java Rechner für Lohnsteuer + Generator aus Programmablaufplan (PAP) vom Bundesministerium der Finanzen (BMF)
-(Stand Juli 2023, Eclipse Projekt)
+(Stand März 2024, Eclipse Projekt)
 
 Code wird automatisch aus dem Programmablaufplan vom BMF erzeugt.<br>
 Quelle: <a target="_blank" href="https://www.bmf-steuerrechner.de/interface/programmablauf.xhtml">https:/&#47;www.bmf-steuerrechner.de/interface/</a>
@@ -11,14 +11,15 @@ Benutzung als Netto-Lohnrechner:
 
   - <a href="https://github.com/MarcelLehmann/Lohnsteuer/raw/master/LohnPapGenerator/lohnsteuer.jar">lohnsteuer.jar</a> in das eigene Projekt einbinden.
   - Aktuelle Instanz mittels Lohnsteuer.getInstance() holen.
-  - Eingabevariablen mittels Setter-Methoden belegen. Z.B. über setJre4(...) den voraussichtlichen Jahresarbeitslohn übergeben. Die Methoden sind mit einem Kommentar versehen, der die jeweilige Bedeutung erläutert. Weitere Informationen sind unter <a target="_blank"  href="https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2023-06-09-geaenderte-PAP-2023-anwendung-ab-dem-1-juli-2023-anlage-1.pdf?__blob=publicationFile&v=5">Programmablaufplan 2023 (ab Juli) PDF (BMF)</a> zu finden.
+  - Eingabevariablen mittels Setter-Methoden belegen. Z.B. über setJre4(...) den voraussichtlichen Jahresarbeitslohn übergeben. Die Methoden sind mit einem Kommentar versehen, der die jeweilige Bedeutung erläutert. Weitere Informationen sind unter <a target="_blank"  href="https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2024-02-23-geaenderte-PAP-2024-anwendung-ab-dem-1-april-2024-bmf-schreiben.pdf?__blob=publicationFile&v=2">Programmablaufplan 2024 PDF (BMF)</a> zu finden.
   - Methode main() aufrufen.
-  - Ergebnis über die Getter-Methoden entsprechend auslesen. Z.B. liefert getLstlzz() die für den Lohnzahlungszeitraum einzubehaltende Lohnsteuer in Cents. Die Methoden sind ebenfalls mit einem Kommentar versehen, der die jeweilige Bedeutung erläutert. Weitere Informationen sind unter <a target="_blank"  href="https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2023-06-09-geaenderte-PAP-2023-anwendung-ab-dem-1-juli-2023-anlage-1.pdf?__blob=publicationFile&v=5">Programmablaufplan 2023 (ab Juli) PDF (BMF)</a> zu finden.
+  - Ergebnis über die Getter-Methoden entsprechend auslesen. Z.B. liefert getLstlzz() die für den Lohnzahlungszeitraum einzubehaltende Lohnsteuer in Cents. Die Methoden sind ebenfalls mit einem Kommentar versehen, der die jeweilige Bedeutung erläutert. Weitere Informationen sind unter <a target="_blank"  href="https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2024-02-23-geaenderte-PAP-2024-anwendung-ab-dem-1-april-2024-bmf-schreiben.pdf?__blob=publicationFile&v=2">Programmablaufplan 2024 PDF (BMF)</a> zu finden.
   - Die Lohnsteuerberechnung für ein bestimmtes Datum erfolgt über Lohnsteuer.getInstance(Date date) oder direkt über die entsprechenden Klassen Lohnsteuer&lt;Jahr&gt;. Das Interface für die Getter und Setter-Methoden wird immer für den aktuellsten Rechner erstellt. Sollen Eingabe-/Ausgabewerte für ältere Rechner gelesen bzw. geschrieben werden, muss zuvor auf das entsprechende Jahr gecastet werden oder direkt der jeweilige Rechner als Instanz geladen werden. 
   - Der aktuellste Rechner ist für das Jahr 2023 und der älteste für 2006. (Stand 20.12.2022)
 
 Verfügbare Rechner
 
+- <a target="_blank" href="https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2024-02-23-geaenderte-PAP-2024-anwendung-ab-dem-1-april-2024-bmf-schreiben.pdf?__blob=publicationFile&v=2">Programmablaufplan 2024 (PDF 37 KB)</a>
 - <a target="_blank" href="https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2023-06-09-geaenderte-PAP-2023-anwendung-ab-dem-1-juli-2023-anlage-1.pdf?__blob=publicationFile&v=5">Programmablaufplan 2023 (ab Juli)  	(PDF 452 KB)</a> 
 - <a target="_blank" href="https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2023-02-13-geaenderte-PAP-2023-anwendung-ab-dem-1-april-2023-anlage-1.pdf?__blob=publicationFile&v=2">Programmablaufplan 2023 (bis Juni)  	(PDF 458 KB)</a> 
 - <a target="_blank" href="https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2022-05-20-geaenderte-PAP-2022-anwendung-ab-01-06-2022-anlage-1.pdf?__blob=publicationFile&v=2">Programmablaufplan 2022  	(PDF 459 KB)</a> 
