@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer) 
- * @date Wed Sep 13 22:40:05 CEST 2023
+ * @date Fri Mar 15 08:35:04 CET 2024
  * 
  */
 
@@ -35,13 +35,13 @@ public interface LohnsteuerInterface {
 	/** Jahresfreibetrag für die Ermittlung der Lohnsteuer für die sonstigen Bezüge <br>
 	             sowie für Vermögensbeteiligungen nach § 19a Absatz 1 und 4 EStG nach Maßgabe der <br>
 	             elektronischen Lohnsteuerabzugsmerkmale nach § 39e EStG oder der Eintragung <br>
-	             auf der Bescheinigung für den Lohnsteuerabzug 2023 in Cent (ggf. 0) */
+	             auf der Bescheinigung für den Lohnsteuerabzug 2024 in Cent (ggf. 0) */
 	public void setJfreib(BigDecimal arg0);
 
 	/** Jahreshinzurechnungsbetrag für die Ermittlung der Lohnsteuer für die sonstigen Bezüge<br>
 	             sowie für Vermögensbeteiligungen nach § 19a Absatz 1 und 4 EStG nach Maßgabe der <br>
 	             elektronischen Lohnsteuerabzugsmerkmale nach § 39e EStG oder der Eintragung auf der <br>
-	             Bescheinigung für den Lohnsteuerabzug 2023 in Cent (ggf. 0) */
+	             Bescheinigung für den Lohnsteuerabzug 2024 in Cent (ggf. 0) */
 	public void setJhinzu(BigDecimal arg0);
 
 	/** Voraussichtlicher Jahresarbeitslohn ohne sonstige Bezüge (d.h. auch ohne Vergütung <br>
@@ -69,10 +69,10 @@ public interface LohnsteuerInterface {
 					Beitragsbemessungsgrenze WEST. */
 	public void setKrv(int arg0);
 
-	/** Einkommensbezogener Zusatzbeitragssatz eines gesetzlich krankenversicherten Arbeitnehmers, <br>
-			 auf dessen Basis der an die Krankenkasse zu zahlende Zusatzbeitrag berechnet wird,<br>
-			 in Prozent (bspw. 0,90 für 0,90 %) mit 2 Dezimalstellen. <br>
-			 Der von der Kranken-kasse festgesetzte Zusatzbeitragssatz ist bei Abweichungen unmaßgeblich. */
+	/** Kassenindividueller Zusatzbeitragssatz bei einem gesetzlich krankenversicherten Arbeitnehmer <br>
+			 in Prozent (bspw. 1,70 für 1,70 %) mit 2 Dezimalstellen. <br>
+			 Es ist der volle Zusatzbeitragssatz anzugeben. Die Aufteilung in Arbeitnehmer- und Arbeitgeber-<br>
+			 anteil erfolgt im Programmablauf. */
 	public void setKvz(BigDecimal arg0);
 
 	/** Lohnzahlungszeitraum:<br>
@@ -83,12 +83,12 @@ public interface LohnsteuerInterface {
 	public void setLzz(int arg0);
 
 	/** Der als elektronisches Lohnsteuerabzugsmerkmal für den Arbeitgeber nach § 39e EStG festgestellte <br>
-	             oder in der Bescheinigung für den Lohnsteuerabzug 2023 eingetragene Freibetrag für den <br>
+	             oder in der Bescheinigung für den Lohnsteuerabzug 2024 eingetragene Freibetrag für den <br>
 	             Lohnzahlungszeitraum in Cent */
 	public void setLzzfreib(BigDecimal arg0);
 
 	/** Der als elektronisches Lohnsteuerabzugsmerkmal für den Arbeitgeber nach § 39e EStG festgestellte <br>
-	             oder in der Bescheinigung für den Lohnsteuerabzug 2023 eingetragene Hinzurechnungsbetrag für den<br>
+	             oder in der Bescheinigung für den Lohnsteuerabzug 2024 eingetragene Hinzurechnungsbetrag für den<br>
 	             Lohnzahlungszeitraum in Cent */
 	public void setLzzhinzu(BigDecimal arg0);
 
@@ -108,6 +108,15 @@ public interface LohnsteuerInterface {
 	             2 = ausschließlich privat krankenversicherte Arbeitnehmer MIT Arbeitgeberzuschuss */
 	public void setPkv(int arg0);
 
+	/** Zahl der beim Arbeitnehmer zu berücksichtigenden Beitragsabschläge in der sozialen Pflegeversicherung<br>
+	             bei mehr als einem Kind<br>
+	             0 = kein Abschlag<br>
+				 1 = Beitragsabschlag für das 2. Kind<br>
+				 2 = Beitragsabschläge für das 2. und 3. Kind<br>
+				 3 = Beitragsabschläge für 2. bis 4. Kinder<br>
+				 4 = Beitragsabschläge für 2. bis 5. oder mehr Kinder */
+	public void setPva(BigDecimal arg0);
+
 	/** 1, wenn bei der sozialen Pflegeversicherung die Besonderheiten in Sachsen zu berücksichtigen sind bzw. <br>
 	        	 	zu berücksichtigen wären, sonst 0. */
 	public void setPvs(int arg0);
@@ -117,13 +126,13 @@ public interface LohnsteuerInterface {
 	public void setPvz(int arg0);
 
 	/** Religionsgemeinschaft des Arbeitnehmers lt. elektronischer Lohnsteuerabzugsmerkmale oder der <br>
-	             Bescheinigung für den Lohnsteuerabzug 2023 (bei keiner Religionszugehörigkeit = 0) */
+	             Bescheinigung für den Lohnsteuerabzug 2024 (bei keiner Religionszugehörigkeit = 0) */
 	public void setR(int arg0);
 
 	/** Steuerpflichtiger Arbeitslohn für den Lohnzahlungszeitraum vor Berücksichtigung des <br>
 	             Versorgungsfreibetrags und des Zuschlags zum Versorgungsfreibetrag, des Altersentlastungsbetrags <br>
 	             und des als elektronisches Lohnsteuerabzugsmerkmal festgestellten oder in der Bescheinigung für <br>
-	             den Lohnsteuerabzug 2023 für den Lohnzahlungszeitraum eingetragenen Freibetrags bzw. <br>
+	             den Lohnsteuerabzug 2024 für den Lohnzahlungszeitraum eingetragenen Freibetrags bzw. <br>
 	             Hinzurechnungsbetrags in Cent */
 	public void setRe4(BigDecimal arg0);
 

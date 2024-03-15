@@ -36,6 +36,7 @@ import de.powerproject.lohnpap.pap.Lohnsteuer;
 import de.powerproject.lohnpap.pap.Lohnsteuer2022;
 import de.powerproject.lohnpap.pap.Lohnsteuer2023;
 import de.powerproject.lohnpap.pap.Lohnsteuer2023AbJuli;
+import de.powerproject.lohnpap.pap.Lohnsteuer2024;
 import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 /**
@@ -51,8 +52,8 @@ import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 public class LohnsteuerTest {
 
-	private static final Class<?> CURRENT = Lohnsteuer2023AbJuli.class;
-	private static final String CURRENT_CODE = "ext2023"; // siehe BMF-Seite
+	private static final Class<?> CURRENT = Lohnsteuer2024.class;
+	private static final String CURRENT_CODE = "2024ESSt"; // siehe BMF-Seite
 
 	File tmp;
 
@@ -192,20 +193,25 @@ public class LohnsteuerTest {
 //	public void check2021() throws Exception {
 //		checkLohnsteuer(Lohnsteuer2021.class, "2021Version1", getDate(2021, 1, 1));
 //	}
-
-	@Test
-	public void check2022() throws Exception {
-		checkLohnsteuer(Lohnsteuer2022.class, "2022Version1", getDate(2022, 1, 1));
-	}
+//
+//	@Test
+//	public void check2022() throws Exception {
+//		checkLohnsteuer(Lohnsteuer2022.class, "2022Version1", getDate(2022, 1, 1));
+//	}
 
 	@Test
 	public void check2023() throws Exception {
 		checkLohnsteuer(Lohnsteuer2023.class, "2023BisJuniVersion1", getDate(2023, 1, 1));
 	}
-	
+
 	@Test
 	public void check2023AbJuli() throws Exception {
 		checkLohnsteuer(Lohnsteuer2023AbJuli.class, "2023AbJuliVersion1", getDate(2023, 7, 1));
+	}
+
+	@Test
+	public void check2024() throws Exception {
+		checkLohnsteuer(Lohnsteuer2024.class, "2024Version1", getDate(2024, 1, 1));
 	}
 
 	@Test

@@ -6,7 +6,7 @@ import java.util.Calendar;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer)
- * @date Wed Sep 13 22:40:05 CEST 2023
+ * @date Fri Mar 15 08:35:04 CET 2024
  * 
  */
 
@@ -25,7 +25,10 @@ public class Lohnsteuer {
 			int year = cal.get(Calendar.YEAR);
 			int month = cal.get(Calendar.MONTH) + 1;
 
-			if ((year == 2023 && month >= 7) || year > 2023) {
+			if ((year == 2024 && month >= 1) || year > 2024) {
+				return new Lohnsteuer2024();
+			}
+			if (year == 2023 && month >= 7 && month <= 12) {
 				return new Lohnsteuer2023AbJuli();
 			}
 			if (year == 2023 && month >= 1 && month <= 6) {
@@ -91,6 +94,6 @@ public class Lohnsteuer {
 			throw new IllegalArgumentException("Illegal Date " + date + "");
 		}
 
-		return new Lohnsteuer2023AbJuli();
+		return new Lohnsteuer2024();
 	}
 }

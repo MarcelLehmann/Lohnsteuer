@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer) 
- * @date Tue Dec 20 09:07:35 CET 2022
+ * @date Fri Mar 15 08:35:04 CET 2024
  * 
  */
 
@@ -484,6 +484,9 @@ public class Lohnsteuer2022 implements LohnsteuerInterface {
 
 	@Override
 	public void setVmt(BigDecimal arg0) { this.VMT = arg0; }
+
+	@Override
+	public void setPva(BigDecimal arg0) { /* required for newer calculator */ }
 
 	/* GETTER */
 

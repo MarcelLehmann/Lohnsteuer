@@ -46,7 +46,8 @@ public class Generator {
 	static {
 		PAP_FILES = new ArrayList<>();
 		// neueste Eintrag immer oben und Ende = null
-		PAP_FILES.add(new PapFile("Lohnsteuer2023AbJuli.xml", 2023, 7, null));
+		PAP_FILES.add(new PapFile("Lohnsteuer2024.xml", 2024, 1, null));
+		PAP_FILES.add(new PapFile("Lohnsteuer2023AbJuli.xml", 2023, 7, 12));
 		PAP_FILES.add(new PapFile("Lohnsteuer2023.xml", 2023, 1, 6));
 		PAP_FILES.add(new PapFile("Lohnsteuer2022.xml", 2022, 1, 12));
 		PAP_FILES.add(new PapFile("Lohnsteuer2021.xml", 2021, 1, 12));
@@ -257,7 +258,11 @@ public class Generator {
 								def = "0";
 							}
 						}
-						if ("int".equals(type)) {
+						if ("BigDecimal".equals(type)) {
+							if (!def.contains("BigDecimal")) {
+								def = "new BigDecimal(" + def + ")";
+							}
+						} else if ("int".equals(type)) {
 							def = String.valueOf(Double.valueOf(def).intValue());
 						}
 
