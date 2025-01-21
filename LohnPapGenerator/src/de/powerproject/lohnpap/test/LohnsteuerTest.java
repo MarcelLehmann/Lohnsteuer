@@ -33,10 +33,9 @@ import org.w3c.dom.NodeList;
 import de.powerproject.lohnpap.generator.Generator;
 import de.powerproject.lohnpap.generator.PapFile;
 import de.powerproject.lohnpap.pap.Lohnsteuer;
-import de.powerproject.lohnpap.pap.Lohnsteuer2022;
-import de.powerproject.lohnpap.pap.Lohnsteuer2023;
-import de.powerproject.lohnpap.pap.Lohnsteuer2023AbJuli;
 import de.powerproject.lohnpap.pap.Lohnsteuer2024;
+import de.powerproject.lohnpap.pap.Lohnsteuer2024Dezember;
+import de.powerproject.lohnpap.pap.Lohnsteuer2025;
 import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 /**
@@ -52,8 +51,8 @@ import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 public class LohnsteuerTest {
 
-	private static final Class<?> CURRENT = Lohnsteuer2024.class;
-	private static final String CURRENT_CODE = "2024ESSt"; // siehe BMF-Seite
+	private static final Class<?> CURRENT = Lohnsteuer2025.class;
+	private static final String CURRENT_CODE = "extS2025"; // siehe BMF-Seite
 
 	File tmp;
 
@@ -198,20 +197,30 @@ public class LohnsteuerTest {
 //	public void check2022() throws Exception {
 //		checkLohnsteuer(Lohnsteuer2022.class, "2022Version1", getDate(2022, 1, 1));
 //	}
-
-	@Test
-	public void check2023() throws Exception {
-		checkLohnsteuer(Lohnsteuer2023.class, "2023BisJuniVersion1", getDate(2023, 1, 1));
-	}
-
-	@Test
-	public void check2023AbJuli() throws Exception {
-		checkLohnsteuer(Lohnsteuer2023AbJuli.class, "2023AbJuliVersion1", getDate(2023, 7, 1));
-	}
+//
+//	@Test
+//	public void check2023() throws Exception {
+//		checkLohnsteuer(Lohnsteuer2023.class, "2023BisJuniVersion1", getDate(2023, 1, 1));
+//	}
+//
+//	@Test
+//	public void check2023AbJuli() throws Exception {
+//		checkLohnsteuer(Lohnsteuer2023AbJuli.class, "2023AbJuliVersion1", getDate(2023, 7, 1));
+//	}
 
 	@Test
 	public void check2024() throws Exception {
-		checkLohnsteuer(Lohnsteuer2024.class, "2024Version1", getDate(2024, 1, 1));
+		checkLohnsteuer(Lohnsteuer2024.class, "2024BisNovemberVersion1", getDate(2024, 1, 1));
+	}
+	
+	@Test
+	public void check2024Dezember() throws Exception {
+		checkLohnsteuer(Lohnsteuer2024Dezember.class, "2024DezemberVersion1", getDate(2024, 12, 1));
+	}
+	
+	@Test
+	public void check2025() throws Exception {
+		checkLohnsteuer(Lohnsteuer2025.class, "2025Version1", getDate(2025, 1, 1));
 	}
 
 	@Test

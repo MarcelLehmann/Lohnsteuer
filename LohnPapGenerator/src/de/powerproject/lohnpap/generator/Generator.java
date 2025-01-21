@@ -46,7 +46,9 @@ public class Generator {
 	static {
 		PAP_FILES = new ArrayList<>();
 		// neueste Eintrag immer oben und Ende = null
-		PAP_FILES.add(new PapFile("Lohnsteuer2024.xml", 2024, 1, null));
+		PAP_FILES.add(new PapFile("Lohnsteuer2025.xml", 2025, 1, null));
+		PAP_FILES.add(new PapFile("Lohnsteuer2024Dezember.xml", 2024, 12, 12));
+		PAP_FILES.add(new PapFile("Lohnsteuer2024.xml", 2024, 1, 11));
 		PAP_FILES.add(new PapFile("Lohnsteuer2023AbJuli.xml", 2023, 7, 12));
 		PAP_FILES.add(new PapFile("Lohnsteuer2023.xml", 2023, 1, 6));
 		PAP_FILES.add(new PapFile("Lohnsteuer2022.xml", 2022, 1, 12));

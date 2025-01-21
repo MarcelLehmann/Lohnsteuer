@@ -9,9 +9,9 @@ import java.math.BigDecimal;
  * 
  */
 
-public class Lohnsteuer2024 implements LohnsteuerInterface {
+public class Lohnsteuer2024Dezember implements LohnsteuerInterface {
 
-	/** Stand: 2024-03-11 09:00 */
+	/** Stand: 2024-10-11 06:50 */
 	/** ITZBund Berlin */
 
 	/* EINGABEPARAMETER*/
@@ -157,6 +157,32 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		             UPANTEIL errechnet werden soll in Cents */
 	protected BigDecimal JW = new BigDecimal(0);
 
+	/** Jahreswert Lohnsteuer vor Gesetz zur steuerlichen Freistellung des<br>
+					Existenzminimums 2024 in Cent */
+	protected BigDecimal JWLSTA = new BigDecimal(0);
+
+	/** Jahreswert Lohnsteuer unter Berücksichtigung des Gesetzes zur<br>
+					steuerlichen Freistellung des Existenzminimums 2024 in Cent */
+	protected BigDecimal JWLSTN = new BigDecimal(0);
+
+	/** Jahreswert Solidaritätszuschlag vor Gesetz zur steuerlichen<br>
+					Freistellung des Existenzminimums 2024 in Cent */
+	protected BigDecimal JWSOLZA = new BigDecimal(0);
+
+	/** Jahreswert Solidaritätszuschlag unter Berücksichtigung des<br>
+					Gesetzes zur steuerlichen Freistellung des Existenzminimums 2024<br>
+					in Cent */
+	protected BigDecimal JWSOLZN = new BigDecimal(0);
+
+	/** Jahreswert Bemessungsgrundlage Kirchensteuer vor Gesetz zur<br>
+					steuerlichen Freistellung des Existenzminimums 2024 in Cent */
+	protected BigDecimal JWBKA = new BigDecimal(0);
+
+	/** Jahreswert Bemessungsgrundlage Kirchensteuer unter<br>
+					Berücksichtigung des Gesetzes zur steuerlichen Freistellung des<br>
+					Existenzminimums 2024 in Cent */
+	protected BigDecimal JWBKN = new BigDecimal(0);
+
 	/** Nummer der Tabellenwerte fuer Parameter bei Altersentlastungsbetrag */
 	protected int K = 0;
 
@@ -207,6 +233,9 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 
 	/** Sonderausgaben-Pauschbetrag in EURO */
 	protected BigDecimal SAP = new BigDecimal(0);
+
+	/** Schleifenzähler für Differenzberechnung */
+	protected int SCHLEIFZ = 0;
 
 	/** Freigrenze fuer den Solidaritaetszuschlag in EURO */
 	protected BigDecimal SOLZFREI = new BigDecimal(0);
@@ -317,6 +346,10 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		             nach Abzug des Versorgungsfreibetrags und des Alterentlastungsbetrags<br>
 		             zur Berechnung der Vorsorgepauschale in €, Cent (2 Dezimalstellen) */
 	protected BigDecimal ZRE4VP = new BigDecimal(0);
+
+	/** Merkfeld ZRE4VP für Schleifenberechnung Dezember 2024 in Euro, Cent (2 Dezimalstellen) */
+	protected BigDecimal ZRE4VPM = new BigDecimal(0);
+	/** Neu 2015 */
 
 	/** Feste Tabellenfreibeträge (ohne Vorsorgepauschale) in €, Cent<br>
 		             (2 Dezimalstellen) */
@@ -530,7 +563,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 	@Override
 	public BigDecimal getWvfrbo() { return this.WVFRBO; }
 
-	/** PROGRAMMABLAUFPLAN, PAP Seite 14 */
+	/** PROGRAMMABLAUFPLAN, PAP Seite 15, LST1224 */
 	@Override
 	public void main() {
 
@@ -540,26 +573,44 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		KENNVMT= 0;
 		MRE4();
 		MRE4ABZ();
+		ZRE4VPM = ZRE4VP;		/** Neu für 12.2024 */
+
+		SCHLEIFZ = 1;		/** Neu für 12.2024 */
+
 		MBERECH();
+		SCHLEIFZ = 2;		/** Neu für 12.2024 */
+
+		W1STKL5 = BigDecimal.valueOf(13432);		/** Neu für 12.2024 */
+
+		GFB = BigDecimal.valueOf(11784);		/** Neu für 12.2024 */
+
+		SOLZFREI = BigDecimal.valueOf(18130);		/** Neu für 12.2024 */
+
+		ZRE4VP = ZRE4VPM;		/** Neu für 12.2024 */
+
+		MBERECH();		/** Neu für 12.2024 */
+
+		MLST1224();		/** Neu für 12.2024 */
+
 		MSONST();
 		MVMT();
 	}
 
-	/** Zuweisung von Werten für bestimmte Sozialversicherungsparameter  PAP Seite 15 */
+	/** Zuweisung von Werten für bestimmte Sozialversicherungsparameter  PAP Seite 16 */
 	protected void MPARA() {
 
 		if(KRV < 2) /** &lt; = < */{
 			if(KRV == 0) {
-				BBGRV = new BigDecimal(90600);/** Geändert für 2024 */
+				BBGRV = new BigDecimal(90600);
 			} else {
-				BBGRV = new BigDecimal(89400);/** Geändert für 2024 */
+				BBGRV = new BigDecimal(89400);
 			}
-			RVSATZAN = BigDecimal.valueOf(0.093);/** Neu 2019 */
+			RVSATZAN = BigDecimal.valueOf(0.093);
 		} else {/** Nichts zu tun */
 		}
-		BBGKVPV = new BigDecimal(62100);/** Geändert für 2024 */
-		KVSATZAN = (KVZ.divide(ZAHL2).divide(ZAHL100)).add(BigDecimal.valueOf(0.07));/** Neu 2019 */
-		KVSATZAG = BigDecimal.valueOf(0.0085).add(BigDecimal.valueOf(0.07));/** geändert für 2024 *//** geändert ab 2024 */
+		BBGKVPV = new BigDecimal(62100);
+		KVSATZAN = (KVZ.divide(ZAHL2).divide(ZAHL100)).add(BigDecimal.valueOf(0.07));
+		KVSATZAG = BigDecimal.valueOf(0.0085).add(BigDecimal.valueOf(0.07));
 		if(PVS == 1) {
 			PVSATZAN = BigDecimal.valueOf(0.022);
 			PVSATZAG = BigDecimal.valueOf(0.012);
@@ -572,14 +623,14 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		} else {
 			PVSATZAN = PVSATZAN.subtract(PVA.multiply(BigDecimal.valueOf(0.0025)));
 		}
-		W1STKL5 = new BigDecimal(13279);/** geändert 2024 */
-		W2STKL5 = new BigDecimal(33380);/** geändert 2024 */
+		W1STKL5 = new BigDecimal(13279);
+		W2STKL5 = new BigDecimal(33380);
 		W3STKL5 = new BigDecimal(222260);
-		GFB = new BigDecimal(11604);/** geändert 2024 */
-		SOLZFREI = new BigDecimal(18130);/** geändert 2024 */
+		GFB = new BigDecimal(11604);
+		SOLZFREI = new BigDecimal(18130);
 	}
 
-	/** Ermittlung des Jahresarbeitslohns nach § 39 b Abs. 2 Satz 2 EStG, PAP Seite 16 */
+	/** Ermittlung des Jahresarbeitslohns nach § 39 b Abs. 2 Satz 2 EStG, PAP Seite 17 */
 	protected void MRE4JL() {
 
 		if(LZZ == 1) {
@@ -612,7 +663,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Freibeträge für Versorgungsbezüge, Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 17 */
+	/** Freibeträge für Versorgungsbezüge, Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 18 */
 	protected void MRE4() {
 
 		if(ZVBEZJ.compareTo (BigDecimal.ZERO) == 0) {
@@ -666,7 +717,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		MRE4ALTE();
 	}
 
-	/** Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 18 */
+	/** Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 19 */
 	protected void MRE4ALTE() {
 
 		if(ALTER1 == 0) {
@@ -690,7 +741,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Ermittlung des Jahresarbeitslohns nach Abzug der Freibeträge nach § 39 b Abs. 2 Satz 3 und 4 EStG, PAP Seite 20 */
+	/** Ermittlung des Jahresarbeitslohns nach Abzug der Freibeträge nach § 39 b Abs. 2 Satz 3 und 4 EStG, PAP Seite 21 */
 	protected void MRE4ABZ() {
 
 		ZRE4= (ZRE4J.subtract (FVB).subtract   (ALTE).subtract (JLFREIB).add (JLHINZU)).setScale (2, BigDecimal.ROUND_DOWN);
@@ -707,10 +758,14 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Berechnung fuer laufende Lohnzahlungszeitraueme Seite 21 */
+	/** Berechnung fuer laufende Lohnzahlungszeitraueme, PAP Seite 22 */
 	protected void MBERECH() {
-
-		MZTABFB();
+/** Neu für 12.2024 */
+		if(SCHLEIFZ == 1) {
+			MZTABFBA();
+		} else {
+			MZTABFBN();
+		}
 		VFRB = ((ANP.add(FVB.add(FVBZ))).multiply(ZAHL100)).setScale(0, BigDecimal.ROUND_DOWN);
 		MLSTJAHR();
 		WVFRB = ((ZVE.subtract(GFB)).multiply(ZAHL100)).setScale(0, BigDecimal.ROUND_DOWN);
@@ -731,8 +786,70 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		MSOLZ();
 	}
 
-	/** Ermittlung der festen Tabellenfreibeträge (ohne Vorsorgepauschale), PAP Seite 22 */
-	protected void MZTABFB() {
+	/** Ermittlung der festen Tabellenfreibeträge vor Gesetzesänderung für Vergleichsberechnung (ohne Vorsorgepauschale), PAP Seite 23 */
+	protected void MZTABFBA() {
+/** geändert für 12.2024 */
+		ANP= BigDecimal.ZERO;
+		if(ZVBEZ.compareTo (BigDecimal.ZERO) >= 0 && ZVBEZ.compareTo(FVBZ) == -1) {
+			FVBZ = BigDecimal.valueOf(ZVBEZ.longValue());
+		}
+		if(STKL < 6) {
+			if(ZVBEZ.compareTo (BigDecimal.ZERO) == 1) {
+				if((ZVBEZ.subtract (FVBZ)).compareTo (BigDecimal.valueOf (102)) == -1) {
+					ANP= (ZVBEZ.subtract (FVBZ)).setScale (0, BigDecimal.ROUND_UP);
+				} else {
+					ANP= BigDecimal.valueOf (102);
+				}
+			}
+		} else {
+			FVBZ= BigDecimal.valueOf (0);
+			FVBZSO= BigDecimal.valueOf (0);
+		}
+		if(STKL < 6) {
+			if(ZRE4.compareTo(ZVBEZ) == 1) {
+				if(ZRE4.subtract(ZVBEZ).compareTo(BigDecimal.valueOf(1230)) == -1) {
+					ANP = ANP.add(ZRE4).subtract(ZVBEZ).setScale(0,BigDecimal.ROUND_UP);
+				} else {
+					ANP = ANP.add(BigDecimal.valueOf(1230));
+				}
+			}
+		}
+		KZTAB= 1;
+		if(STKL == 1) {
+			SAP= BigDecimal.valueOf (36);
+			KFB= (ZKF.multiply (BigDecimal.valueOf (9312))).setScale (0, BigDecimal.ROUND_DOWN);
+		} else {
+			if(STKL == 2) {
+				EFA= BigDecimal.valueOf (4260);
+				SAP= BigDecimal.valueOf (36);
+				KFB= (ZKF.multiply (BigDecimal.valueOf (9312))).setScale (0, BigDecimal.ROUND_DOWN);
+			} else {
+				if(STKL == 3) {
+					KZTAB= 2;
+					SAP= BigDecimal.valueOf (36);
+					KFB= (ZKF.multiply (BigDecimal.valueOf (9312))).setScale (0, BigDecimal.ROUND_DOWN);
+				} else {
+					if(STKL == 4) {
+						SAP= BigDecimal.valueOf (36);
+						KFB= (ZKF.multiply (BigDecimal.valueOf (4656))).setScale (0, BigDecimal.ROUND_DOWN);
+					} else {
+						if(STKL == 5) {
+							SAP= BigDecimal.valueOf (36);
+							KFB= BigDecimal.ZERO;
+						} else {
+							KFB= BigDecimal.ZERO;
+						}
+					}
+				}
+			}
+		}
+		ZTABFB= (EFA.add (ANP).add (SAP).add (FVBZ)).setScale (2, BigDecimal.ROUND_DOWN);
+	}
+
+	/** neu für 12.2024 */
+	/** Ermittlung der festen Tabellenfreibeträge mit Kinderfreibeträgen nach dem Gesetz zur<br>
+		steuerlichen Freistellung des Existenzminimums 2024 (ohne Vorsorgepauschale), PAP Seite 24 */
+	protected void MZTABFBN() {
 
 		ANP= BigDecimal.ZERO;
 		if(ZVBEZ.compareTo (BigDecimal.ZERO) >= 0 && ZVBEZ.compareTo(FVBZ) == -1) {
@@ -752,31 +869,31 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 		if(STKL < 6) {
 			if(ZRE4.compareTo(ZVBEZ) == 1) {
-				if(ZRE4.subtract(ZVBEZ).compareTo(BigDecimal.valueOf(1230)) == -1) /** Geändert für 2023 */{
+				if(ZRE4.subtract(ZVBEZ).compareTo(BigDecimal.valueOf(1230)) == -1) {
 					ANP = ANP.add(ZRE4).subtract(ZVBEZ).setScale(0,BigDecimal.ROUND_UP);
 				} else {
-					ANP = ANP.add(BigDecimal.valueOf(1230));/** Geändert für 2023 */
+					ANP = ANP.add(BigDecimal.valueOf(1230));
 				}
 			}
 		}
 		KZTAB= 1;
 		if(STKL == 1) {
 			SAP= BigDecimal.valueOf (36);
-			KFB= (ZKF.multiply (BigDecimal.valueOf (9312))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2024 */
+			KFB= (ZKF.multiply (BigDecimal.valueOf (9540))).setScale (0, BigDecimal.ROUND_DOWN);
 		} else {
 			if(STKL == 2) {
-				EFA= BigDecimal.valueOf (4260);/** Geändert für 2023 */
+				EFA= BigDecimal.valueOf (4260);
 				SAP= BigDecimal.valueOf (36);
-				KFB= (ZKF.multiply (BigDecimal.valueOf (9312))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2024 */
+				KFB= (ZKF.multiply (BigDecimal.valueOf (9540))).setScale (0, BigDecimal.ROUND_DOWN);
 			} else {
 				if(STKL == 3) {
 					KZTAB= 2;
 					SAP= BigDecimal.valueOf (36);
-					KFB= (ZKF.multiply (BigDecimal.valueOf (9312))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2024 */
+					KFB= (ZKF.multiply (BigDecimal.valueOf (9540))).setScale (0, BigDecimal.ROUND_DOWN);
 				} else {
 					if(STKL == 4) {
 						SAP= BigDecimal.valueOf (36);
-						KFB= (ZKF.multiply (BigDecimal.valueOf (4656))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2024 */
+						KFB= (ZKF.multiply (BigDecimal.valueOf (4770))).setScale (0, BigDecimal.ROUND_DOWN);
 					} else {
 						if(STKL == 5) {
 							SAP= BigDecimal.valueOf (36);
@@ -791,7 +908,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		ZTABFB= (EFA.add (ANP).add (SAP).add (FVBZ)).setScale (2, BigDecimal.ROUND_DOWN);
 	}
 
-	/** Ermittlung Jahreslohnsteuer, PAP Seite 23 */
+	/** Ermittlung Jahreslohnsteuer, PAP Seite 25 */
 	protected void MLSTJAHR() {
 
 		UPEVP();
@@ -814,7 +931,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 	}
 
-	/** PAP Seite 24 */
+	/** PAP Seite 26 */
 	protected void UPVKVLZZ() {
 
 		UPVKV();
@@ -823,7 +940,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		VKVLZZ = ANTEIL1;
 	}
 
-	/** PAP Seite 24 */
+	/** PAP Seite 26 */
 	protected void UPVKV() {
 
 		if(PKV > 0) {
@@ -837,15 +954,20 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 	}
 
-	/** PAP Seite 25 */
+	/** PAP Seite 27 */
 	protected void UPLSTLZZ() {
 
-		JW = LSTJAHR.multiply(ZAHL100);
+		JW = LSTJAHR.multiply(ZAHL100);/** neu für 12.2024 */
+		if(SCHLEIFZ == 1) {
+			JWLSTA  = JW;
+		} else {
+			JWLSTN  = JW;
+		}
 		UPANTEIL();
 		LSTLZZ = ANTEIL1;
 	}
 
-	/** Ermittlung der Jahreslohnsteuer aus dem Einkommensteuertarif. PAP Seite 26 */
+	/** Ermittlung der Jahreslohnsteuer aus dem Einkommensteuertarif. PAP Seite 28 */
 	protected void UPMLST() {
 
 		if(ZVE.compareTo (ZAHL1) == -1) {
@@ -854,23 +976,27 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		} else {
 			X= (ZVE.divide (BigDecimal.valueOf(KZTAB))).setScale (0, BigDecimal.ROUND_DOWN);
 		}
-		if(STKL < 5) {/** Änderung für 2024 */
-			UPTAB24();
+		if(STKL < 5) {/** Neu für 12.2024 */
+			if(SCHLEIFZ == 1) {
+				UPTAB24A();
+			} else {
+				UPTAB24N();
+			}
 		} else {
 			MST5_6();
 		}
 	}
 
-	/** Vorsorgepauschale (§ 39b Absatz 2 Satz 5 Nummer 3 und Absatz 4 EStG) PAP Seite 27 */
+	/** Vorsorgepauschale (§ 39b Absatz 2 Satz 5 Nummer 3 und Absatz 4 EStG) PAP Seite 29 */
 	protected void UPEVP() {
 
-		if(KRV > 1) /** &lt; = < &gt; = > */{
+		if(KRV > 1) {
 			VSP1= BigDecimal.ZERO;
 		} else {
 			if(ZRE4VP.compareTo(BBGRV) == 1) {
 				ZRE4VP = BBGRV;
 			}
-			VSP1 = (ZRE4VP.multiply(RVSATZAN)).setScale(2,BigDecimal.ROUND_DOWN);/** geändert 2024 */
+			VSP1 = (ZRE4VP.multiply(RVSATZAN)).setScale(2,BigDecimal.ROUND_DOWN);
 		}
 		VSP2 = (ZRE4VP.multiply(BigDecimal.valueOf(0.12))).setScale(2,BigDecimal.ROUND_DOWN);
 		if(STKL == 3) {
@@ -888,7 +1014,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Vorsorgepauschale (§39b Abs. 2 Satz 5 Nr 3 EStG) Vergleichsberechnung fuer Guenstigerpruefung, PAP Seite 28 */
+	/** Vorsorgepauschale (§39b Abs. 2 Satz 5 Nr 3 EStG) Vergleichsberechnung fuer Guenstigerpruefung, PAP Seite 30 */
 	protected void MVSP() {
 
 		if(ZRE4VP.compareTo(BBGKVPV) == 1) {
@@ -909,7 +1035,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		VSP = VSP3.add(VSP1).setScale(0, BigDecimal.ROUND_UP);
 	}
 
-	/** Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 29 */
+	/** Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 31 */
 	protected void MST5_6() {
 
 		ZZX= X;
@@ -929,7 +1055,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 				VERGL= ST;
 				ZX= W1STKL5;
 				UP5_6();
-				HOCH= (ST.add ((ZZX.subtract (W1STKL5)).multiply (BigDecimal.valueOf (0.42)))).setScale (0, BigDecimal.ROUND_DOWN);/** Neuer Wert 2014 */
+				HOCH= (ST.add ((ZZX.subtract (W1STKL5)).multiply (BigDecimal.valueOf (0.42)))).setScale (0, BigDecimal.ROUND_DOWN);
 				if(HOCH.compareTo (VERGL) == -1) {
 					ST= HOCH;
 				} else {
@@ -939,14 +1065,22 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Unterprogramm zur Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 30 */
+	/** Unterprogramm zur Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 32 */
 	protected void UP5_6() {
 
-		X= (ZX.multiply (BigDecimal.valueOf (1.25))).setScale (2, BigDecimal.ROUND_DOWN);/** Änderung für 2024 */
-		UPTAB24();
+		X= (ZX.multiply (BigDecimal.valueOf (1.25))).setScale (2, BigDecimal.ROUND_DOWN);/** Neu für 12.2024 */
+		if(SCHLEIFZ == 1) {
+			UPTAB24A();
+		} else {
+			UPTAB24N();
+		}
 		ST1= ST;
-		X= (ZX.multiply (BigDecimal.valueOf (0.75))).setScale (2, BigDecimal.ROUND_DOWN);/** Änderung für 2024 */
-		UPTAB24();
+		X= (ZX.multiply (BigDecimal.valueOf (0.75))).setScale (2, BigDecimal.ROUND_DOWN);/** Neu für 12.2024 */
+		if(SCHLEIFZ == 1) {
+			UPTAB24A();
+		} else {
+			UPTAB24N();
+		}
 		ST2= ST;
 		DIFF= (ST1.subtract (ST2)).multiply (ZAHL2);
 		MIST= (ZX.multiply (BigDecimal.valueOf (0.14))).setScale (0, BigDecimal.ROUND_DOWN);
@@ -957,24 +1091,34 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Solidaritaetszuschlag, PAP Seite 31 */
+	/** Solidaritaetszuschlag, PAP Seite 33 */
 	protected void MSOLZ() {
 
 		SOLZFREI = (SOLZFREI.multiply(BigDecimal.valueOf(KZTAB)));
 		if(JBMG.compareTo (SOLZFREI) == 1) {
 			SOLZJ= (JBMG.multiply (BigDecimal.valueOf (5.5))).divide(ZAHL100).setScale(2, BigDecimal.ROUND_DOWN);
-			SOLZMIN= (JBMG.subtract (SOLZFREI)).multiply (BigDecimal.valueOf (11.9)).divide (ZAHL100).setScale (2, BigDecimal.ROUND_DOWN);/** Änderung für 2021 */
+			SOLZMIN= (JBMG.subtract (SOLZFREI)).multiply (BigDecimal.valueOf (11.9)).divide (ZAHL100).setScale (2, BigDecimal.ROUND_DOWN);
 			if(SOLZMIN.compareTo (SOLZJ) == -1) {
 				SOLZJ= SOLZMIN;
 			}
-			JW= SOLZJ.multiply (ZAHL100).setScale (0, BigDecimal.ROUND_DOWN);
+			JW= SOLZJ.multiply (ZAHL100).setScale (0, BigDecimal.ROUND_DOWN);/** Neu für  12.2024 */
+			if(SCHLEIFZ == 1) {
+				JWSOLZA = JW;
+			} else {
+				JWSOLZN = JW;
+			}
 			UPANTEIL();
 			SOLZLZZ= ANTEIL1;
 		} else {
 			SOLZLZZ= BigDecimal.ZERO;
 		}
 		if(R > 0) {
-			JW= JBMG.multiply (ZAHL100);
+			JW= JBMG.multiply (ZAHL100);/** Neu für  12.2024 */
+			if(SCHLEIFZ == 1) {
+				JWBKA = JW;
+			} else {
+				JWBKN = JW;
+			}
 			UPANTEIL();
 			BK= ANTEIL1;
 		} else {
@@ -982,7 +1126,36 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Anteil von Jahresbetraegen fuer einen LZZ (§ 39b Abs. 2 Satz 9 EStG), PAP Seite 32 */
+	/** Neu für 12.2024 */
+	/** Differenzrechnung Dezember 2024, PAP Seite 34 */
+	protected void MLST1224() {
+
+		if(LZZ > 1) {
+			JW = JWLSTN.subtract(BigDecimal.valueOf(11).multiply(JWLSTA.subtract(JWLSTN)));
+			if(JW.compareTo(BigDecimal.ZERO) < 0) {
+				ANTEIL1 = BigDecimal.ZERO;
+			} else {
+				UPANTEIL();
+			}
+			LSTLZZ = ANTEIL1;
+			JW = JWSOLZN.subtract(BigDecimal.valueOf(11).multiply(JWSOLZA.subtract(JWSOLZN)));
+			if(JW.compareTo(BigDecimal.ZERO) < 0) {
+				ANTEIL1 = BigDecimal.ZERO;
+			} else {
+				UPANTEIL();
+			}
+			SOLZLZZ = ANTEIL1;
+			JW = JWBKN.subtract(BigDecimal.valueOf(11).multiply(JWBKA.subtract(JWBKN)));
+			if(JW.compareTo(BigDecimal.ZERO) < 0) {
+				ANTEIL1 = BigDecimal.ZERO;
+			} else {
+				UPANTEIL();
+			}
+			BK = ANTEIL1;
+		}
+	}
+
+	/** Anteil von Jahresbetraegen fuer einen LZZ (§ 39b Abs. 2 Satz 9 EStG), PAP Seite 35 */
 	protected void UPANTEIL() {
 
 		if(LZZ == 1) {
@@ -1000,14 +1173,14 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Berechnung sonstiger Bezuege nach § 39b Abs. 3 Saetze 1 bis 8 EStG), PAP Seite 33 */
+	/** Berechnung sonstiger Bezuege nach § 39b Abs. 3 Saetze 1 bis 8 EStG), PAP Seite 36 */
 	protected void MSONST() {
 
 		LZZ= 1;
 		if(ZMVB == 0) {
 			ZMVB= 12;
 		}
-		if(SONSTB.compareTo (BigDecimal.ZERO) == 0 && MBV.compareTo (BigDecimal.ZERO) == 0) /** neu für 2022 */{
+		if(SONSTB.compareTo (BigDecimal.ZERO) == 0 && MBV.compareTo (BigDecimal.ZERO) == 0) {
 			VKVSONST= BigDecimal.ZERO;
 			LSTSO= BigDecimal.ZERO;
 			STS= BigDecimal.ZERO;
@@ -1029,12 +1202,12 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 			UPVKV();
 			VKVSONST = VKV.subtract(VKVSONST);
 			LSTSO= ST.multiply (ZAHL100);/** lt. PAP:  "Hinweis: negative Zahlen werden nach ihrem Betrag gerundet!" *//** Fallunterscheidung bzgl. negativer Zahlen nicht nötig, da die Java-Klasse BigDecimal.ROUND_DOWN *//** die Ziffer und nicht die Zahl abrundet, also aus -4.5 wird -4 und aus 4.5 wird 4 */
-			STS = LSTSO.subtract(LSTOSO).multiply(BigDecimal.valueOf(f)).divide(ZAHL100, 0, BigDecimal.ROUND_DOWN).multiply(ZAHL100);/** Neu für 2022 */
+			STS = LSTSO.subtract(LSTOSO).multiply(BigDecimal.valueOf(f)).divide(ZAHL100, 0, BigDecimal.ROUND_DOWN).multiply(ZAHL100);
 			STSMIN();
 		}
 	}
 
-	/** Neu für 2022, PAP Seite 34 */
+	/** PAP Seite 37 */
 	protected void STSMIN() {
 
 		if(STS.compareTo(BigDecimal.ZERO) == -1) /** STS < 0 */{
@@ -1065,7 +1238,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Berechnung des SolZ auf sonstige Bezüge, PAP Seite 35, Neu ab 2021 */
+	/** Berechnung des SolZ auf sonstige Bezüge, PAP Seite 38 */
 	protected void MSOLZSTS() {
 
 		if(ZKF.compareTo(BigDecimal.ZERO) == 1) /** ZKF > 0 */{
@@ -1079,8 +1252,8 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		} else {
 			X= SOLZSZVE.divide(BigDecimal.valueOf(KZTAB), 0, BigDecimal.ROUND_DOWN);
 		}
-		if(STKL < 5) /** STKL < 5 */{/** Änderung für 2024 */
-			UPTAB24();
+		if(STKL < 5) /** STKL < 5 */{/** Änderung für 12.2024 */
+			UPTAB24N();
 		} else {
 			MST5_6();
 		}
@@ -1092,7 +1265,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Berechnung der Verguetung fuer mehrjaehrige Taetigkeit nach § 39b Abs. 3 Satz 9 und 10 EStG), PAP Seite 36 */
+	/** Berechnung der Verguetung fuer mehrjaehrige Taetigkeit nach § 39b Abs. 3 Satz 9 und 10 EStG), PAP Seite 39 */
 	protected void MVMT() {
 
 		if(VKAPA.compareTo (BigDecimal.ZERO) == -1) {
@@ -1129,13 +1302,13 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
         			weshalb nach dem Aufrunden auf ganze EUR durch 'divide(ZAHL100, 0, BigDecimal.ROUND_DOWN)'<br>
         			wieder die Multiplikation mit 100 erfolgt. */
 				STV = STV.multiply(BigDecimal.valueOf(f)).divide(ZAHL100, 0, BigDecimal.ROUND_DOWN).multiply(ZAHL100);
-			}/** Beginn Neu 2021 */
+			}
 			SOLZVBMG=STV.divide(ZAHL100, 0, BigDecimal.ROUND_DOWN).add(JBMG);
 			if(SOLZVBMG.compareTo(SOLZFREI) == 1) /** SOLZVBMG > SOLZFREI */{
 				SOLZV= STV.multiply(BigDecimal.valueOf(5.5)).divide(ZAHL100, 0, BigDecimal.ROUND_DOWN);
 			} else {
 				SOLZV= BigDecimal.ZERO;
-			}/** Ende Neu 2021 */
+			}
 			if(R > 0) {
 				BKV= STV;
 			} else {
@@ -1148,7 +1321,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		}
 	}
 
-	/** Sonderberechnung ohne sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 37 */
+	/** Sonderberechnung ohne sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 40 */
 	protected void MOSONST() {
 
 		ZRE4J= (JRE4.divide (ZAHL100)).setScale (2, BigDecimal.ROUND_DOWN);
@@ -1158,7 +1331,7 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		MRE4();
 		MRE4ABZ();
 		ZRE4VP = ZRE4VP.subtract(JRE4ENT.divide(ZAHL100));
-		MZTABFB();
+		MZTABFBN();/** Änderung für 12.2024 */
 		VFRBS1 = ((ANP.add(FVB.add(FVBZ))).multiply(ZAHL100)).setScale(2,BigDecimal.ROUND_DOWN);
 		MLSTJAHR();
 		WVFRBO = ((ZVE.subtract(GFB)).multiply(ZAHL100)).setScale(2, BigDecimal.ROUND_DOWN);
@@ -1168,42 +1341,73 @@ public class Lohnsteuer2024 implements LohnsteuerInterface {
 		LSTOSO= ST.multiply (ZAHL100);
 	}
 
-	/** Sonderberechnung mit sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 38 */
+	/** Sonderberechnung mit sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 41 */
 	protected void MRE4SONST() {
 
 		MRE4();
 		FVB= FVBSO;
-		MRE4ABZ();/** Änderung für 2022 */
+		MRE4ABZ();
 		ZRE4VP = ZRE4VP.add(MBV.divide(ZAHL100)).subtract(JRE4ENT.divide(ZAHL100)).subtract(SONSTENT.divide(ZAHL100));
 		FVBZ= FVBZSO;
-		MZTABFB();
+		MZTABFBN();/** Änderung für 12.2024 */
 		VFRBS2 = ((((ANP.add(FVB).add(FVBZ))).multiply(ZAHL100))).subtract(VFRBS1);
 	}
 
-	/** Komplett Neu 2020 */
-	/** Tarifliche Einkommensteuer §32a EStG, PAP Seite 39 */
-	protected void UPTAB24() {
-/** Änderung für 2024 */
+	/** Tarifliche Einkommensteuer §32a EStG vor Gesetzesänderung, PAP Seite 42 */
+	protected void UPTAB24A() {
+/** Änderung für 12.2024 */
 		if(X.compareTo(GFB.add(ZAHL1)) == -1) {
 			ST= BigDecimal.ZERO;
 		} else {
-			if(X.compareTo (BigDecimal.valueOf (17006)) == -1) /** Geändert für 2024 */{
+			if(X.compareTo (BigDecimal.valueOf (17006)) == -1) {
 				Y = (X.subtract(GFB)).divide(ZAHL10000, 6,BigDecimal.ROUND_DOWN);
-				RW= Y.multiply (BigDecimal.valueOf (922.98));/** Geändert für 2024 */
+				RW= Y.multiply (BigDecimal.valueOf (922.98));
 				RW= RW.add (BigDecimal.valueOf (1400));
 				ST= (RW.multiply (Y)).setScale (0, BigDecimal.ROUND_DOWN);
 			} else {
-				if(X.compareTo (BigDecimal.valueOf (66761)) == -1) /** Geändert für 2024 */{
-					Y= (X.subtract (BigDecimal.valueOf (17005))).divide (ZAHL10000, 6, BigDecimal.ROUND_DOWN);/** Geändert für 2024 */
-					RW= Y.multiply (BigDecimal.valueOf (181.19));/** Geändert für 2024 */
+				if(X.compareTo (BigDecimal.valueOf (66761)) == -1) {
+					Y= (X.subtract (BigDecimal.valueOf (17005))).divide (ZAHL10000, 6, BigDecimal.ROUND_DOWN);
+					RW= Y.multiply (BigDecimal.valueOf (181.19));
 					RW= RW.add (BigDecimal.valueOf (2397));
 					RW= RW.multiply (Y);
-					ST= (RW.add (BigDecimal.valueOf (1025.38))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2024 */
+					ST= (RW.add (BigDecimal.valueOf (1025.38))).setScale (0, BigDecimal.ROUND_DOWN);
 				} else {
-					if(X.compareTo (BigDecimal.valueOf (277826)) == -1) /** Geändert für 2022 */{
-						ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (10602.13))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2024 */
+					if(X.compareTo (BigDecimal.valueOf (277826)) == -1) {
+						ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (10602.13))).setScale (0, BigDecimal.ROUND_DOWN);
 					} else {
-						ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (18936.88))).setScale (0, BigDecimal.ROUND_DOWN);/** Geändert für 2024 */
+						ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (18936.88))).setScale (0, BigDecimal.ROUND_DOWN);
+					}
+				}
+			}
+		}
+		ST= ST.multiply (BigDecimal.valueOf (KZTAB));
+	}
+
+	/** Neu für 12.2024 */
+	/** Tarifliche Einkommensteuer (§ 32a EStG) nach Gesetz zur steuerlichen Freistellung des<br>
+		Existenzminimums 2024, PAP Seite 43 */
+	protected void UPTAB24N() {
+
+		if(X.compareTo(GFB.add(ZAHL1)) == -1) {
+			ST= BigDecimal.ZERO;
+		} else {
+			if(X.compareTo (BigDecimal.valueOf (17006)) == -1) {
+				Y = (X.subtract(GFB)).divide(ZAHL10000, 6,BigDecimal.ROUND_DOWN);
+				RW= Y.multiply (BigDecimal.valueOf (954.8));
+				RW= RW.add (BigDecimal.valueOf (1400));
+				ST= (RW.multiply (Y)).setScale (0, BigDecimal.ROUND_DOWN);
+			} else {
+				if(X.compareTo (BigDecimal.valueOf (66761)) == -1) {
+					Y= (X.subtract (BigDecimal.valueOf (17005))).divide (ZAHL10000, 6, BigDecimal.ROUND_DOWN);
+					RW= Y.multiply (BigDecimal.valueOf (181.19));
+					RW= RW.add (BigDecimal.valueOf (2397));
+					RW= RW.multiply (Y);
+					ST= (RW.add (BigDecimal.valueOf (991.21))).setScale (0, BigDecimal.ROUND_DOWN);
+				} else {
+					if(X.compareTo (BigDecimal.valueOf (277826)) == -1) {
+						ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (10636.31))).setScale (0, BigDecimal.ROUND_DOWN);
+					} else {
+						ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (18971.06))).setScale (0, BigDecimal.ROUND_DOWN);
 					}
 				}
 			}

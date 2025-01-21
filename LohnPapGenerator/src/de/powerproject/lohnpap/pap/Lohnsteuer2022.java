@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer) 
- * @date Fri Mar 15 08:35:04 CET 2024
+ * @date Tue Jan 21 19:46:29 CET 2025
  * 
  */
 
@@ -455,13 +455,11 @@ public class Lohnsteuer2022 implements LohnsteuerInterface {
 	@Override
 	public void setSonstent(BigDecimal arg0) { this.SONSTENT = arg0; }
 
-	@Override
 	public void setEntsch(BigDecimal arg0) { this.ENTSCH = arg0; }
 
 	@Override
 	public void setJfreib(BigDecimal arg0) { this.JFREIB = arg0; }
 
-	@Override
 	public void setVkapa(BigDecimal arg0) { this.VKAPA = arg0; }
 
 	@Override
@@ -482,7 +480,6 @@ public class Lohnsteuer2022 implements LohnsteuerInterface {
 	@Override
 	public void setVbezs(BigDecimal arg0) { this.VBEZS = arg0; }
 
-	@Override
 	public void setVmt(BigDecimal arg0) { this.VMT = arg0; }
 
 	@Override
@@ -499,13 +496,11 @@ public class Lohnsteuer2022 implements LohnsteuerInterface {
 	@Override
 	public BigDecimal getBk() { return this.BK; }
 
-	@Override
 	public BigDecimal getSolzv() { return this.SOLZV; }
 
 	@Override
 	public BigDecimal getBks() { return this.BKS; }
 
-	@Override
 	public BigDecimal getBkv() { return this.BKV; }
 
 	@Override
@@ -526,7 +521,6 @@ public class Lohnsteuer2022 implements LohnsteuerInterface {
 	@Override
 	public BigDecimal getSts() { return this.STS; }
 
-	@Override
 	public BigDecimal getStv() { return this.STV; }
 
 	@Override
