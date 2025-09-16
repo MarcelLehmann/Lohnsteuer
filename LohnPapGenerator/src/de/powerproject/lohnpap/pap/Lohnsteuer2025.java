@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer) 
- * @date Tue Jan 21 19:46:29 CET 2025
+ * @date Tue Sep 16 23:25:26 CEST 2025
  * 
  */
 
 public class Lohnsteuer2025 implements LohnsteuerInterface {
 
-	/** Stand: 2024-11-18 14:40 */
+	/** Stand: 2025-01-07 10:15 */
 	/** ITZBund Berlin */
 
 	/* EINGABEPARAMETER*/
@@ -534,11 +534,11 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 		} else {
 			PVSATZAN = PVSATZAN.subtract(PVA.multiply(BigDecimal.valueOf(0.0025)));
 		}
-		W1STKL5 = new BigDecimal(13432);/** geändert für 2025 */
-		W2STKL5 = new BigDecimal(33380);/** geändert für 2025 */
+		W1STKL5 = new BigDecimal(13785);/** geändert für 2025 */
+		W2STKL5 = new BigDecimal(34240);/** geändert für 2025 */
 		W3STKL5 = new BigDecimal(222260);
-		GFB = new BigDecimal(11784);
-		SOLZFREI = new BigDecimal(18130);
+		GFB = new BigDecimal(12096);/** geändert für 2025 */
+		SOLZFREI = new BigDecimal(19950);/** geändert für 2025 */
 	}
 
 	/** Ermittlung des Jahresarbeitslohns nach § 39 b Abs. 2 Satz 2 EStG, PAP Seite 15 */
@@ -721,21 +721,21 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 		KZTAB= 1;
 		if(STKL == 1) {
 			SAP= BigDecimal.valueOf (36);
-			KFB= (ZKF.multiply (BigDecimal.valueOf (9540))).setScale (0, BigDecimal.ROUND_DOWN);/** geändert für 2025 */
+			KFB= (ZKF.multiply (BigDecimal.valueOf (9600))).setScale (0, BigDecimal.ROUND_DOWN);/** geändert für 2025 */
 		} else {
 			if(STKL == 2) {
 				EFA= BigDecimal.valueOf (4260);
 				SAP= BigDecimal.valueOf (36);
-				KFB= (ZKF.multiply (BigDecimal.valueOf (9540))).setScale (0, BigDecimal.ROUND_DOWN);/** geändert für 2025 */
+				KFB= (ZKF.multiply (BigDecimal.valueOf (9600))).setScale (0, BigDecimal.ROUND_DOWN);/** geändert für 2025 */
 			} else {
 				if(STKL == 3) {
 					KZTAB= 2;
 					SAP= BigDecimal.valueOf (36);
-					KFB= (ZKF.multiply (BigDecimal.valueOf (9540))).setScale (0, BigDecimal.ROUND_DOWN);/** geändert für 2025 */
+					KFB= (ZKF.multiply (BigDecimal.valueOf (9600))).setScale (0, BigDecimal.ROUND_DOWN);/** geändert für 2025 */
 				} else {
 					if(STKL == 4) {
 						SAP= BigDecimal.valueOf (36);
-						KFB= (ZKF.multiply (BigDecimal.valueOf (4770))).setScale (0, BigDecimal.ROUND_DOWN);/** geändert für 2025 */
+						KFB= (ZKF.multiply (BigDecimal.valueOf (4800))).setScale (0, BigDecimal.ROUND_DOWN);/** geändert für 2025 */
 					} else {
 						if(STKL == 5) {
 							SAP= BigDecimal.valueOf (36);
@@ -799,7 +799,7 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 			X= (ZVE.divide (BigDecimal.valueOf(KZTAB))).setScale (0, BigDecimal.ROUND_DOWN);
 		}
 		if(STKL < 5) {
-			UPTAB24();
+			UPTAB25();/** geändert für 2025 */
 		} else {
 			MST5_6();
 		}
@@ -887,10 +887,10 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 	protected void UP5_6() {
 
 		X= (ZX.multiply (BigDecimal.valueOf (1.25))).setScale (2, BigDecimal.ROUND_DOWN);
-		UPTAB24();
+		UPTAB25();/** geändert für 2025 */
 		ST1= ST;
 		X= (ZX.multiply (BigDecimal.valueOf (0.75))).setScale (2, BigDecimal.ROUND_DOWN);
-		UPTAB24();
+		UPTAB25();/** geändert für 2025 */
 		ST2= ST;
 		DIFF= (ST1.subtract (ST2)).multiply (ZAHL2);
 		MIST= (ZX.multiply (BigDecimal.valueOf (0.14))).setScale (0, BigDecimal.ROUND_DOWN);
@@ -1024,7 +1024,7 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 			X= SOLZSZVE.divide(BigDecimal.valueOf(KZTAB), 0, BigDecimal.ROUND_DOWN);
 		}
 		if(STKL < 5) /** STKL < 5 */{
-			UPTAB24();
+			UPTAB25();/** geändert für 2025 */
 		} else {
 			MST5_6();
 		}
@@ -1069,28 +1069,28 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 	}
 
 	/** Tarifliche Einkommensteuer §32a EStG, PAP Seite 38 */
-	protected void UPTAB24() {
-
+	protected void UPTAB25() {
+/** geändert für 2025 */
 		if(X.compareTo(GFB.add(ZAHL1)) == -1) {
 			ST= BigDecimal.ZERO;
 		} else {
-			if(X.compareTo (BigDecimal.valueOf (17006)) == -1) {
+			if(X.compareTo (BigDecimal.valueOf (17444)) == -1) /** geändert für 2025 */{
 				Y = (X.subtract(GFB)).divide(ZAHL10000, 6,BigDecimal.ROUND_DOWN);
-				RW= Y.multiply (BigDecimal.valueOf (954.8));
+				RW= Y.multiply (BigDecimal.valueOf (932.30));/** geändert für 2025 */
 				RW= RW.add (BigDecimal.valueOf (1400));
 				ST= (RW.multiply (Y)).setScale (0, BigDecimal.ROUND_DOWN);
 			} else {
-				if(X.compareTo (BigDecimal.valueOf (66761)) == -1) {
-					Y= (X.subtract (BigDecimal.valueOf (17005))).divide (ZAHL10000, 6, BigDecimal.ROUND_DOWN);
-					RW= Y.multiply (BigDecimal.valueOf (181.19));
+				if(X.compareTo (BigDecimal.valueOf (68481)) == -1) /** geändert für 2025 */{
+					Y= (X.subtract (BigDecimal.valueOf (17443))).divide (ZAHL10000, 6, BigDecimal.ROUND_DOWN);/** geändert für 2025 */
+					RW= Y.multiply (BigDecimal.valueOf (176.64));/** geändert für 2025 */
 					RW= RW.add (BigDecimal.valueOf (2397));
 					RW= RW.multiply (Y);
-					ST= (RW.add (BigDecimal.valueOf (991.21))).setScale (0, BigDecimal.ROUND_DOWN);
+					ST= (RW.add (BigDecimal.valueOf (1015.13))).setScale (0, BigDecimal.ROUND_DOWN);/** geändert für 2025 */
 				} else {
 					if(X.compareTo (BigDecimal.valueOf (277826)) == -1) {
-						ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (10636.31))).setScale (0, BigDecimal.ROUND_DOWN);
+						ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (10911.92))).setScale (0, BigDecimal.ROUND_DOWN);/** geändert für 2025 */
 					} else {
-						ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (18971.06))).setScale (0, BigDecimal.ROUND_DOWN);
+						ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (19246.67))).setScale (0, BigDecimal.ROUND_DOWN);/** geändert für 2025 */
 					}
 				}
 			}

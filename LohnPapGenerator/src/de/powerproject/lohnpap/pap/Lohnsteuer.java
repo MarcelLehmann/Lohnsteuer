@@ -6,7 +6,7 @@ import java.util.Calendar;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer)
- * @date Tue Jan 21 19:46:29 CET 2025
+ * @date Tue Sep 16 23:25:26 CEST 2025
  * 
  */
 

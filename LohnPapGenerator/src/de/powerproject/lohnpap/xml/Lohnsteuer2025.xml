@@ -1,6 +1,6 @@
 ﻿<PAP name="Lohnsteuer2025" version="1.0" versionNummer="1.0">   
     <VARIABLES> 
-		<!-- Stand: 2024-11-18 14:40-->
+		<!-- Stand: 2025-01-07 10:15-->
 		<!-- ITZBund Berlin --> 
 
    		 <!--  EINGABEPARAMETER  -->
@@ -587,11 +587,11 @@
       		</ELSE>
       	</IF>
       	
-      	 <EVAL exec="W1STKL5 = new BigDecimal(13432)"/>    <!-- geändert für 2025 -->  
-      	 <EVAL exec="W2STKL5 = new BigDecimal(33380)"/> <!-- geändert für 2025 -->
+      	 <EVAL exec="W1STKL5 = new BigDecimal(13785)"/>    <!-- geändert für 2025 -->  
+      	 <EVAL exec="W2STKL5 = new BigDecimal(34240)"/> <!-- geändert für 2025 -->
       	 <EVAL exec="W3STKL5 = new BigDecimal(222260)"/>
-      	 <EVAL exec="GFB = new BigDecimal(11784)"/> 
-      	 <EVAL exec="SOLZFREI = new BigDecimal(18130)"/>
+      	 <EVAL exec="GFB = new BigDecimal(12096)"/> <!-- geändert für 2025 -->
+      	 <EVAL exec="SOLZFREI = new BigDecimal(19950)"/> <!-- geändert für 2025 -->
      
   </METHOD>
 
@@ -854,14 +854,14 @@
     <IF expr="STKL == 1">
       <THEN>
         <EVAL exec="SAP= BigDecimal.valueOf (36)"/>
-        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (9540))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- geändert für 2025 -->
+        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (9600))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- geändert für 2025 -->
       </THEN>
 	  <ELSE>
 			<IF expr="STKL == 2">
 			    <THEN>
 			        <EVAL exec="EFA= BigDecimal.valueOf (4260)"/> 
 			        <EVAL exec="SAP= BigDecimal.valueOf (36)"/>
-			        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (9540))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- geändert für 2025 -->
+			        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (9600))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- geändert für 2025 -->
 			    </THEN>
 		 
 		    	<ELSE>
@@ -869,14 +869,14 @@
 					    <THEN>
 					        <EVAL exec="KZTAB= 2"/>
 					        <EVAL exec="SAP= BigDecimal.valueOf (36)"/>
-					        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (9540))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- geändert für 2025 -->
+					        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (9600))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- geändert für 2025 -->
 					    </THEN>
 					
 						<ELSE>
 						  	<IF expr="STKL == 4">
 						      <THEN>
 						        <EVAL exec="SAP= BigDecimal.valueOf (36)"/>
-						        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (4770))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- geändert für 2025 -->
+						        <EVAL exec="KFB= (ZKF.multiply (BigDecimal.valueOf (4800))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- geändert für 2025 -->
 						      </THEN> 
 								
 							  <ELSE>
@@ -957,7 +957,7 @@
     </IF>
 	<IF expr="STKL &lt; 5">
       <THEN>
-      	 <EXECUTE method="UPTAB24"/>
+      	 <EXECUTE method="UPTAB25"/> <!-- geändert für 2025 -->
       </THEN>
       <ELSE>
         <EXECUTE method="MST5_6"/>
@@ -1078,12 +1078,12 @@
   <METHOD name="UP5_6">
     <EVAL exec="X= (ZX.multiply (BigDecimal.valueOf (1.25))).setScale (2, BigDecimal.ROUND_DOWN)"/>
     
-   	<EXECUTE method="UPTAB24"/>
+   	<EXECUTE method="UPTAB25"/> <!-- geändert für 2025 -->
     
     <EVAL exec="ST1= ST"/>
     <EVAL exec="X= (ZX.multiply (BigDecimal.valueOf (0.75))).setScale (2, BigDecimal.ROUND_DOWN)"/>
     
-   	<EXECUTE method="UPTAB24"/>
+   	<EXECUTE method="UPTAB25"/> <!-- geändert für 2025 -->
     
     <EVAL exec="ST2= ST"/>
     <EVAL exec="DIFF= (ST1.subtract (ST2)).multiply (ZAHL2)"/>
@@ -1291,7 +1291,7 @@
     </IF>
     <IF expr="STKL &lt; 5"> <!-- STKL < 5 -->
       <THEN>
-        <EXECUTE method="UPTAB24"/>
+        <EXECUTE method="UPTAB25"/> <!-- geändert für 2025 -->
       </THEN>
       <ELSE>
       	<EXECUTE method="MST5_6"/> 
@@ -1345,35 +1345,35 @@
   
 
   <!-- Tarifliche Einkommensteuer §32a EStG, PAP Seite 38 -->
-<METHOD name="UPTAB24"> 
+<METHOD name="UPTAB25"> <!-- geändert für 2025 -->
     <IF expr="X.compareTo(GFB.add(ZAHL1)) == -1"> 
       <THEN>
         <EVAL exec="ST= BigDecimal.ZERO"/>
       </THEN>
       <ELSE>
-        <IF expr="X.compareTo (BigDecimal.valueOf (17006)) == -1">
+        <IF expr="X.compareTo (BigDecimal.valueOf (17444)) == -1"> <!-- geändert für 2025 -->
           <THEN>
             <EVAL exec="Y = (X.subtract(GFB)).divide(ZAHL10000, 6,BigDecimal.ROUND_DOWN)"/> 
-            <EVAL exec="RW= Y.multiply (BigDecimal.valueOf (954.8))"/> 
+            <EVAL exec="RW= Y.multiply (BigDecimal.valueOf (932.30))"/> <!-- geändert für 2025 -->
             <EVAL exec="RW= RW.add (BigDecimal.valueOf (1400))"/>
             <EVAL exec="ST= (RW.multiply (Y)).setScale (0, BigDecimal.ROUND_DOWN)"/>
           </THEN>
           <ELSE>
-            <IF expr="X.compareTo (BigDecimal.valueOf (66761)) == -1">
+            <IF expr="X.compareTo (BigDecimal.valueOf (68481)) == -1"> <!-- geändert für 2025 -->
               <THEN>
-                <EVAL exec="Y= (X.subtract (BigDecimal.valueOf (17005))).divide (ZAHL10000, 6, BigDecimal.ROUND_DOWN)"/> 
-                <EVAL exec="RW= Y.multiply (BigDecimal.valueOf (181.19))"/>
+                <EVAL exec="Y= (X.subtract (BigDecimal.valueOf (17443))).divide (ZAHL10000, 6, BigDecimal.ROUND_DOWN)"/> <!-- geändert für 2025 -->
+                <EVAL exec="RW= Y.multiply (BigDecimal.valueOf (176.64))"/> <!-- geändert für 2025 -->
                 <EVAL exec="RW= RW.add (BigDecimal.valueOf (2397))"/>
                 <EVAL exec="RW= RW.multiply (Y)"/>
-                <EVAL exec="ST= (RW.add (BigDecimal.valueOf (991.21))).setScale (0, BigDecimal.ROUND_DOWN)"/> 
+                <EVAL exec="ST= (RW.add (BigDecimal.valueOf (1015.13))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- geändert für 2025 -->
               </THEN>
               <ELSE>
 	            <IF expr="X.compareTo (BigDecimal.valueOf (277826)) == -1">
 	              <THEN>
-                    <EVAL exec="ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (10636.31))).setScale (0, BigDecimal.ROUND_DOWN)"/> 
+                    <EVAL exec="ST= ((X.multiply (BigDecimal.valueOf (0.42))).subtract (BigDecimal.valueOf (10911.92))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- geändert für 2025 -->
                   </THEN>
                   <ELSE>
-                    <EVAL exec="ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (18971.06))).setScale (0, BigDecimal.ROUND_DOWN)"/> 
+                    <EVAL exec="ST= ((X.multiply (BigDecimal.valueOf (0.45))).subtract (BigDecimal.valueOf (19246.67))).setScale (0, BigDecimal.ROUND_DOWN)"/> <!-- geändert für 2025 -->
                   </ELSE>
                 </IF>
               </ELSE>
