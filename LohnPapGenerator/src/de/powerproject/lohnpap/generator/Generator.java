@@ -46,7 +46,8 @@ public class Generator {
 	static {
 		PAP_FILES = new ArrayList<>();
 		// neueste Eintrag immer oben und Ende = null
-		PAP_FILES.add(new PapFile("Lohnsteuer2025.xml", 2025, 1, null));
+		PAP_FILES.add(new PapFile("Lohnsteuer2026.xml", 2026, 1, null));
+		PAP_FILES.add(new PapFile("Lohnsteuer2025.xml", 2025, 1, 12));
 		PAP_FILES.add(new PapFile("Lohnsteuer2024Dezember.xml", 2024, 12, 12));
 		PAP_FILES.add(new PapFile("Lohnsteuer2024.xml", 2024, 1, 11));
 		PAP_FILES.add(new PapFile("Lohnsteuer2023AbJuli.xml", 2023, 7, 12));
@@ -529,13 +530,13 @@ class PapWrapperWriter extends AbstractWriter {
 		writeln("public static LohnsteuerInterface getInstance(Date date) {");
 		incIndent();
 		appendln();
-		writeln("if (date != null) {");
-		incIndent();
-
-		appendln();
 
 		writeln("Calendar cal = Calendar.getInstance();");
+		writeln("if (date != null) {");
+		incIndent();
 		writeln("cal.setTime(date);");
+		decIndent();
+		writeln("}");
 		writeln("int year = cal.get(Calendar.YEAR);");
 		writeln("int month = cal.get(Calendar.MONTH) + 1;");
 
@@ -570,10 +571,6 @@ class PapWrapperWriter extends AbstractWriter {
 
 		writeln("throw new IllegalArgumentException(\"Illegal Date \" + date + \"\");");
 
-		decIndent();
-		writeln("}");
-		appendln();
-		writeln("return new " + last.name + "();");
 		decIndent();
 		writeln("}");
 	}

@@ -36,6 +36,7 @@ import de.powerproject.lohnpap.pap.Lohnsteuer;
 import de.powerproject.lohnpap.pap.Lohnsteuer2024;
 import de.powerproject.lohnpap.pap.Lohnsteuer2024Dezember;
 import de.powerproject.lohnpap.pap.Lohnsteuer2025;
+import de.powerproject.lohnpap.pap.Lohnsteuer2026;
 import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 /**
@@ -51,8 +52,8 @@ import de.powerproject.lohnpap.pap.LohnsteuerInterface;
 
 public class LohnsteuerTest {
 
-	private static final Class<?> CURRENT = Lohnsteuer2025.class;
-	private static final String CURRENT_CODE = "extS2025"; // siehe BMF-Seite
+	private static final Class<?> LATEST = Lohnsteuer2026.class;
+	private static final String CURRENT_CODE = "LSt2026ext"; // siehe BMF-Seite
 
 	File tmp;
 
@@ -207,32 +208,41 @@ public class LohnsteuerTest {
 //	public void check2023AbJuli() throws Exception {
 //		checkLohnsteuer(Lohnsteuer2023AbJuli.class, "2023AbJuliVersion1", getDate(2023, 7, 1));
 //	}
+//
+//	@Test
+//	public void check2024() throws Exception {
+//		checkLohnsteuer(Lohnsteuer2024.class, "2024BisNovemberVersion1", getDate(2024, 1, 1));
+//	}
+//	
+//	@Test
+//	public void check2024Dezember() throws Exception {
+//		checkLohnsteuer(Lohnsteuer2024Dezember.class, "2024DezemberVersion1", getDate(2024, 12, 1));
+//	}
 
-	@Test
-	public void check2024() throws Exception {
-		checkLohnsteuer(Lohnsteuer2024.class, "2024BisNovemberVersion1", getDate(2024, 1, 1));
-	}
-	
-	@Test
-	public void check2024Dezember() throws Exception {
-		checkLohnsteuer(Lohnsteuer2024Dezember.class, "2024DezemberVersion1", getDate(2024, 12, 1));
-	}
-	
 	@Test
 	public void check2025() throws Exception {
 		checkLohnsteuer(Lohnsteuer2025.class, "2025Version1", getDate(2025, 1, 1));
 	}
 
 	@Test
-	public void checkCurrent() throws Exception {
+	public void check2026() throws Exception {
+		checkLohnsteuer(Lohnsteuer2026.class, "2026Version1", getDate(2026, 1, 1));
+	}
+
+	@Test
+	public void checkLatest() throws Exception {
 
 		System.out.print("Lohnsteuer current");
 		printBlank("current");
 
 		PapFile pf = Generator.PAP_FILES.get(0);
 		assertTrue("first entry must be null", pf.getTo() == null);
-		assertEquals(CURRENT, Class.forName("de.powerproject.lohnpap.pap." + pf.getName()));
-		assertEquals(CURRENT, Lohnsteuer.getInstance().getClass());
+		assertEquals(LATEST, Class.forName("de.powerproject.lohnpap.pap." + pf.getName()));
+		if (Calendar.getInstance().get(Calendar.YEAR) == 2025) {
+			assertEquals(Lohnsteuer2025.class, Lohnsteuer.getInstance().getClass());
+		} else {
+			assertEquals(LATEST, Lohnsteuer.getInstance().getClass());
+		}
 
 		System.out.print("...............................");
 	}
@@ -247,7 +257,7 @@ public class LohnsteuerTest {
 		cal.add(Calendar.YEAR, +3);
 		int year = cal.get(Calendar.YEAR);
 
-		assertEquals(CURRENT, Lohnsteuer.getInstance(getDate(year, 1, 1)).getClass());
+		assertEquals(LATEST, Lohnsteuer.getInstance(getDate(year, 1, 1)).getClass());
 
 		System.out.print("...............................");
 	}

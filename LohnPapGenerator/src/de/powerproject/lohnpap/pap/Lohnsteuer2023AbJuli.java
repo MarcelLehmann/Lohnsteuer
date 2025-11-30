@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer) 
- * @date Tue Sep 16 23:25:26 CEST 2025
+ * @date Sun Nov 30 15:13:33 CET 2025
  * 
  */
 
@@ -477,6 +477,12 @@ public class Lohnsteuer2023AbJuli implements LohnsteuerInterface {
 	public void setVmt(BigDecimal arg0) { this.VMT = arg0; }
 
 	@Override
+	public void setAlv(int arg0) { /* required for newer calculator */ }
+
+	@Override
+	public void setPkpvagz(BigDecimal arg0) { /* required for newer calculator */ }
+
+	@Override
 	public void setPva(BigDecimal arg0) { /* required for newer calculator */ }
 
 	/* GETTER */
@@ -506,7 +512,6 @@ public class Lohnsteuer2023AbJuli implements LohnsteuerInterface {
 	@Override
 	public BigDecimal getVfrbs1() { return this.VFRBS1; }
 
-	@Override
 	public BigDecimal getVkvlzz() { return this.VKVLZZ; }
 
 	@Override
@@ -517,7 +522,6 @@ public class Lohnsteuer2023AbJuli implements LohnsteuerInterface {
 
 	public BigDecimal getStv() { return this.STV; }
 
-	@Override
 	public BigDecimal getVkvsonst() { return this.VKVSONST; }
 
 	@Override

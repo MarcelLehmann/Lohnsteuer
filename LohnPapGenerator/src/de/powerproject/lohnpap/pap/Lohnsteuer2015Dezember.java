@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer) 
- * @date Tue Sep 16 23:25:26 CEST 2025
+ * @date Sun Nov 30 15:13:33 CET 2025
  * 
  */
 
@@ -501,14 +501,19 @@ public class Lohnsteuer2015Dezember implements LohnsteuerInterface {
 	public void setVmt(BigDecimal arg0) { this.VMT = arg0; }
 
 	@Override
+	public void setAlv(int arg0) { /* required for newer calculator */ }
+
+	@Override
 	public void setMbv(BigDecimal arg0) { /* required for newer calculator */ }
+
+	@Override
+	public void setPkpvagz(BigDecimal arg0) { /* required for newer calculator */ }
 
 	@Override
 	public void setPva(BigDecimal arg0) { /* required for newer calculator */ }
 
 	/* GETTER */
 
-	@Override
 	public BigDecimal getVkvlzz() { return this.VKVLZZ; }
 
 	@Override
@@ -519,7 +524,6 @@ public class Lohnsteuer2015Dezember implements LohnsteuerInterface {
 
 	public BigDecimal getStv() { return this.STV; }
 
-	@Override
 	public BigDecimal getVkvsonst() { return this.VKVSONST; }
 
 	@Override
@@ -539,22 +543,22 @@ public class Lohnsteuer2015Dezember implements LohnsteuerInterface {
 	public BigDecimal getSolzs() { return this.SOLZS; }
 
 	@Override
-	public BigDecimal getVfrb() { /* required for newer calculator */ return null; }
-
-	@Override
-	public BigDecimal getVfrbs2() { /* required for newer calculator */ return null; }
-
-	@Override
-	public BigDecimal getVfrbs1() { /* required for newer calculator */ return null; }
-
-	@Override
 	public BigDecimal getWvfrbm() { /* required for newer calculator */ return null; }
 
 	@Override
 	public BigDecimal getWvfrb() { /* required for newer calculator */ return null; }
 
 	@Override
+	public BigDecimal getVfrb() { /* required for newer calculator */ return null; }
+
+	@Override
+	public BigDecimal getVfrbs2() { /* required for newer calculator */ return null; }
+
+	@Override
 	public BigDecimal getWvfrbo() { /* required for newer calculator */ return null; }
+
+	@Override
+	public BigDecimal getVfrbs1() { /* required for newer calculator */ return null; }
 
 	/** PROGRAMMABLAUFPLAN, PAP Seite 14 */
 	@Override

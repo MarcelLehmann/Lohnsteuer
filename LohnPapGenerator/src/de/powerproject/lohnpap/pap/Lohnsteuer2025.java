@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer) 
- * @date Tue Sep 16 23:25:26 CEST 2025
+ * @date Sun Nov 30 15:13:33 CET 2025
  * 
  */
 
 public class Lohnsteuer2025 implements LohnsteuerInterface {
 
-	/** Stand: 2025-01-07 10:15 */
+	/** Stand: 2025-09-17 13:05 */
 	/** ITZBund Berlin */
 
 	/* EINGABEPARAMETER*/
@@ -72,82 +72,82 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 
 	/* INTERNE FELDER*/
 
-	/** Altersentlastungsbetrag nach Alterseinkünftegesetz in €,<br>
+	/** Altersentlastungsbetrag nach Alterseinkünftegesetz in Euro,<br>
 		             Cent (2 Dezimalstellen) */
 	protected BigDecimal ALTE = new BigDecimal(0);
 
-	/** Arbeitnehmer-Pauschbetrag in EURO */
+	/** Arbeitnehmer-Pauschbetrag/Werbungskosten-Pauschbetrag in Euro */
 	protected BigDecimal ANP = new BigDecimal(0);
 
 	/** Auf den Lohnzahlungszeitraum entfallender Anteil von Jahreswerten<br>
 		             auf ganze Cents abgerundet */
 	protected BigDecimal ANTEIL1 = new BigDecimal(0);
 
-	/** Bemessungsgrundlage für Altersentlastungsbetrag in €, Cent<br>
+	/** Beitragsbemessungsgrenze in der gesetzlichen Krankenversicherung <br>
+		        	 und der sozialen Pflegeversicherung in Euro */
+	protected BigDecimal BBGKVPV = new BigDecimal(0);
+
+	/** Allgemeine Beitragsbemessungsgrenze in der allgemeinen Rentenversicherung in Euro */
+	protected BigDecimal BBGRV = new BigDecimal(0);
+
+	/** Bemessungsgrundlage für Altersentlastungsbetrag in Euro, Cent<br>
 		             (2 Dezimalstellen) */
 	protected BigDecimal BMG = new BigDecimal(0);
 
-	/** Beitragsbemessungsgrenze in der gesetzlichen Krankenversicherung <br>
-		        	und der sozialen Pflegeversicherung in Euro */
-	protected BigDecimal BBGKVPV = new BigDecimal(0);
-
-	/** allgemeine Beitragsbemessungsgrenze in der allgemeinen Renten-versicherung in Euro */
-	protected BigDecimal BBGRV = new BigDecimal(0);
-
-	/** Differenz zwischen ST1 und ST2 in EURO */
+	/** Differenz zwischen ST1 und ST2 in Euro */
 	protected BigDecimal DIFF = new BigDecimal(0);
 
 	/** Entlastungsbetrag für Alleinerziehende in Euro */
 	protected BigDecimal EFA = new BigDecimal(0);
 
-	/** Versorgungsfreibetrag in €, Cent (2 Dezimalstellen) */
+	/** Versorgungsfreibetrag in Euro, Cent (2 Dezimalstellen) */
 	protected BigDecimal FVB = new BigDecimal(0);
 
-	/** Versorgungsfreibetrag in €, Cent (2 Dezimalstellen) für die Berechnung<br>
-		             der Lohnsteuer für den sonstigen Bezug */
+	/** Versorgungsfreibetrag in Euro, Cent (2 Dezimalstellen) für die Berechnung<br>
+		             der Lohnsteuer beim sonstigen Bezug */
 	protected BigDecimal FVBSO = new BigDecimal(0);
 
-	/** Zuschlag zum Versorgungsfreibetrag in EURO */
+	/** Zuschlag zum Versorgungsfreibetrag in Euro */
 	protected BigDecimal FVBZ = new BigDecimal(0);
 
-	/** Zuschlag zum Versorgungsfreibetrag in EURO fuer die Berechnung<br>
+	/** Zuschlag zum Versorgungsfreibetrag in Euro fuer die Berechnung<br>
 		             der Lohnsteuer beim sonstigen Bezug */
 	protected BigDecimal FVBZSO = new BigDecimal(0);
 
 	/** Grundfreibetrag in Euro */
 	protected BigDecimal GFB = new BigDecimal(0);
 
-	/** Maximaler Altersentlastungsbetrag in € */
+	/** Maximaler Altersentlastungsbetrag in Euro */
 	protected BigDecimal HBALTE = new BigDecimal(0);
 
 	/** Maßgeblicher maximaler Versorgungsfreibetrag in Euro, Cent (2 Dezimalstellen) */
 	protected BigDecimal HFVB = new BigDecimal(0);
 
-	/** Massgeblicher maximaler Zuschlag zum Versorgungsfreibetrag in €,Cent<br>
+	/** Maßgeblicher maximaler Zuschlag zum Versorgungsfreibetrag in Euro, Cent<br>
 		             (2 Dezimalstellen) */
 	protected BigDecimal HFVBZ = new BigDecimal(0);
 
-	/** Massgeblicher maximaler Zuschlag zum Versorgungsfreibetrag in €, Cent<br>
-		             (2 Dezimalstellen) für die Berechnung der Lohnsteuer für den<br>
+	/** Maßgeblicher maximaler Zuschlag zum Versorgungsfreibetrag in Euro, Cent<br>
+		             (2 Dezimalstellen) für die Berechnung der Lohnsteuer beim<br>
 		             sonstigen Bezug */
 	protected BigDecimal HFVBZSO = new BigDecimal(0);
 
 	/** Zwischenfeld zu X fuer die Berechnung der Steuer nach § 39b<br>
-		             Abs. 2 Satz 7 EStG in € */
+		             Abs. 2 Satz 7 EStG in Euro */
 	protected BigDecimal HOCH = new BigDecimal(0);
 
 	/** Nummer der Tabellenwerte fuer Versorgungsparameter */
 	protected int J = 0;
 
 	/** Jahressteuer nach § 51a EStG, aus der Solidaritaetszuschlag und<br>
-		             Bemessungsgrundlage fuer die Kirchenlohnsteuer ermittelt werden in EURO */
+		             Bemessungsgrundlage fuer die Kirchenlohnsteuer ermittelt werden in Euro */
 	protected BigDecimal JBMG = new BigDecimal(0);
 
-	/** Auf einen Jahreslohn hochgerechneter LZZFREIB in €, Cent<br>
+	/** Auf einen Jahreslohn hochgerechneter LZZFREIB in Euro, Cent<br>
 		             (2 Dezimalstellen) */
 	protected BigDecimal JLFREIB = new BigDecimal(0);
 
-	/** Auf einen Jahreslohn hochgerechnete LZZHINZU in €, Cent<br>
+	/** Auf einen Jahreslohn hochgerechnete LZZHINZU in Euro, Cent<br>
 		             (2 Dezimalstellen) */
 	protected BigDecimal JLHINZU = new BigDecimal(0);
 
@@ -158,28 +158,31 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 	/** Nummer der Tabellenwerte fuer Parameter bei Altersentlastungsbetrag */
 	protected int K = 0;
 
-	/** Summe der Freibetraege fuer Kinder in EURO */
+	/** Summe der Freibeträge fuer Kinder in Euro */
 	protected BigDecimal KFB = new BigDecimal(0);
 
-	/** Beitragssatz des Arbeitgebers zur Krankenversicherung */
+	/** Beitragssatz des Arbeitgebers zur Krankenversicherung unter<br>
+					 Berücksichtigung des durchschnittlichen Zusatzbeitragssatzes für die<br>
+					 Ermittlung des Arbeitgeberzuschusses (5 Dezimalstellen) */
 	protected BigDecimal KVSATZAG = new BigDecimal(0);
 
-	/** Beitragssatz des Arbeitnehmers zur Krankenversicherung */
+	/** Beitragssatz des Arbeitnehmers zur Krankenversicherung<br>
+					 (5 Dezimalstellen) */
 	protected BigDecimal KVSATZAN = new BigDecimal(0);
 
 	/** Kennzahl fuer die Einkommensteuer-Tabellenart:<br>
-		             1 = Grundtabelle<br>
-		             2 = Splittingtabelle */
+		             1 = Grundtarif<br>
+		             2 = Splittingverfahren */
 	protected int KZTAB = 0;
 
-	/** Jahreslohnsteuer in EURO */
+	/** Jahreslohnsteuer in Euro */
 	protected BigDecimal LSTJAHR = new BigDecimal(0);
 
 	/** Zwischenfelder der Jahreslohnsteuer in Cent */
 	protected BigDecimal LSTOSO = new BigDecimal(0);
 	protected BigDecimal LSTSO = new BigDecimal(0);
 
-	/** Mindeststeuer fuer die Steuerklassen V und VI in EURO */
+	/** Mindeststeuer fuer die Steuerklassen V und VI in Euro */
 	protected BigDecimal MIST = new BigDecimal(0);
 
 	/** Beitragssatz des Arbeitgebers zur Pflegeversicherung (6 Dezimalstellen) */
@@ -194,38 +197,41 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 	/** Rechenwert in Gleitkommadarstellung */
 	protected BigDecimal RW = new BigDecimal(0);
 
-	/** Sonderausgaben-Pauschbetrag in EURO */
+	/** Sonderausgaben-Pauschbetrag in Euro */
 	protected BigDecimal SAP = new BigDecimal(0);
 
-	/** Freigrenze fuer den Solidaritaetszuschlag in EURO */
+	/** Freigrenze fuer den Solidaritaetszuschlag in Euro */
 	protected BigDecimal SOLZFREI = new BigDecimal(0);
 
-	/** Solidaritaetszuschlag auf die Jahreslohnsteuer in EURO, C (2 Dezimalstellen) */
+	/** Solidaritaetszuschlag auf die Jahreslohnsteuer in Euro, Cent (2 Dezimalstellen) */
 	protected BigDecimal SOLZJ = new BigDecimal(0);
 
 	/** Zwischenwert fuer den Solidaritaetszuschlag auf die Jahreslohnsteuer<br>
-		             in EURO, C (2 Dezimalstellen) */
+		             in Euro, Cent (2 Dezimalstellen) */
 	protected BigDecimal SOLZMIN = new BigDecimal(0);
 
 	/** Bemessungsgrundlage des Solidaritätszuschlags zur Prüfung der Freigrenze beim Solidaritätszuschlag für sonstige Bezüge in Euro */
 	protected BigDecimal SOLZSBMG = new BigDecimal(0);
 
-	/** Zu versteuerndes Einkommen für die Ermittlung der Bemessungsgrundlage des Solidaritätszuschlags zur Prüfung der Freigrenze beim Solidaritätszuschlag für sonstige Bezüge in Euro, Cent (2 Dezimalstellen) */
+	/** Zu versteuerndes Einkommen für die Ermittlung der<br>
+		        	 Bemessungsgrundlage des Solidaritätszuschlags zur Prüfung der<br>
+		        	 Freigrenze beim Solidaritätszuschlag für sonstige Bezüge in Euro,<br>
+		        	 Cent (2 Dezimalstellen) */
 	protected BigDecimal SOLZSZVE = new BigDecimal(0);
 
 	/** Bemessungsgrundlage des Solidaritätszuschlags für die Prüfung der Freigrenze beim Solidaritätszuschlag für die Vergütung für mehrjährige Tätigkeit in Euro */
 	protected BigDecimal SOLZVBMG = new BigDecimal(0);
 
-	/** Tarifliche Einkommensteuer in EURO */
+	/** Tarifliche Einkommensteuer in Euro */
 	protected BigDecimal ST = new BigDecimal(0);
 
-	/** Tarifliche Einkommensteuer auf das 1,25-fache ZX in EURO */
+	/** Tarifliche Einkommensteuer auf das 1,25-fache ZX in Euro */
 	protected BigDecimal ST1 = new BigDecimal(0);
 
-	/** Tarifliche Einkommensteuer auf das 0,75-fache ZX in EURO */
+	/** Tarifliche Einkommensteuer auf das 0,75-fache ZX in Euro */
 	protected BigDecimal ST2 = new BigDecimal(0);
 
-	/** Bemessungsgrundlage fuer den Versorgungsfreibetrag in Cents */
+	/** Bemessungsgrundlage fuer den Versorgungsfreibetrag in Cent */
 	protected BigDecimal VBEZB = new BigDecimal(0);
 
 	/** Bemessungsgrundlage für den Versorgungsfreibetrag in Cent für<br>
@@ -233,34 +239,40 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 	protected BigDecimal VBEZBSO = new BigDecimal(0);
 
 	/** Zwischenfeld zu X fuer die Berechnung der Steuer nach § 39b<br>
-		             Abs. 2 Satz 7 EStG in € */
+		             Abs. 2 Satz 7 EStG in Euro */
 	protected BigDecimal VERGL = new BigDecimal(0);
 
-	/** Hoechstbetrag der Vorsorgepauschale nach Alterseinkuenftegesetz in EURO, C */
+	/** Höchstbetrag der Mindestvorsorgepauschale für die Kranken- und<br>
+					 Pflegeversicherung in Euro, Cent (2 Dezimalstellen) */
 	protected BigDecimal VHB = new BigDecimal(0);
 
 	/** Jahreswert der berücksichtigten Beiträge zur privaten Basis-Krankenversicherung und <br>
 					  privaten Pflege-Pflichtversicherung (ggf. auch die Mindestvorsorgepauschale) in Cent. */
 	protected BigDecimal VKV = new BigDecimal(0);
 
-	/** Vorsorgepauschale in EURO, C (2 Dezimalstellen) */
+	/** Vorsorgepauschale mit Teilbeträgen für die Rentenversicherung<br>
+					 sowie die gesetzliche Kranken- und soziale Pflegeversicherung nach<br>
+					 fiktiven Beträgen oder ggf. für die private Basiskrankenversicherung<br>
+					 und private Pflege-Pflichtversicherung in Euro, Cent (2 Dezimalstellen) */
 	protected BigDecimal VSP = new BigDecimal(0);
 
-	/** Vorsorgepauschale nach Alterseinkuenftegesetz in EURO, C */
+	/** Vorsorgepauschale mit Teilbeträgen für die Rentenversicherung<br>
+					 sowie der Mindestvorsorgepauschale für die Kranken- und<br>
+					 Pflegeversicherung in Euro, Cent (2 Dezimalstellen) */
 	protected BigDecimal VSPN = new BigDecimal(0);
 
-	/** Zwischenwert 1 bei der Berechnung der Vorsorgepauschale nach<br>
-		             dem Alterseinkuenftegesetz in EURO, C (2 Dezimalstellen) */
+	/** Zwischenwert 1 bei der Berechnung der Vorsorgepauschale in Euro,<br>
+					 Cent (2 Dezimalstellen) */
 	protected BigDecimal VSP1 = new BigDecimal(0);
 
-	/** Zwischenwert 2 bei der Berechnung der Vorsorgepauschale nach<br>
-		             dem Alterseinkuenftegesetz in EURO, C (2 Dezimalstellen) */
+	/** Zwischenwert 2 bei der Berechnung der Vorsorgepauschale in Euro,<br>
+					 Cent (2 Dezimalstellen) */
 	protected BigDecimal VSP2 = new BigDecimal(0);
 
-	/** Vorsorgepauschale mit Teilbeträgen für die gesetzliche Kranken- und <br>
-					 soziale Pflegeversicherung nach fiktiven Beträgen oder ggf. für die<br>
-					 private Basiskrankenversicherung und private Pflege-Pflichtversicherung <br>
-					 in Euro, Cent (2 Dezimalstellen) */
+	/** Vorsorgepauschale mit Teilbeträgen für die gesetzliche Kranken-<br>
+					 und soziale Pflegeversicherung nach fiktiven Beträgen oder ggf. für <br>
+					 die private Basiskrankenversicherung und private Pflege-<br>
+					 Pflichtversicherung in Euro, Cent (2 Dezimalstellen) */
 	protected BigDecimal VSP3 = new BigDecimal(0);
 
 	/** Erster Grenzwert in Steuerklasse V/VI in Euro */
@@ -272,65 +284,65 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 	/** Dritter Grenzwert in Steuerklasse V/VI in Euro */
 	protected BigDecimal W3STKL5 = new BigDecimal(0);
 
-	/** Zu versteuerndes Einkommen gem. § 32a Abs. 1 und 2 EStG €, C<br>
+	/** Zu versteuerndes Einkommen gem. § 32a Abs. 1 und 2 EStG Euro, Cent<br>
 		             (2 Dezimalstellen) */
 	protected BigDecimal X = new BigDecimal(0);
 
 	/** Gem. § 32a Abs. 1 EStG (6 Dezimalstellen) */
 	protected BigDecimal Y = new BigDecimal(0);
 
-	/** Auf einen Jahreslohn hochgerechnetes RE4 in €, C (2 Dezimalstellen)<br>
-		             nach Abzug der Freibeträge nach § 39 b Abs. 2 Satz 3 und 4. */
+	/** Auf einen Jahreslohn hochgerechnetes RE4 in Euro, Cent (2 Dezimalstellen)<br>
+		             nach Abzug der Freibeträge nach § 39 b Abs. 2 Satz 3 und 4 EStG */
 	protected BigDecimal ZRE4 = new BigDecimal(0);
 
-	/** Auf einen Jahreslohn hochgerechnetes RE4 in €, C (2 Dezimalstellen) */
+	/** Auf einen Jahreslohn hochgerechnetes RE4 in Euro, Cent (2 Dezimalstellen) */
 	protected BigDecimal ZRE4J = new BigDecimal(0);
 
-	/** Auf einen Jahreslohn hochgerechnetes RE4 in €, C (2 Dezimalstellen)<br>
-		             nach Abzug des Versorgungsfreibetrags und des Alterentlastungsbetrags<br>
-		             zur Berechnung der Vorsorgepauschale in €, Cent (2 Dezimalstellen) */
+	/** Auf einen Jahreslohn hochgerechnetes RE4, ggf. nach Abzug der<br>
+					 Entschädigungen i.S.d. § 24 Nummer 1 EStG in Euro, Cent<br>
+					 (2 Dezimalstellen) */
 	protected BigDecimal ZRE4VP = new BigDecimal(0);
 
-	/** Feste Tabellenfreibeträge (ohne Vorsorgepauschale) in €, Cent<br>
+	/** Feste Tabellenfreibeträge (ohne Vorsorgepauschale) in Euro, Cent<br>
 		             (2 Dezimalstellen) */
 	protected BigDecimal ZTABFB = new BigDecimal(0);
 
-	/** Auf einen Jahreslohn hochgerechnetes (VBEZ abzueglich FVB) in<br>
-		             EURO, C (2 Dezimalstellen) */
+	/** Auf einen Jahreslohn hochgerechnetes VBEZ abzüglich FVB in<br>
+					 Euro, Cent (2 Dezimalstellen) */
 	protected BigDecimal ZVBEZ = new BigDecimal(0);
 
-	/** Auf einen Jahreslohn hochgerechnetes VBEZ in €, C (2 Dezimalstellen) */
+	/** Auf einen Jahreslohn hochgerechnetes VBEZ in Euro, Cent (2 Dezimalstellen) */
 	protected BigDecimal ZVBEZJ = new BigDecimal(0);
 
-	/** Zu versteuerndes Einkommen in €, C (2 Dezimalstellen) */
+	/** Zu versteuerndes Einkommen in Euro, Cent (2 Dezimalstellen) */
 	protected BigDecimal ZVE = new BigDecimal(0);
 
 	/** Zwischenfeld zu X fuer die Berechnung der Steuer nach § 39b<br>
-		             Abs. 2 Satz 7 EStG in € */
+		             Abs. 2 Satz 7 EStG in Euro */
 	protected BigDecimal ZX = new BigDecimal(0);
 
 	/** Zwischenfeld zu X fuer die Berechnung der Steuer nach § 39b<br>
-		             Abs. 2 Satz 7 EStG in € */
+		             Abs. 2 Satz 7 EStG in Euro */
 	protected BigDecimal ZZX = new BigDecimal(0);
 
 	/* KONSTANTEN */
 
-	/** Tabelle fuer die Vomhundertsaetze des Versorgungsfreibetrags */
+	/** Tabelle für die Prozentsätze des Versorgungsfreibetrags */
 
 	/** geändert für 2025 */
 	protected static final BigDecimal[] TAB1 = {BigDecimal.valueOf(0), BigDecimal.valueOf( 0.4), BigDecimal.valueOf( 0.384), BigDecimal.valueOf( 0.368), BigDecimal.valueOf( 0.352), BigDecimal.valueOf( 0.336), BigDecimal.valueOf( 0.32), BigDecimal.valueOf( 0.304), BigDecimal.valueOf( 0.288), BigDecimal.valueOf( 0.272), BigDecimal.valueOf( 0.256), BigDecimal.valueOf( 0.24), BigDecimal.valueOf( 0.224), BigDecimal.valueOf( 0.208), BigDecimal.valueOf( 0.192), BigDecimal.valueOf( 0.176), BigDecimal.valueOf( 0.16), BigDecimal.valueOf( 0.152), BigDecimal.valueOf( 0.144), BigDecimal.valueOf( 0.14), BigDecimal.valueOf( 0.136), BigDecimal.valueOf( 0.132), BigDecimal.valueOf( 0.128), BigDecimal.valueOf( 0.124), BigDecimal.valueOf( 0.12), BigDecimal.valueOf( 0.116), BigDecimal.valueOf( 0.112), BigDecimal.valueOf( 0.108), BigDecimal.valueOf( 0.104), BigDecimal.valueOf( 0.1), BigDecimal.valueOf( 0.096), BigDecimal.valueOf( 0.092), BigDecimal.valueOf( 0.088), BigDecimal.valueOf( 0.084), BigDecimal.valueOf( 0.08), BigDecimal.valueOf( 0.076), BigDecimal.valueOf( 0.072), BigDecimal.valueOf( 0.068), BigDecimal.valueOf( 0.064), BigDecimal.valueOf( 0.06), BigDecimal.valueOf( 0.056), BigDecimal.valueOf( 0.052), BigDecimal.valueOf( 0.048), BigDecimal.valueOf( 0.044), BigDecimal.valueOf( 0.04), BigDecimal.valueOf( 0.036), BigDecimal.valueOf( 0.032), BigDecimal.valueOf( 0.028), BigDecimal.valueOf( 0.024), BigDecimal.valueOf( 0.02), BigDecimal.valueOf( 0.016), BigDecimal.valueOf( 0.012), BigDecimal.valueOf( 0.008), BigDecimal.valueOf( 0.004), BigDecimal.valueOf( 0)};
 
-	/** Tabelle fuer die Hoechstbetrage des Versorgungsfreibetrags */
+	/** Tabelle für die Höchstbeträge des Versorgungsfreibetrags */
 
 	/** geändert für 2025 */
 	protected static final BigDecimal[] TAB2 = {BigDecimal.valueOf(0), BigDecimal.valueOf( 3000), BigDecimal.valueOf( 2880), BigDecimal.valueOf( 2760), BigDecimal.valueOf( 2640), BigDecimal.valueOf( 2520), BigDecimal.valueOf( 2400), BigDecimal.valueOf( 2280), BigDecimal.valueOf( 2160), BigDecimal.valueOf( 2040), BigDecimal.valueOf( 1920), BigDecimal.valueOf( 1800), BigDecimal.valueOf( 1680), BigDecimal.valueOf( 1560), BigDecimal.valueOf( 1440), BigDecimal.valueOf( 1320), BigDecimal.valueOf( 1200), BigDecimal.valueOf( 1140), BigDecimal.valueOf( 1080), BigDecimal.valueOf( 1050), BigDecimal.valueOf( 1020), BigDecimal.valueOf( 990), BigDecimal.valueOf( 960), BigDecimal.valueOf( 930), BigDecimal.valueOf( 900), BigDecimal.valueOf( 870), BigDecimal.valueOf( 840), BigDecimal.valueOf( 810), BigDecimal.valueOf( 780), BigDecimal.valueOf( 750), BigDecimal.valueOf( 720), BigDecimal.valueOf( 690), BigDecimal.valueOf( 660), BigDecimal.valueOf( 630), BigDecimal.valueOf( 600), BigDecimal.valueOf( 570), BigDecimal.valueOf( 540), BigDecimal.valueOf( 510), BigDecimal.valueOf( 480), BigDecimal.valueOf( 450), BigDecimal.valueOf( 420), BigDecimal.valueOf( 390), BigDecimal.valueOf( 360), BigDecimal.valueOf( 330), BigDecimal.valueOf( 300), BigDecimal.valueOf( 270), BigDecimal.valueOf( 240), BigDecimal.valueOf( 210), BigDecimal.valueOf( 180), BigDecimal.valueOf( 150), BigDecimal.valueOf( 120), BigDecimal.valueOf( 90), BigDecimal.valueOf( 60), BigDecimal.valueOf( 30), BigDecimal.valueOf( 0) };
 
-	/** Tabelle fuer die Zuschlaege zum Versorgungsfreibetrag */
+	/** Tabelle für die Zuschläge zum Versorgungsfreibetrag */
 
 	/** geändert für 2025 */
 	protected static final BigDecimal[] TAB3 = {BigDecimal.valueOf(0), BigDecimal.valueOf( 900), BigDecimal.valueOf( 864), BigDecimal.valueOf( 828), BigDecimal.valueOf( 792), BigDecimal.valueOf( 756), BigDecimal.valueOf( 720), BigDecimal.valueOf( 684), BigDecimal.valueOf( 648), BigDecimal.valueOf( 612), BigDecimal.valueOf( 576), BigDecimal.valueOf( 540), BigDecimal.valueOf( 504), BigDecimal.valueOf( 468), BigDecimal.valueOf( 432), BigDecimal.valueOf( 396), BigDecimal.valueOf( 360), BigDecimal.valueOf( 342), BigDecimal.valueOf( 324), BigDecimal.valueOf( 315), BigDecimal.valueOf( 306), BigDecimal.valueOf( 297), BigDecimal.valueOf( 288), BigDecimal.valueOf( 279), BigDecimal.valueOf( 270), BigDecimal.valueOf( 261), BigDecimal.valueOf( 252), BigDecimal.valueOf( 243), BigDecimal.valueOf( 234), BigDecimal.valueOf( 225), BigDecimal.valueOf( 216), BigDecimal.valueOf( 207), BigDecimal.valueOf( 198), BigDecimal.valueOf( 189), BigDecimal.valueOf( 180), BigDecimal.valueOf( 171), BigDecimal.valueOf( 162), BigDecimal.valueOf( 153), BigDecimal.valueOf( 144), BigDecimal.valueOf( 135), BigDecimal.valueOf( 126), BigDecimal.valueOf( 117), BigDecimal.valueOf( 108), BigDecimal.valueOf( 99), BigDecimal.valueOf( 90), BigDecimal.valueOf( 81), BigDecimal.valueOf( 72), BigDecimal.valueOf( 63), BigDecimal.valueOf( 54), BigDecimal.valueOf( 45), BigDecimal.valueOf( 36), BigDecimal.valueOf( 27), BigDecimal.valueOf( 18), BigDecimal.valueOf( 9), BigDecimal.valueOf( 0)};
 
-	/** Tabelle fuer die Vomhundertsaetze des Altersentlastungsbetrags */
+	/** Tabelle für die Höchstbeträge des Altersentlastungsbetrags */
 
 	/** geändert für 2025 */
 	protected static final BigDecimal[] TAB4 = {BigDecimal.valueOf(0), BigDecimal.valueOf( 0.4), BigDecimal.valueOf( 0.384), BigDecimal.valueOf( 0.368), BigDecimal.valueOf( 0.352), BigDecimal.valueOf( 0.336), BigDecimal.valueOf( 0.32), BigDecimal.valueOf( 0.304), BigDecimal.valueOf( 0.288), BigDecimal.valueOf( 0.272), BigDecimal.valueOf( 0.256), BigDecimal.valueOf( 0.24), BigDecimal.valueOf( 0.224), BigDecimal.valueOf( 0.208), BigDecimal.valueOf( 0.192), BigDecimal.valueOf( 0.176), BigDecimal.valueOf( 0.16), BigDecimal.valueOf( 0.152), BigDecimal.valueOf( 0.144), BigDecimal.valueOf( 0.14), BigDecimal.valueOf( 0.136), BigDecimal.valueOf( 0.132), BigDecimal.valueOf( 0.128), BigDecimal.valueOf( 0.124), BigDecimal.valueOf( 0.12), BigDecimal.valueOf( 0.116), BigDecimal.valueOf( 0.112), BigDecimal.valueOf( 0.108), BigDecimal.valueOf( 0.104), BigDecimal.valueOf( 0.1), BigDecimal.valueOf( 0.096), BigDecimal.valueOf( 0.092), BigDecimal.valueOf( 0.088), BigDecimal.valueOf( 0.084), BigDecimal.valueOf( 0.08), BigDecimal.valueOf( 0.076), BigDecimal.valueOf( 0.072), BigDecimal.valueOf( 0.068), BigDecimal.valueOf( 0.064), BigDecimal.valueOf( 0.06), BigDecimal.valueOf( 0.056), BigDecimal.valueOf( 0.052), BigDecimal.valueOf( 0.048), BigDecimal.valueOf( 0.044), BigDecimal.valueOf( 0.04), BigDecimal.valueOf( 0.036), BigDecimal.valueOf( 0.032), BigDecimal.valueOf( 0.028), BigDecimal.valueOf( 0.024), BigDecimal.valueOf( 0.02), BigDecimal.valueOf( 0.016), BigDecimal.valueOf( 0.012), BigDecimal.valueOf( 0.008), BigDecimal.valueOf( 0.004), BigDecimal.valueOf( 0)};
@@ -454,6 +466,12 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 	@Override
 	public void setVbezs(BigDecimal arg0) { this.VBEZS = arg0; }
 
+	@Override
+	public void setAlv(int arg0) { /* required for newer calculator */ }
+
+	@Override
+	public void setPkpvagz(BigDecimal arg0) { /* required for newer calculator */ }
+
 	/* GETTER */
 
 	@Override
@@ -477,7 +495,6 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 	@Override
 	public BigDecimal getVfrbs1() { return this.VFRBS1; }
 
-	@Override
 	public BigDecimal getVkvlzz() { return this.VKVLZZ; }
 
 	@Override
@@ -486,7 +503,6 @@ public class Lohnsteuer2025 implements LohnsteuerInterface {
 	@Override
 	public BigDecimal getSts() { return this.STS; }
 
-	@Override
 	public BigDecimal getVkvsonst() { return this.VKVSONST; }
 
 	@Override

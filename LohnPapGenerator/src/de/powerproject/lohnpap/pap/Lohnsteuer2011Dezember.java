@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * 
  * @author Marcel Lehmann (https://github.com/MarcelLehmann/Lohnsteuer) 
- * @date Tue Sep 16 23:25:26 CEST 2025
+ * @date Sun Nov 30 15:13:33 CET 2025
  * 
  */
 
@@ -437,10 +437,16 @@ public class Lohnsteuer2011Dezember implements LohnsteuerInterface {
 	public void setVmt(BigDecimal arg0) { this.VMT = arg0; }
 
 	@Override
+	public void setAlv(int arg0) { /* required for newer calculator */ }
+
+	@Override
 	public void setKvz(BigDecimal arg0) { /* required for newer calculator */ }
 
 	@Override
 	public void setMbv(BigDecimal arg0) { /* required for newer calculator */ }
+
+	@Override
+	public void setPkpvagz(BigDecimal arg0) { /* required for newer calculator */ }
 
 	@Override
 	public void setPva(BigDecimal arg0) { /* required for newer calculator */ }
@@ -472,28 +478,22 @@ public class Lohnsteuer2011Dezember implements LohnsteuerInterface {
 	public BigDecimal getSolzs() { return this.SOLZS; }
 
 	@Override
+	public BigDecimal getWvfrbm() { /* required for newer calculator */ return null; }
+
+	@Override
+	public BigDecimal getWvfrb() { /* required for newer calculator */ return null; }
+
+	@Override
 	public BigDecimal getVfrb() { /* required for newer calculator */ return null; }
 
 	@Override
 	public BigDecimal getVfrbs2() { /* required for newer calculator */ return null; }
 
 	@Override
-	public BigDecimal getVfrbs1() { /* required for newer calculator */ return null; }
-
-	@Override
-	public BigDecimal getVkvlzz() { /* required for newer calculator */ return null; }
-
-	@Override
-	public BigDecimal getWvfrbm() { /* required for newer calculator */ return null; }
-
-	@Override
-	public BigDecimal getVkvsonst() { /* required for newer calculator */ return null; }
-
-	@Override
-	public BigDecimal getWvfrb() { /* required for newer calculator */ return null; }
-
-	@Override
 	public BigDecimal getWvfrbo() { /* required for newer calculator */ return null; }
+
+	@Override
+	public BigDecimal getVfrbs1() { /* required for newer calculator */ return null; }
 
 	/** PROGRAMMABLAUFPLAN 2010, PAP Seite 10 */
 	@Override
